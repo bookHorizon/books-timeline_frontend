@@ -2,39 +2,39 @@
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+## 推薦開發整合環境
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Customize configuration
+## 客製化配置
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
-## Project Setup
+## 下載後如何本地安裝
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 開發指令
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### 建構指令
 
 ```sh
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### 使用[Vitest](https://vitest.dev/)進行單元測試
 
 ```sh
 npm run test:unit
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+### 使用[Cypress](https://www.cypress.io/)端到端測試
 
 ```sh
 npm run test:e2e:dev
@@ -49,3 +49,8 @@ But it's still recommended to test the production build with `test:e2e` before d
 npm run build
 npm run test:e2e
 ```
+## 更新日誌
+10/1
+新增：
+1. Vue環境
+2. git版控
