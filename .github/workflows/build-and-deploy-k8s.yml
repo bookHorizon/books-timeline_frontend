@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_TAG: "for-vultr-k8s-prd"
+  IMAGE_TAG: "new-for-vultr-k8s-prd"
   IMAGE_NAME: "pingshian0131/books-timeline-frontend_vue"
   NAMESPACE: "book-horizon-frontend-prd-ns"
   DEPLOYMENT: "book-horizon-frontend-prd-deployment"
