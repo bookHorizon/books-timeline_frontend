@@ -1,0 +1,105 @@
+@mixin typography-base($size, $line-height, $weight) {
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+}
+
+@mixin display-1{
+  @include typography-base(80px,120%,400);
+}
+
+@mixin display-2{
+  @include typography-base(72px,120%,400);
+}
+
+@mixin display-3{
+  @include typography-base(64px,120%,400);
+}
+
+@mixin display-4{
+  @include typography-base(56px,120%,400);
+}
+
+@mixin display-4{
+  @include typography-base(56px,120%,400);
+}
+
+@mixin h1{
+  @include typography-base(40px,120%,400);
+}
+
+@mixin h2{
+  @include typography-base(32px,120%,400);
+}
+
+@mixin h3{
+  @include typography-base(28px,120%,400);
+}
+
+@mixin h4{
+  @include typography-base(24px,120%,400);
+}
+
+@mixin h5{
+  @include typography-base(20px,120%,400);
+}
+
+@mixin body-1{
+  @include typography-base(16px,150%,400);
+}
+
+@mixin body-2{
+  @include typography-base(14px,150%,400);
+}
+
+@mixin body-3{
+  @include typography-base(12px,150%,400);
+}
+
+@mixin display-1-b {
+  @include typography-base(80px, 120%, 700);
+}
+
+@mixin display-2-b {
+  @include typography-base(72px, 120%, 700);
+}
+
+@mixin display-3-b {
+  @include typography-base(64px, 120%, 700);
+}
+
+@mixin display-4-b {
+  @include typography-base(56px, 120%, 700);
+}
+
+@mixin h1-b {
+  @include typography-base(40px, 120%, 700);
+}
+
+@mixin h2-b {
+  @include typography-base(32px, 120%, 700);
+}
+
+@mixin h3-b {
+  @include typography-base(28px, 120%, 700);
+}
+
+@mixin h4-b {
+  @include typography-base(24px, 120%, 700);
+}
+
+@mixin h5-b {
+  @include typography-base(20px, 120%, 700);
+}
+
+@mixin body-1-b {
+  @include typography-base(16px, 150%, 700);
+}
+
+@mixin body-2-b {
+  @include typography-base(14px, 150%, 700);
+}
+
+@mixin body-3-b {
+  @include typography-base(12px, 150%, 700);
+}
