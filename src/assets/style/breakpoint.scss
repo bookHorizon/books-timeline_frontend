@@ -1,0 +1,9 @@
+$phone:414px;
+$pad:768px;
+$PC:1440px;
+
+@mixin breakpoint($size){
+  @media(min-width: $size){
+    @content;
+  }
+}
