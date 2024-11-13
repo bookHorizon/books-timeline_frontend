@@ -1,8 +1,6 @@
 import axios from "axios";
 import * as fs from 'node:fs/promises';
 
-const language = ['en-US','zh-TW']
-
 const translationApi = axios.create({
   baseURL: `https://api.book-horizon.com/book/static`,
   headers:{
@@ -26,21 +24,20 @@ async function getStaticTranlationData(){
 
 async function mapStaticTranlationData(){
   const tranlationData = await getStaticTranlationData()
-  console.log(tranlationData.data.data);
+  const twData = {}
+  const enData = {}
 
-  // const sheetData = await Promise.allSettled(allSheetTitle.map(async sheetName => {
-    // const sheetDataFields = await getSheetDataFields(sheetName)
-    // console.log(sheetDataFields.data);
-    
-    // sheetDataFields.data.flat()
-    // console.log(sheetDataFields.data.flat());
-    // return [sheetName,sheetDataFields.data]
-    // return [sheetName,sheetDataFields]
-  // }));
+  tranlationData.data.data.forEach(data=>{
+    twData[`${data.key}`] = data.zh_hant
+    enData[`${data.key}`] = data.en
+  })  
   
-  // fs.writeFile(`src/api/123.json`,JSON.stringify(sheetData),'utf8',(error)=>{
-  //   console.log(error);
-  // })
+  fs.writeFile(`src/i18n/language/zh-TW.json`,JSON.stringify(twData),'utf8',(error)=>{
+    console.log(error);
+  })
+  fs.writeFile(`src/i18n/language/en-US.json`,JSON.stringify(enData),'utf8',(error)=>{
+    console.log(error);
+  })
 }
 
 await mapStaticTranlationData()
