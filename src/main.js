@@ -1,9 +1,9 @@
-import './style/base.css'
+import './assets/style/base.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
-import i18n from './i18n/i18n'
+import i18n from './i18n/i18n.js'
 import App from './App.vue'
 import router from './router'
 
@@ -15,7 +15,7 @@ window.addEventListener("error", (e) => {
 const app = createApp(App)
 
 app.use(createPinia())
+    .use(i18n)
     .use(router)
     .use(ElementPlus)
-    .use(i18n)
     .mount('#app')
