@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import Header from './components/layout/Header.vue';
 import Main from './components/layout/Main.vue';
 import Footer from './components/layout/Footer.vue';
@@ -25,12 +24,6 @@ const { isOpenMenu } = storeToRefs(global)
 </template>
 
 <style scoped>
-
-
-/* .container{
-  height: 100vh;
-} */
-
 .mask{
   width: 100%;
   height: 100vh;
