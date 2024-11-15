@@ -23,7 +23,10 @@ const props = defineProps({
   }
 })
 
-const icon = defineAsyncComponent(() => import(`./components/${props.name}.vue`))
+const icon = defineAsyncComponent({
+  loader:() => import(`./components/${props.name}.vue`)
+})
+  
 </script>
 <template>
   <svg :width="width" :height="height" :viewBox="viewBox" :fill="color" xmlns="http://www.w3.org/2000/svg">
