@@ -6,6 +6,12 @@ import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 import Carousel from '@/components/Carousel.vue';
 
+import img1 from '../assets/img/home/p6.png'
+import img2 from '../assets/img/home/p5.png'
+import img3 from '../assets/img/home/p8.png'
+import img4 from '../assets/img/home/p7.png'
+
+
 const global = globalStore();
 const { isPhoneWidth } = storeToRefs(global);
 const activeFaq = ref(['1'])
@@ -17,24 +23,25 @@ const cardArticleI18n = [
   {
     title:'home.function.itemTitle1',
     content:'home.function.itemContent1',
-    img:getImageUrl('../assets/img/home/p6.png')
+    img:img1
   },
   {
     title:'home.function.itemTitle2',
     content:'home.function.itemContent2',
-    img:getImageUrl('../assets/img/home/p5.png')
+    img:img2
   },
   {
     title:'home.function.itemTitle3',
     content:'home.function.itemContent3',
-    img:getImageUrl('../assets/img/home/p8.png')
+    img:img3
   },
   {
     title:'home.function.itemTitle4',
     content:'home.function.itemContent4',
-    img:getImageUrl('../assets/img/home/p7.png')
+    img:img4
   }
 ]
+
 </script>
 
 <template>
