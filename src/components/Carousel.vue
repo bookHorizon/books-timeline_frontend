@@ -27,6 +27,7 @@ const slideSpace = computed(()=>{
     return 64
   }
 })
+
 const isShowContainer = computed(()=>global.widthView>=1440)
 </script>
 
@@ -42,7 +43,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
       :navigation="isShowContainer"
       :autoplay="{
         pauseOnMouseEnter:true,
-      }"
+       }"
       :parallax="true"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
@@ -90,6 +91,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
   .swiper-slide {    
     border-radius: 16px;
     background-image: linear-gradient(to left, #B0E0FF 0 100%);
+    box-shadow:2px 4px 12px 0 #00354826;
     @include breakpoint($tablet){
       width: 552px;
       height:284px;
@@ -111,7 +113,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
   
   .swiper-slide-prev,.swiper-slide-next{
     opacity: 60%;
-
+    box-shadow:none;
     .card{
       box-shadow:initial;
     }
@@ -127,6 +129,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 
       .card_img{
         width: 213px;
+        height:213px;
       }
 
       .card_title{
@@ -148,6 +151,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 
       .card_img{
         width: 226px;
+        height:226px;
       }
 
       .card_article{

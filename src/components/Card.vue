@@ -37,7 +37,12 @@ defineProps({
     padding: 16px;
     border-radius: 16px;
     box-shadow: 2px 4px 12px 0 #00354826;
+    height: 202px;
+
     
+    @include breakpoint($tablet){
+      box-shadow: none;
+    }
     @include breakpoint($desktop){
       height: 338px;
     }
@@ -49,10 +54,12 @@ defineProps({
 
       @include breakpoint($tablet){
         width: 252px;
+        height: 252px;
       }  
 
       @include breakpoint($desktop){
         width: 306px;
+        height: 306px;
       }
     }
 
