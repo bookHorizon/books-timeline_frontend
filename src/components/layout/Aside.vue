@@ -106,10 +106,11 @@ aside{
 }
 
 .signUp{
-  position: relative;
+  position: absolute;
   bottom: 0;
   display: flex;
   padding: 16px;
+  width: 100%;
   box-shadow: 0 -4px 12px 0 #000;
   >*{
     @include body-1;
