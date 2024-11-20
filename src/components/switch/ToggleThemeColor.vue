@@ -42,7 +42,7 @@ onBeforeMount(()=>{
     .el-switch__core{
       height: 24px;
       border-radius: 8px;
-      @include breakpoint($pad){
+      @include breakpoint($tablet){
         height: 28px;
       }
     }
@@ -52,7 +52,7 @@ onBeforeMount(()=>{
       height: 20px;
       border-radius: 8px;
       z-index: 2;
-      @include breakpoint($pad){
+      @include breakpoint($tablet){
         height: 24px;
       }
     }

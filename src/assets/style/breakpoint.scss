@@ -1,6 +1,6 @@
 $phone:414px;
-$pad:768px;
-$pc:1440px;
+$tablet:768px;
+$desktop:1440px;
 
 @mixin breakpoint($size){
   @media(min-width: $size){

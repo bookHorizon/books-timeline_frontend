@@ -8,6 +8,7 @@ export const globalStore = defineStore('global',()=>{
   const isLight = ref(true);
   const languageLabelPhone = ref('中文');
   const languageLabel = ref('中文')
+  const elementPlusI18n = ref('zh-tw')
 
   const widthView = ref(window.innerWidth)
   const scrollTop = ref(window.scrollY)
@@ -25,6 +26,11 @@ export const globalStore = defineStore('global',()=>{
 
   function toggleOpenMenu(){
     isOpenMenu.value = !isOpenMenu.value
+    if(isOpenMenu.value){
+      document.querySelector('body').classList.add('noscroll');
+    } else{
+      document.querySelector('body').classList.remove('noscroll');
+    }
   }
 
   function toggleThemeColor(){  
@@ -37,5 +43,5 @@ export const globalStore = defineStore('global',()=>{
     }
   }
   
-  return {isOpenMenu,isLight,languageLabelPhone,languageLabel,isPhoneWidth,isViewTop,toggleOpenMenu,toggleThemeColor}
+  return {isOpenMenu,isLight,languageLabelPhone,languageLabel,widthView,isPhoneWidth,isViewTop,toggleOpenMenu,toggleThemeColor,elementPlusI18n}
 })

@@ -22,10 +22,6 @@
   @include typography-base(56px,120%,400);
 }
 
-@mixin display-4{
-  @include typography-base(56px,120%,400);
-}
-
 @mixin h1{
   @include typography-base(40px,120%,400);
 }

@@ -9,7 +9,7 @@ h1{
   font-weight: 700;
   letter-spacing: calc(16px*0.05);
 
-  @include breakpoint($pad){
+  @include breakpoint($tablet){
     font-size: 24px;
     line-height: 24px;
     letter-spacing: calc(24px*0.05);

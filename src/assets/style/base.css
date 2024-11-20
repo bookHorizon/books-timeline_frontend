@@ -7,6 +7,16 @@
   font-family: "Noto Sans", sans-serif;
 }
 
+.noscroll{
+  height:100%;
+  overflow:hidden;
+}
+
 body {
   min-height: 100vh;
+}
+
+img{
+  display:block;
+  width:100%;
 }
