@@ -5,18 +5,20 @@ import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n'
 const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
-const { languageLabelPhone,languageLabel,isPhoneWidth } = storeToRefs(global)
+const { languageLabelPhone,languageLabel,isPhoneWidth,elementPlusI18n } = storeToRefs(global)
 const isOpenOption = ref(false)
 const languageOptionPhone = [
   {
     localeCode:'zh-TW',
     dropDownOption:'中文',
-    label:'中文'
+    label:'中文',
+    elementPlus:'zh-tw'
   },
   {
     localeCode:'en-US',
     dropDownOption:'English',
-    label:'English'
+    label:'English',
+    elementPlus:'en'
   }
 ]
 
@@ -24,12 +26,14 @@ const languageOption = [
   {
     localeCode:'zh-TW',
     dropDownOption:'中文',
-    label:'中文'
+    label:'中文',
+    elementPlus:'zh-tw'
   },
   {
     localeCode:'en-US',
     dropDownOption:'English',
-    label:'EN'
+    label:'EN',
+    elementPlus:'en'
   }
 ]
 
@@ -58,6 +62,7 @@ function findLanguage(lastLocale){
     if (lastLocale===lang.localeCode){
       locale.value = lang.localeCode;//設定語言
       languageLabelPhone.value = lang.label;
+      elementPlusI18n.value = lang.elementPlus;
       localStorage.setItem('language',locale.value)//一致儲存locale
       }
     })    
@@ -72,6 +77,7 @@ function findLanguage(lastLocale){
       if (lastLocale===lang.localeCode){  
       locale.value = lang.localeCode;//設定語言
       languageLabel.value = lang.label;
+      elementPlusI18n.value = lang.elementPlus;
       localStorage.setItem('language',locale.value)//一致儲存locale
     }
 
@@ -90,6 +96,7 @@ function updateLanguage(label){  //電腦版套件事件更新
     if (label===lang.label){  
       locale.value = lang.localeCode;//設定語言
       languageLabel.value = lang.label;
+      elementPlusI18n.value = lang.elementPlus;
       localStorage.setItem('language',locale.value)//一致儲存locale
     }
   })
@@ -143,7 +150,7 @@ onBeforeMount(()=>{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    @include breakpoint($pad){
+    @include breakpoint($tablet){
       @include h5-b;
       justify-content: initial;
       gap:8px;
