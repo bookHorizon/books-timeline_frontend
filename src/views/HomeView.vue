@@ -61,9 +61,6 @@ const cardArticleI18n = [
       <div class="seaAnimation_waveAfter wave"></div>
       <div class="seaAnimation_waveBefore wave"></div>
     </div>
-    <div>
-    </div>
-
   </div>
   <section id="function" class="function">
     <div class="function_introduction">
@@ -77,7 +74,14 @@ const cardArticleI18n = [
     <Carousel v-show="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel>
   </section>
   <section class="aboutUs" id="aboutUs">
-    <div class="deco"></div>
+    <!-- <div class="deco">
+      <div class="decoImg">
+        <img src="../assets/img/home/light/p2.png"/>
+      </div>
+    </div> -->
+    <div class="aboutUs_sailboatImg">
+      <img src="../assets/img/home/light/p2.png"/>
+    </div>
     <div class="aboutUs_phone" v-show="isPhoneWidth">
       <div class="aboutUs_introduction">
         <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
@@ -97,13 +101,13 @@ const cardArticleI18n = [
       <div class="aboutUs_introduction">
         <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
         <div class="aboutUs_introduction_text">
-              <p> 
-                {{ $t("home.aboutUs.content1")  }}
-              </p>
-              <p>
-                {{ $t("home.aboutUs.content2")  }}
-              </p>
-            </div>
+          <p> 
+            {{ $t("home.aboutUs.content1")  }}
+          </p>
+          <p>
+            {{ $t("home.aboutUs.content2")  }}
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -191,6 +195,11 @@ const cardArticleI18n = [
     top: 450px;
   }
 
+  @include breakpoint($desktop){
+    top: 480px;
+  }
+
+
   &_container{
     height: 100%;
   }
@@ -212,12 +221,22 @@ const cardArticleI18n = [
   &_ship{
     position: absolute;
     width: 67px;
-    top:305px;
+    top:310px;
     right: 10%;
     animation-name: sailboat;
     animation-duration: 3s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    @include breakpoint($tablet){
+      width: 147px;
+      top:300px;
+      right: 5%;
+    }
+    @include breakpoint($desktop){
+      width: 206px;
+      top:265px;
+      right: 10%;
+    }
   }
 
   &_waveBefore{
@@ -234,15 +253,15 @@ const cardArticleI18n = [
   }
 
   @keyframes sailboat {
-    0%,
+    0%{}
     100% {
-      transform: rotate(10deg);
-      translate: 0 5px;
+      // transform: rotate(10deg);
+      translate: 0 0;
     }
 
     50%{
-      transform: rotate(-10deg);
-      translate: 0 0;
+      // transform: rotate(-10deg);
+      translate: 0 10px;
     }
   }
 
@@ -342,14 +361,28 @@ const cardArticleI18n = [
 .aboutUs{
 background-color: #CCEBFF;
 position:relative;
-
-  .deco{
+  &::before{
+    content: "";
     background-color:rgb(112, 152, 178);
 
     position:absolute;
     top: -158px;
     width: 100%;
     height: 158px;
+  }
+
+  &_sailboatImg{
+    position:absolute;
+    top: -158px;
+    right: 5%;
+    width: 98px;
+    @include breakpoint($tablet){
+      width: 129px;
+    }
+
+    @include breakpoint($desktop){
+      width: 144px;
+    }
   }
   &_phone{
     padding: 84px 0 64px;
