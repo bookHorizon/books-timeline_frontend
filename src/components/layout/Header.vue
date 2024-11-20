@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch,onBeforeMount,defineEmits, computed } from 'vue';
+import { defineEmits, computed } from 'vue';
 import Logo from '../Logo.vue';
 import SoildButton from '@/components/buttons/BaseButtons/SoildButton.vue'
 import TextButton from '../buttons/BaseButtons/TextButton.vue';
@@ -8,12 +8,10 @@ import ToggleThemeColor from '../switch/ToggleThemeColor.vue';
 import LanguageDropDown from '../dropdown/LanguageDropDown.vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-import { useI18n } from 'vue-i18n'
-const { locale }  = useI18n({ useScope: 'global' })
 
 const emit = defineEmits(['isOpenMeun'])
 const global = globalStore();
-const { language,isPhoneWidth,isViewTop} = storeToRefs(global)
+const { isPhoneWidth,isViewTop} = storeToRefs(global)
 const { toggleOpenMenu } = global;
 
 </script>
