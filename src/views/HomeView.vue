@@ -53,16 +53,19 @@ const cardArticleI18n = [
       {{ $t("home.hero.button") }}
     </el-button>
   </section>
+  <div class="seaAnimation_ship">
+    <img src="../assets/img/home/p4.png">
+  </div>
   <div class="seaAnimation">
     <div class="seaAnimation_container">
       <div class="seaAnimation_waveAfter wave"></div>
       <div class="seaAnimation_waveBefore wave"></div>
     </div>
+    <div>
+    </div>
+
   </div>
   <section id="function" class="function">
-    <!-- <div class="function_img_container">
-      <img src="@/assets/img/home/light/p3.png"/>
-    </div> -->
     <div class="function_introduction">
       <h3 class="function_introduction_title">{{ $t("home.function.categoryTitle") }}</h3>
       <p class="function_introduction_text">{{ $t("home.function.introduction") }}</p>
@@ -79,12 +82,14 @@ const cardArticleI18n = [
       <div class="aboutUs_introduction">
         <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
         <div class="aboutUs_introduction_text">
-          <p> 
-            {{ $t("home.aboutUs.content1")  }}
-          </p>
-          <p>
-            {{ $t("home.aboutUs.content2")  }}
-          </p>
+          <el-scrollbar max-height="126px">
+            <p> 
+              {{ $t("home.aboutUs.content1")  }}
+            </p>
+            <p>
+              {{ $t("home.aboutUs.content2")  }}
+            </p>
+          </el-scrollbar>
         </div>
       </div>
     </div>
@@ -92,13 +97,13 @@ const cardArticleI18n = [
       <div class="aboutUs_introduction">
         <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
         <div class="aboutUs_introduction_text">
-          <p> 
-            {{ $t("home.aboutUs.content1")  }}
-          </p>
-          <p>
-            {{ $t("home.aboutUs.content2")  }}
-          </p>
-        </div>
+              <p> 
+                {{ $t("home.aboutUs.content1")  }}
+              </p>
+              <p>
+                {{ $t("home.aboutUs.content2")  }}
+              </p>
+            </div>
       </div>
     </div>
   </section>
@@ -190,24 +195,26 @@ const cardArticleI18n = [
     height: 100%;
   }
 
-  &_sailboat{
-    top:395px;
-    right:200px;
-    max-width: 10%;
-    transform: rotate(-9deg);
-    animation-duration: 3s;
-    animation-name: sailboat;
-    animation-iteration-count: infinite;
-  }
-
   .wave{
     position: absolute;
     left: -25%;
     width: 150%;
     height: 100%;
+    z-index: 2;
     background-position: center top;
     background-repeat: no-repeat;
 
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  &_ship{
+    position: absolute;
+    width: 67px;
+    top:305px;
+    right: 10%;
+    animation-name: sailboat;
     animation-duration: 3s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -229,10 +236,12 @@ const cardArticleI18n = [
   @keyframes sailboat {
     0%,
     100% {
-      translate: 0 10px;
+      transform: rotate(10deg);
+      translate: 0 5px;
     }
 
     50%{
+      transform: rotate(-10deg);
       translate: 0 0;
     }
   }
@@ -387,9 +396,7 @@ position:relative;
 
   &_introduction_text{
     @include body-3-b;
-    height: 126px;
     text-indent:2em;
-    overflow:auto;
 
     @include breakpoint($tablet){
       @include body-2-b;
