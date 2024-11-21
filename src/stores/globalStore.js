@@ -1,14 +1,13 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-// import { useI18n } from 'vue-i18n'
-// const { locale }  = useI18n({ useScope: 'global' })
+
 
 export const globalStore = defineStore('global',()=>{
   const isOpenMenu = ref(false);
-  const isLight = ref(true);
+  const isDark = ref(true);
   const languageLabelPhone = ref('中文');
-  const languageLabel = ref('中文')
-  const elementPlusI18n = ref('zh-tw')
+  const languageLabel = ref('中文');
+  const elementPlusI18n = ref('zh-tw');
 
   const widthView = ref(window.innerWidth)
   const scrollTop = ref(window.scrollY)
@@ -22,6 +21,9 @@ export const globalStore = defineStore('global',()=>{
   });
   
   const isPhoneWidth = computed(()=>widthView.value<767)
+  const isTabletWidth = computed(()=>widthView.value>=767&&1440>widthView.value)
+  const isDesktopWidth = computed(()=>1440<=widthView.value)
+
   const isViewTop = computed(()=>scrollTop.value===0)
 
   function toggleOpenMenu(){
@@ -34,14 +36,14 @@ export const globalStore = defineStore('global',()=>{
   }
 
   function toggleThemeColor(){  
-    if(isLight.value){
-      localStorage.setItem('themeMode','light')
+    if(isDark.value){
+      localStorage.setItem('themeMode','dark')
       document.querySelector('html').classList.remove('dark')
     } else {
-      localStorage.setItem('themeMode','dark')
-      document.querySelector('html').classList.add('dark')
+      localStorage.setItem('themeMode','light')
+      document.querySelector('html').classList.add('light')
     }
   }
   
-  return {isOpenMenu,isLight,languageLabelPhone,languageLabel,widthView,isPhoneWidth,isViewTop,toggleOpenMenu,toggleThemeColor,elementPlusI18n}
+  return {isOpenMenu,isDark,languageLabelPhone,languageLabel,widthView,isPhoneWidth,isViewTop,toggleOpenMenu,toggleThemeColor,elementPlusI18n}
 })
