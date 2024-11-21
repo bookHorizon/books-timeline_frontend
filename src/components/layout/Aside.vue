@@ -11,8 +11,6 @@ const global = globalStore();
 const { isPhoneWidth } = storeToRefs(global)
 const { toggleOpenMenu } = global;
 
-
-
 </script>
 <template>
   <el-aside width="256px">
@@ -110,8 +108,11 @@ aside{
   bottom: 0;
   display: flex;
   padding: 16px;
+  z-index: 5;
   width: 100%;
   box-shadow: 0 -4px 12px 0 #000;
+  background-color: #cacaca;
+
   >*{
     @include body-1;
     flex: 1;

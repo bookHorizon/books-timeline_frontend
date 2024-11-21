@@ -88,7 +88,6 @@ function findLanguage(lastLocale){
     })
   })
   }
-
 }
 
 function updateLanguage(label){  //電腦版套件事件更新
