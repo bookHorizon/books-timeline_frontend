@@ -1,46 +1,72 @@
 <script setup>
-import { ref } from 'vue'
-import Card from '@/components/Card.vue';
-import getImageUrl from '@/method/getViteImgUrl';
+import { computed, onMounted, ref, watch } from 'vue'
+import Card from '@/components/HomeCard.vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-import Carousel from '@/components/Carousel.vue';
-
-import img1 from '../assets/img/home/p6.png'
-import img2 from '../assets/img/home/p5.png'
-import img3 from '../assets/img/home/p8.png'
-import img4 from '../assets/img/home/p7.png'
-
-
+import Carousel from '@/components/HomeCarousel.vue';
+import cardArticleI18n from '@/config/homeFunctionCard.js'
+import API from '@/api/index.js'
+import { useI18n } from 'vue-i18n'
+const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
-const { isPhoneWidth } = storeToRefs(global);
-const activeFaq = ref(['1'])
-const handleChange = (val) => {
-  console.log(val)
+const { isPhoneWidth,isDark } = storeToRefs(global);
+const faqs = ref({})
+
+function getThemeImage(darkPath, lightPath) {
+  return computed(() => isDark.value ? darkPath : lightPath)
 }
 
-const cardArticleI18n = [
-  {
-    title:'home.function.itemTitle1',
-    content:'home.function.itemContent1',
-    img:img1
-  },
-  {
-    title:'home.function.itemTitle2',
-    content:'home.function.itemContent2',
-    img:img2
-  },
-  {
-    title:'home.function.itemTitle3',
-    content:'home.function.itemContent3',
-    img:img3
-  },
-  {
-    title:'home.function.itemTitle4',
-    content:'home.function.itemContent4',
-    img:img4
+const waveSailboat = getThemeImage(
+  new URL('../assets/img/home/dark/p4.png', import.meta.url).href, 
+  new URL('../assets/img/home/light/p4.png', import.meta.url).href
+)
+const waveBeforeImg = getThemeImage(
+  new URL('../assets/img/home/dark/海浪_前.png', import.meta.url).href, 
+  new URL('../assets/img/home/light/海浪_前.png', import.meta.url).href
+)
+const waveAfterImg = getThemeImage(
+  new URL('../assets/img/home/dark/海浪_後.png', import.meta.url).href, 
+  new URL('../assets/img/home/light/海浪_後.png', import.meta.url).href
+)
+const dolphinImg = getThemeImage(
+  new URL('../assets/img/home/dark/p3.png', import.meta.url).href, 
+  new URL('../assets/img/home/light/p3.png', import.meta.url).href
+)
+const sailboat = getThemeImage(
+  new URL('../assets/img/home/dark/p2.png', import.meta.url).href, 
+  new URL('../assets/img/home/light/p2.png', import.meta.url).href
+)
+const mobileMap = getThemeImage(
+  new URL('../assets/img/home/dark/map_mobile.png', import.meta.url).href,
+  new URL('../assets/img/home/light/map_mobile.png', import.meta.url).href
+)
+const tabletMap = getThemeImage(
+  new URL('../assets/img/home/dark/map.png', import.meta.url).href,
+  new URL('../assets/img/home/light/map.png', import.meta.url).href
+)
+
+async function faqsData(locale){
+  try{
+    if (locale==='zh-TW'){
+      const result = await API.faqsGET("zh-hant")
+      faqs.value.zhTw = result.data
+    } else {
+      const result  = await API.faqsGET("en")
+      faqs.value.en = result.data
+    }    
+  } catch (error){
+    console.log(error);  
   }
-]
+}
+
+watch(locale,async()=>{  
+  if(locale.value==='zh-TW'&&!faqs.value.zhTw) await faqsData(locale.value);
+  if(locale.value==='en-US'&&!faqs.value.en) await faqsData(locale.value);
+})
+
+onMounted(async()=>{
+  await faqsData(locale.value)
+})
 
 </script>
 
@@ -53,8 +79,8 @@ const cardArticleI18n = [
       {{ $t("home.hero.button") }}
     </el-button>
   </section>
-  <div class="seaAnimation_ship">
-    <img src="../assets/img/home/p4.png">
+  <div class="seaAnimation_waveSailboat">
+    <img loading="lazy" :src="waveSailboat">
   </div>
   <div class="seaAnimation">
     <div class="seaAnimation_container">
@@ -68,19 +94,14 @@ const cardArticleI18n = [
       <p class="function_introduction_text">{{ $t("home.function.introduction") }}</p>
     </div>
     <div class="function_cards" v-show="isPhoneWidth">
-      <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="article.img">
+      <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
       </Card>
     </div>
     <Carousel v-show="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel>
   </section>
   <section class="aboutUs" id="aboutUs">
-    <!-- <div class="deco">
-      <div class="decoImg">
-        <img src="../assets/img/home/light/p2.png"/>
-      </div>
-    </div> -->
     <div class="aboutUs_sailboatImg">
-      <img src="../assets/img/home/light/p2.png"/>
+      <img :src="sailboat"/>
     </div>
     <div class="aboutUs_phone" v-show="isPhoneWidth">
       <div class="aboutUs_introduction">
@@ -114,11 +135,11 @@ const cardArticleI18n = [
   <section id="faq" class="faq">
     <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
     <el-collapse @change="handleChange" class="faq_container">
-      <el-collapse-item v-for="n in 4" title="Q：fakeData">
+      <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
         <div class="el-collapse-item__text">
           <span>A：</span>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum sint soluta labore non sed necessitatibus quam atque nulla officiis voluptatum at fuga impedit ut possimus hic commodi numquam, ipsa quaerat.
+           {{ q.answer }}
           </p>
         </div>
       </el-collapse-item>
@@ -186,6 +207,7 @@ const cardArticleI18n = [
 
 .seaAnimation{
   position: absolute;
+  z-index: 5;
   top: 380px;
   width: 100%;
   overflow: hidden;
@@ -218,7 +240,7 @@ const cardArticleI18n = [
     animation-iteration-count: infinite;
   }
 
-  &_ship{
+  &_waveSailboat{
     position: absolute;
     width: 67px;
     top:310px;
@@ -240,27 +262,25 @@ const cardArticleI18n = [
   }
 
   &_waveBefore{
-    background: url('../assets/img/home/light/海浪_前\(3000px）.png');
+    background-image: v-bind("`url('${waveBeforeImg}')`");
     background-size: 2800px 250px;
     animation-name: waveBefore;
   }
 
   &_waveAfter{
-    background: url('../assets/img/home/light/海浪_後\(3000px\).png');
+    background-image:  v-bind("`url('${waveAfterImg}')`");
     background-size: 2800px 150px;
-
     animation-name: waveAfter;
   }
 
+
   @keyframes sailboat {
-    0%{}
+    0%,
     100% {
-      // transform: rotate(10deg);
       translate: 0 0;
     }
 
     50%{
-      // transform: rotate(-10deg);
       translate: 0 10px;
     }
   }
@@ -327,7 +347,7 @@ const cardArticleI18n = [
         left: 0;
         width: 102px;
         height: 102px;
-        background: no-repeat url('../assets/img/home/light/p3.png') center/100%
+        background: no-repeat v-bind("`url('${dolphinImg}')`") center/100%;
       }
 
       @include breakpoint($desktop){
@@ -387,13 +407,13 @@ position:relative;
   &_phone{
     padding: 84px 0 64px;
     height: 400px;//背景大小
-    background: no-repeat url(../assets/img/home/light/map_mobile_light.png) top/414px;
+    background: no-repeat v-bind("`url('${mobileMap}')`") top/414px;
   }
-
+  
   &_tablet{
     padding: 129px 0 190px;
     height: 545px;
-    background: no-repeat url(../assets/img/home/light/map_light.png) top/768px;
+    background: no-repeat v-bind("`url('${tabletMap}')`") top/768px;
 
     @include breakpoint($desktop){
       padding: 215px 0 241px;
@@ -464,7 +484,6 @@ position:relative;
     max-width: 1076px;
   }
 
-
   &_title{
     @include h5-b;
     text-align: center;
@@ -489,13 +508,19 @@ position:relative;
 
   .el-collapse-item__header{
     @include body-1;
-    justify-content: flex-end;
     flex-direction:row-reverse;
+    justify-content: flex-end;
+    align-items:start;
     height: initial;
     margin-bottom: 16px;
     border-bottom:0;
+    text-align: left;
     @include breakpoint($tablet){
       @include h4;
+    }
+
+    >i{
+      margin-top: 4px;
     }
   }
   .el-collapse-item__wrap{
@@ -505,6 +530,7 @@ position:relative;
   .el-collapse-item__content{
     @include body-1;
     padding-left: 25px;
+    padding-bottom: 0;
     @include breakpoint($tablet){
       @include h4;
       padding-left: 32px;
