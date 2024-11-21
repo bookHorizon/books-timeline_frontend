@@ -1,6 +1,6 @@
 <script setup>
 import { computed, defineProps } from 'vue';
-import Card from './Card.vue';
+import Card from './HomeCard.vue';
 
 import { globalStore } from '@/stores/globalStore';
 
@@ -50,7 +50,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
       class="mySwiper"
     >
       <swiper-slide v-for="item,index in i18n" :key="item.img">
-        <Card class="card" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="item.img"></Card>
+        <Card class="card" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="global.isDark?item.darkImg:item.img"></Card>
       </swiper-slide>
       <div class="cardButtons">
         <button class="nextEl">next</button>

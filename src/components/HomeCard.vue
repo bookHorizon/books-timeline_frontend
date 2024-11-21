@@ -32,6 +32,8 @@ defineProps({
 @use '@/assets/style/breakpoint.scss' as *;
 
   .card{
+    box-sizing: content-box;
+
     // border: 1px solid;
     display: flex;
     padding: 16px;
@@ -65,8 +67,7 @@ defineProps({
 
     &_article{
       flex:1 1 0;
-      padding: 24px 24px 0; 
-
+      padding: 24px 24px; 
         @include breakpoint($desktop){
           padding: 64px 24px;
         }
