@@ -3,21 +3,21 @@ import { onBeforeMount } from 'vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 const global = globalStore()
-const { isLight } = storeToRefs(global)
+const { isDark } = storeToRefs(global)
 const { toggleThemeColor } = global
 
 onBeforeMount(()=>{
   const themeMode = localStorage.getItem('themeMode')
-  if(themeMode==='dark') {
-    isLight.value = false;
-    document.querySelector('html').classList.add('dark')
+  if(themeMode==='light') {
+    isDark.value = false;
+    document.querySelector('html').classList.add('light')
   }  
 })
 </script>
 
 <template>
   <div>
-    <el-switch @click="toggleThemeColor" v-model="isLight" class="toggleThemeColor" width="56" aria-label="toggleThemeColor" inline-prompt>
+    <el-switch @click="toggleThemeColor" v-model="isDark" class="toggleThemeColor" width="56" aria-label="toggleThemeColor" inline-prompt>
       <template #active-action>
         <div class="toggleThemeColor_icon">
           <IconBasic name="IconNight" :width="16" :height="16"/>
