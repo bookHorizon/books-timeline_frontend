@@ -1,9 +1,9 @@
 import axios from "axios";
 import { BASE_URL,header } from '@/api/apiConfig.js';
 import { ref } from 'vue'
-import token from '@/utilMethod/jwtToken.js'
-import cookie from '@/utilMethod/sessionToken.js'
-import { userStore } from '@/store/user.js';
+// import token from '@/utilMethod/jwtToken.js'
+// import cookie from '@/utilMethod/sessionToken.js'
+// import { userStore } from '@/store/user.js';
 //instance
 const accountAPI = axios.create({
   baseURL: `${BASE_URL}/account`,
