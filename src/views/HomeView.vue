@@ -16,34 +16,48 @@ function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
 }
 
+const heroBackgroundImg = getThemeImage(
+  new URL('@/assets/img/home/dark/p1.png', import.meta.url).href, 
+  new URL('@/assets/img/home/light/p1.png', import.meta.url).href
+)
+const darkTower = computed(()=>{
+  return isPhoneWidth.value ? new URL('@/assets/img/home/dark/tower_dark (pc pad).png', import.meta.url).href:new URL('@/assets/img/home/dark/tower_dark (mobile).png', import.meta.url).href
+  
+})
 const waveSailboat = getThemeImage(
-  new URL('../assets/img/home/dark/p4.png', import.meta.url).href, 
-  new URL('../assets/img/home/light/p4.png', import.meta.url).href
+  new URL('@/assets/img/home/dark/p4.png', import.meta.url).href, 
+  new URL('@/assets/img/home/light/p4.png', import.meta.url).href
 )
 const waveBeforeImg = getThemeImage(
-  new URL('../assets/img/home/dark/海浪_前.png', import.meta.url).href, 
-  new URL('../assets/img/home/light/海浪_前.png', import.meta.url).href
+  new URL('@/assets/img/home/dark/海浪_前.png', import.meta.url).href, 
+  new URL('@/assets/img/home/light/海浪_前.png', import.meta.url).href
 )
 const waveAfterImg = getThemeImage(
-  new URL('../assets/img/home/dark/海浪_後.png', import.meta.url).href, 
-  new URL('../assets/img/home/light/海浪_後.png', import.meta.url).href
+  new URL('@/assets/img/home/dark/海浪_後.png', import.meta.url).href, 
+  new URL('@/assets/img/home/light/海浪_後.png', import.meta.url).href
 )
 const dolphinImg = getThemeImage(
-  new URL('../assets/img/home/dark/p3.png', import.meta.url).href, 
-  new URL('../assets/img/home/light/p3.png', import.meta.url).href
+  new URL('@/assets/img/home/dark/p3.png', import.meta.url).href, 
+  new URL('@/assets/img/home/light/p3.png', import.meta.url).href
 )
 const sailboat = getThemeImage(
-  new URL('../assets/img/home/dark/p2.png', import.meta.url).href, 
-  new URL('../assets/img/home/light/p2.png', import.meta.url).href
+  new URL('@/assets/img/home/dark/p2.png', import.meta.url).href, 
+  new URL('@/assets/img/home/light/p2.png', import.meta.url).href
 )
 const mobileMap = getThemeImage(
-  new URL('../assets/img/home/dark/map_mobile.png', import.meta.url).href,
-  new URL('../assets/img/home/light/map_mobile.png', import.meta.url).href
+  new URL('@/assets/img/home/dark/map_mobile.png', import.meta.url).href,
+  new URL('@/assets/img/home/light/map_mobile.png', import.meta.url).href
 )
 const tabletMap = getThemeImage(
-  new URL('../assets/img/home/dark/map.png', import.meta.url).href,
-  new URL('../assets/img/home/light/map.png', import.meta.url).href
+  new URL('@/assets/img/home/dark/map.png', import.meta.url).href,
+  new URL('@/assets/img/home/light/map.png', import.meta.url).href
 )
+const aboutUsDecorative = getThemeImage(
+  new URL('@/assets/img/home/dark/關於我們背景_pc_dark(3000px）.png', import.meta.url).href,
+  new URL('@/assets/img/home/light/關於我們背景_pc (3000px）.png', import.meta.url).href
+)
+
+
 
 async function faqsData(locale){
   try{
@@ -78,6 +92,9 @@ onMounted(async()=>{
     <el-button class="start_button">
       {{ $t("home.hero.button") }}
     </el-button>
+    <div class="heroSection_towerImg">
+      <img v-show="isDark" :src="darkTower" loading="lazy"/>
+    </div>
   </section>
   <div class="seaAnimation_waveSailboat">
     <img loading="lazy" :src="waveSailboat">
@@ -107,7 +124,7 @@ onMounted(async()=>{
       <div class="aboutUs_introduction">
         <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
         <div class="aboutUs_introduction_text">
-          <el-scrollbar max-height="126px">
+          <el-scrollbar max-height="120px">
             <p> 
               {{ $t("home.aboutUs.content1")  }}
             </p>
@@ -157,7 +174,7 @@ onMounted(async()=>{
   flex-direction: column;
   align-items: center;
   padding: 120px 0 100px;
-  background-image: url('../assets/img/home/light/p1.png');
+  background-image: v-bind("`url('${heroBackgroundImg}')`");
   >h2{
     @include h4-b;
     margin-bottom:16px;
@@ -201,6 +218,24 @@ onMounted(async()=>{
     @include breakpoint($tablet){
       font-size: 20px;
       line-height: 30px;
+    }
+  }
+
+  &_towerImg{
+    width: 100%;
+    >img{
+      width: 156px;
+    }
+    @include breakpoint($tablet){
+      >img{
+        width: 250px;
+      }
+    }
+    @include breakpoint($desktop){
+      >img{
+        position: relative;
+        left: 15%;
+      }
     }
   }
 }
@@ -379,16 +414,23 @@ onMounted(async()=>{
 }
 
 .aboutUs{
-background-color: #CCEBFF;
-position:relative;
+  // background-color: #CCEBFF;
+  position:relative;
+  
   &::before{
     content: "";
-    background-color:rgb(112, 152, 178);
-
+    background:no-repeat v-bind("`url('${aboutUsDecorative}')`") top center;
+      
     position:absolute;
     top: -158px;
     width: 100%;
     height: 158px;
+    // @include breakpoint($desktop){
+    //   top: -225px;
+    //   height: 225px;
+    //   background-image: url('src/assets/img/home/light/關於我們背景_pc (1920px）.png');
+
+    // }
   }
 
   &_sailboatImg{
