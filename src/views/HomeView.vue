@@ -22,7 +22,6 @@ const heroBackgroundImg = getThemeImage(
 )
 const darkTower = computed(()=>{
   return isPhoneWidth.value ? new URL('@/assets/img/home/dark/tower_dark (pc pad).png', import.meta.url).href:new URL('@/assets/img/home/dark/tower_dark (mobile).png', import.meta.url).href
-  
 })
 const waveSailboat = getThemeImage(
   new URL('@/assets/img/home/dark/p4.png', import.meta.url).href, 
@@ -56,8 +55,6 @@ const aboutUsDecorative = getThemeImage(
   new URL('@/assets/img/home/dark/關於我們背景_pc_dark(3000px）.png', import.meta.url).href,
   new URL('@/assets/img/home/light/關於我們背景_pc (3000px）.png', import.meta.url).href
 )
-
-
 
 async function faqsData(locale){
   try{
@@ -150,17 +147,19 @@ onMounted(async()=>{
     </div>
   </section>
   <section id="faq" class="faq">
-    <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
-    <el-collapse @change="handleChange" class="faq_container">
-      <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
-        <div class="el-collapse-item__text">
-          <span>A：</span>
-          <p>
-           {{ q.answer }}
-          </p>
-        </div>
-      </el-collapse-item>
-    </el-collapse>
+    <div class="faq_container">
+      <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
+      <el-collapse @change="handleChange" class="faq_collapse">
+        <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
+          <div class="el-collapse-item__text">
+            <span>A：</span>
+            <p>
+             {{ q.answer }}
+            </p>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
   </section>
 </template>
 
@@ -170,6 +169,8 @@ onMounted(async()=>{
 @use '@/assets/style/breakpoint.scss' as *;
 
 .heroSection{
+  position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -214,7 +215,11 @@ onMounted(async()=>{
     @include body-1-b;
     padding: 16px 40px;
     height: initial;
+    background-color: var(--home-startCTA-backgroundColor);
     border-radius: 8px;
+    border: 0;
+    color:$primary-20;
+
     @include breakpoint($tablet){
       font-size: 20px;
       line-height: 30px;
@@ -222,18 +227,20 @@ onMounted(async()=>{
   }
 
   &_towerImg{
+    position: absolute;
     width: 100%;
+    bottom: 10%;
     >img{
       width: 156px;
     }
     @include breakpoint($tablet){
+      bottom: 0;
       >img{
         width: 250px;
       }
     }
     @include breakpoint($desktop){
       >img{
-        position: relative;
         left: 15%;
       }
     }
@@ -345,7 +352,6 @@ onMounted(async()=>{
 
 .function{
   padding: 230px 12px 220px;
-  background-color: #E1F4FF;
   @include breakpoint($tablet){
     padding: 280px 0 220px;
   }
@@ -407,16 +413,15 @@ onMounted(async()=>{
   }
 
   &_cards{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: repeat(4,1fr);
     gap:24px;
   }
 }
 
 .aboutUs{
-  // background-color: #CCEBFF;
   position:relative;
-  
+  background-color: var(--home-aboutUs-backgroundColor);
   &::before{
     content: "";
     background:no-repeat v-bind("`url('${aboutUsDecorative}')`") top center;
@@ -425,12 +430,6 @@ onMounted(async()=>{
     top: -158px;
     width: 100%;
     height: 158px;
-    // @include breakpoint($desktop){
-    //   top: -225px;
-    //   height: 225px;
-    //   background-image: url('src/assets/img/home/light/關於我們背景_pc (1920px）.png');
-
-    // }
   }
 
   &_sailboatImg{
@@ -467,6 +466,7 @@ onMounted(async()=>{
   &_introduction{
     margin: 0 auto;
     width: 245px;
+    
     @include breakpoint($tablet){
       width: 475px;
     }
@@ -479,31 +479,38 @@ onMounted(async()=>{
     @include h5-b;
     margin-bottom: 8px;
     text-align: center;
+    color:var(--home-aboutUs-color);
 
     @include breakpoint($tablet){
       @include h2-b;
       margin-bottom: 20px;
+      color:var(--home-aboutUs-color);
       @include breakpoint($desktop){
         @include h1-b;
+        color:var(--home-aboutUs-color);
       }
     }
+    
   }
 
   &_introduction_text{
     @include body-3-b;
     text-indent:2em;
+    color:var(--home-aboutUs-color);
 
     @include breakpoint($tablet){
       @include body-2-b;
       text-indent:1em;
       height: 100%;
       letter-spacing: -.1px;
+      color:var(--home-aboutUs-color);
     }
 
     @include breakpoint($desktop){
       @include h5-b;
       line-height: 30px;
       letter-spacing: initial;
+      color:var(--home-aboutUs-color);  
     }
 
     &>p:not(last-child){
@@ -520,8 +527,13 @@ onMounted(async()=>{
 
 .faq{
   padding: 64px 12px;
+  background-color: var(--home-faqs-backgroundColor);
+
   @include breakpoint($desktop){
     padding: 64px 0;
+  }
+
+  &_container{
     margin: 0 auto;
     max-width: 1076px;
   }
@@ -530,26 +542,31 @@ onMounted(async()=>{
     @include h5-b;
     text-align: center;
     margin-bottom: 16px;
+    color: var(--home-faqs-color);
 
     @include breakpoint($tablet){
       @include h2-b;
+      margin-bottom: 16px;
+      color: var(--home-faqs-color);
     }
 
     @include breakpoint($desktop){
       @include h1-b;
+      color: var(--home-faqs-color);
     }
   }
 }
 
-:deep(.faq_container){
+:deep(.faq_collapse){
   border:0;
-
+  
   .el-collapse-item:not(last-child){
     margin-bottom: 40px;
   }
 
   .el-collapse-item__header{
     @include body-1;
+    color: var(--home-faqs-color);
     flex-direction:row-reverse;
     justify-content: flex-end;
     align-items:start;
@@ -557,8 +574,10 @@ onMounted(async()=>{
     margin-bottom: 16px;
     border-bottom:0;
     text-align: left;
+    background-color: transparent;
     @include breakpoint($tablet){
       @include h4;
+      color: var(--home-faqs-color);
     }
 
     >i{
@@ -567,12 +586,14 @@ onMounted(async()=>{
   }
   .el-collapse-item__wrap{
     border-bottom: 0;
+    background-color: transparent;
   }
 
   .el-collapse-item__content{
     @include body-1;
     padding-left: 25px;
     padding-bottom: 0;
+    background-color: transparent;
     @include breakpoint($tablet){
       @include h4;
       padding-left: 32px;
@@ -583,6 +604,9 @@ onMounted(async()=>{
   }
   .el-collapse-item__text{
     display: flex;
+    >*{
+      color: var(--home-faqs-color);
+    }
   }
 }
 </style>
