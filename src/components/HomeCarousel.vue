@@ -1,5 +1,6 @@
 <script setup>
 import { computed, defineProps } from 'vue';
+import IconBasic from './icons/IconBasic.vue';
 import Card from './HomeCard.vue';
 
 import { globalStore } from '@/stores/globalStore';
@@ -40,7 +41,11 @@ const isShowContainer = computed(()=>global.widthView>=1440)
       :slidesPerView="'auto'"
       :centeredSlides="true"
       :pagination="isShowContainer"
-      :navigation="isShowContainer"
+      :navigation="{
+        nextEl: '.mySwiper .swiper-right-button',
+        prevEl: '.mySwiper .swiper-left-button',
+      }"
+      
       :autoplay="{
         pauseOnMouseEnter:true,
        }"
@@ -52,11 +57,14 @@ const isShowContainer = computed(()=>global.widthView>=1440)
       <swiper-slide v-for="item,index in i18n" :key="item.img">
         <Card class="card" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="global.isDark?item.darkImg:item.img"></Card>
       </swiper-slide>
-      <div class="cardButtons">
-        <button class="nextEl">next</button>
-        <button @click="swiper.prevEl">prev</button>
+      <div v-show="global.isDesktopWidth" class="mySwiperSlide">
+        <div class="swiper-left-button">
+          <IconBasic name="IconArrowBack" color="var(--home-carousel-arrow-color)"/>
+        </div>
+        <div class="swiper-right-button">
+          <IconBasic name="IconArrowForward" color="var(--home-carousel-arrow-color)"/>
+        </div>
       </div>
-      
     </swiper>
 
   </div>
@@ -72,61 +80,43 @@ const isShowContainer = computed(()=>global.widthView>=1440)
   z-index: 10;
 }
 
-.mySwiper{
-  
+.mySwiper{  
   @include breakpoint($tablet){
-    height:300px;
     width: $tablet;
   }
 
   @include breakpoint($desktop){
-    height:500px;
     width: $desktop;
   }
 
   .swiper-wrapper{
-    align-items: center;
+    align-items: flex-end
   }
   
   .swiper-slide {    
     border-radius: 16px;
-    background-image: linear-gradient(to left, #B0E0FF 0 100%);
+    height: initial;
+    background:var(--home-card-backgroundColor);
+    backdrop-filter: blur(30px);
     box-shadow:2px 4px 12px 0 #00354826;
     @include breakpoint($tablet){
-      width: 552px;
-      height:284px;
+      max-width: 552px;
     }
 
     @include breakpoint($desktop){
-      width: 652px;
-      height: 338px;
+      max-width:  652px;
     }
-
-    // .card_title{
-    //   @include h4-b;
-    // }
-
-    // .card_text{
-    //   @include h5;
-    // }
   }
   
   .swiper-slide-prev,.swiper-slide-next{
     opacity: 60%;
     box-shadow:none;
+
     .card{
       box-shadow:initial;
     }
     
     @include breakpoint($tablet){
-      width: 513px;
-      height:244px;
-
-      .card{
-        width: 513px;
-        height:244px;
-      }
-
       .card_img{
         width: 213px;
         height:213px;
@@ -142,13 +132,9 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     }
 
     @include breakpoint($desktop){
-      width: 595px;
-      height:258px;
       .card{
-        width: 595px;
-        height:258px;
+        height: fit-content;
       }
-
       .card_img{
         width: 226px;
         height:226px;
@@ -187,40 +173,47 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     }
   }
 
-  .swiper-button-next,.swiper-button-prev{
+  .mySwiperSlide{
+    display: flex;
+    justify-content: center;
+    gap:168px;
+    margin-top:48px;
+  }
+
+  .swiper-right-button,.swiper-left-button{
     width: 32px;
     height: 32px;
-    background-color: #999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--home-carousel-arrow-backgroundColor);
     border-radius: 50%;
+    cursor: pointer;
 
-    top: 97%;
-    &::after{
-      content: '';
-      width:16px;
-      height:16px;
+    &:hover{
+      background-color: var(--home-carousel-arrow-hover-backgroundColor);
     }
-  }
 
-  .swiper-button-prev{
-    left: 41%;
-    &::after{
-      background: url(../assets/img/icons/arrow_back_ios.svg) center;
-    }
-  }
-
-  .swiper-button-next{
-    right: 41%;
-    &::after{
-      background: url(../assets/img/icons/arrow_forward_ios.svg) center;
+    &>svg:hover{
+      fill:var(--home-carousel-arrow-hover-color);
     }
   }
 
   .swiper-pagination{
-    bottom:10px;
     text-align: center;
+    pointer-events:none;
 
     .swiper-pagination-bullet:not(:last-child){
       margin: 0 24px 0 0;
+    }
+
+    .swiper-pagination-bullet{
+      background: var(--home-carousel-bullet-color);
+      opacity: 100%;
+    }
+
+    .swiper-pagination-bullet.swiper-pagination-bullet-active{
+      background: var(--home-carousel-bullet-active-color);
     }
   }
 }
