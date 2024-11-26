@@ -38,12 +38,12 @@ export const globalStore = defineStore('global',()=>{
   function toggleThemeColor(){  
     if(isDark.value){
       localStorage.setItem('themeMode','dark')
-      document.querySelector('html').classList.remove('dark')
+      document.querySelector('html').classList.add('dark')
     } else {
       localStorage.setItem('themeMode','light')
-      document.querySelector('html').classList.add('light')
+      document.querySelector('html').classList.remove('dark')
     }
   }
   
-  return {isOpenMenu,isDark,languageLabelPhone,languageLabel,widthView,isPhoneWidth,isViewTop,toggleOpenMenu,toggleThemeColor,elementPlusI18n}
+  return {isOpenMenu,isDark,languageLabelPhone,languageLabel,widthView,isPhoneWidth,isTabletWidth,isDesktopWidth,isViewTop,toggleOpenMenu,toggleThemeColor,elementPlusI18n}
 })
