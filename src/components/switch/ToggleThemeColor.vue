@@ -1,5 +1,8 @@
 <script setup>
-import { onBeforeMount } from 'vue';
+import IconBasic from '@/components/icons/IconBasic.vue';
+import SVGIconSunny from '@/components/icons/SVGIconSunny.vue';
+import SVGIconNight from '@/components/icons/SVGIconNight.vue';
+import { onBeforeMount, } from 'vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 const global = globalStore()
@@ -8,24 +11,27 @@ const { toggleThemeColor } = global
 
 onBeforeMount(()=>{
   const themeMode = localStorage.getItem('themeMode')
-  if(themeMode==='light') {
+  if(themeMode==='dark') {
+    isDark.value = true;
+  } else {
     isDark.value = false;
-    document.querySelector('html').classList.add('light')
-  }  
+  }
+
+  toggleThemeColor();
 })
 </script>
 
 <template>
   <div>
-    <el-switch @click="toggleThemeColor" v-model="isDark" class="toggleThemeColor" width="56" aria-label="toggleThemeColor" inline-prompt>
+    <el-switch @click="toggleThemeColor" v-model="isDark" class="toggleThemeColor" width="56" aria-label="toggleThemeColor" :active-icon="SVGIconSunny" :inactive-icon="SVGIconNight" inline-prompt>
       <template #active-action>
         <div class="toggleThemeColor_icon">
-          <IconBasic name="IconNight" :width="16" :height="16"/>
-        </div>  
+          <IconBasic name="IconNight" :width="16" :height="16" :color="isDark?'#F5FBFF':'#CCEBFF'"/>
+        </div> 
       </template>
       <template #inactive-action>
         <div class="toggleThemeColor_icon">
-          <IconBasic name="IconSunny" :width="16" :height="16"/>
+          <IconBasic name="IconSunny" :width="16" :height="16" :color="isDark?'#CCEBFF':'#0A4368'"/>
         </div>
       </template>
     </el-switch>
@@ -34,7 +40,6 @@ onBeforeMount(()=>{
 
 <style lang="scss" scoped>
 @use "@/assets/style/breakpoint.scss" as *;
-
   :deep(.toggleThemeColor).el-switch {
     @include breakpoint($phone){
         height: 0;
@@ -42,6 +47,7 @@ onBeforeMount(()=>{
     .el-switch__core{
       height: 24px;
       border-radius: 8px;
+      background-color: var(--switchThemeColor-backgroundColor);
       @include breakpoint($tablet){
         height: 28px;
       }
@@ -52,6 +58,7 @@ onBeforeMount(()=>{
       height: 20px;
       border-radius: 8px;
       z-index: 2;
+      background-color: var(--switchThemeColor-iconBackgroundColor);
       @include breakpoint($tablet){
         height: 24px;
       }
@@ -68,6 +75,23 @@ onBeforeMount(()=>{
       position: absolute;
       top:6px;
       right: 6px;
+    }
+  }
+
+  :deep(.toggleThemeColor){
+    .el-icon{
+      position: relative;
+      left: 6px;
+      font-size: 16px;
+    }
+  }
+
+  :deep(.toggleThemeColor).is-checked{
+    .el-icon{
+      position: relative;
+      right: 6px;
+      left: initial;
+      font-size: 16px;
     }
   }
 
