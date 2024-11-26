@@ -16,34 +16,34 @@ const { toggleOpenMenu } = global;
 
 </script>
 <template>
-  <el-header :style="{backgroundColor:isViewTop?'transparent':'#FFFFFF'}">
+  <el-header :style="{backgroundColor:isViewTop?'transparent':'var(--header-backgroundColor)'}">
     <div class="header_container">
       <Logo/>
       <div v-show="isPhoneWidth">
-        <TextButton>
+        <TextButton :fontColor="'var(--text-color)'">
           <template #default>
             {{ $t("header.signUp.button") }}
           </template>
         </TextButton>
         <el-button type="default" text class="menuButton" @click="toggleOpenMenu">
-          <IconBasic name="IconMeun"></IconBasic>
+          <IconBasic name="IconMeun" :color="'var(--text-color)'"></IconBasic>
         </el-button>
       </div>
       <div class="toolBar" v-show="!isPhoneWidth">
         <ToggleThemeColor/>
         <LanguageDropDown/>
-        <SoildButton class="signButton_text">
+        <SoildButton class="loginButton_text" :backgroundColor="'transparent'" :borderColor="'var(--text-color)'" :fontColor="'var(--button-primary-backgroundColor)'">
           <template #default>
             {{ $t("header.loginIn.button") }}
           </template>
         </SoildButton>
-        <SoildButton class="signButton_text">
+        <SoildButton class="signButton_text" :backgroundColor="'var(--text-color)'" :borderColor="'var(--text-color)'" :fontColor="'var(--button-primary-color)'">
           <template #default>
             {{ $t("header.signUp.button") }}
           </template>
         </SoildButton>
         <el-button type="default" text class="menuButton" @click="toggleOpenMenu">
-          <IconBasic name="IconMeun"></IconBasic>
+          <IconBasic name="IconMeun" :color="'var(--text-color)'"></IconBasic>
         </el-button>
       </div>
     </div>
@@ -52,21 +52,31 @@ const { toggleOpenMenu } = global;
 
 <style lang="scss" scoped>
 @use '@/assets/style/font.scss' as *;
+@use '@/assets/style/breakpoint.scss' as *;
+
 
 header{
   position: fixed;
   z-index: 10;
   padding: 16px 12px;
-  background-color: transparent;
   width: 100%;
   height: initial;
   transition: .5s;
+
+  @include breakpoint($tablet){
+    padding:28px 12px;
+  }
+
+  @include breakpoint($desktop){
+    padding:28px 32px;
+  }
 }
 
 .header_container{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 100%;
 }
 
 .toolBar{
@@ -84,8 +94,13 @@ header{
   background-color: transparent;
 }
 
+:deep(.loginButton_text){
+  @include h5-b;
+}
+
 :deep(.signButton_text){
   @include h5-b;
 }
+
 
 </style>

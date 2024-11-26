@@ -19,5 +19,10 @@ defineProps({
 
 .button {
   @include baseButton;
+  background-color: transparent;
+}
+
+.el-button.is-text:not(.is-disabled):hover{
+  background-color: transparent;
 }
 </style>

@@ -139,8 +139,9 @@ onBeforeMount(()=>{
 </template>
 
 <style lang="scss" scoped>
-@use '../../assets/style/font.scss' as *;
-@use '../../assets/style/decorative.scss' as *;
+@use '@/assets/style/font.scss' as *;
+@use '@/assets/style/color.scss' as *;
+@use '@/assets/style/decorative.scss' as *;
 
 .languageDropdown{
   cursor: pointer;
@@ -149,11 +150,16 @@ onBeforeMount(()=>{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
     @include breakpoint($tablet){
       @include h5-b;
       justify-content: initial;
       gap:8px;
     }
+  }
+
+  &_icon{
+    fill:var(--text-color);
   }
 
   &_option{
@@ -162,38 +168,94 @@ onBeforeMount(()=>{
     gap:8px;
     padding: 16px;
     >*{
-      @include itemDivider;
+      position: relative;
+      text-decoration: none;
+      @include itemDivider(8px,var(--aside-underlineBaseColor));
+      @include body-1-b;
+    }
+
+    >*:hover{
+      @include itemDivider(8px,#CCEBFF);
+    }
+    
+    >*::before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: top left;
+      transition: transform 0.3s ease;
+    }
+
+    >*:hover::before{
+      background-color: $primary-20;
+      transform: scaleX(1);
     }
   }
 }
 
 :deep(.languageDropdown) .el-dropdown__popper.el-popper{
   box-shadow: none;
-  
+
   .languageDropdown_menu{
     padding: 16px;
+    background: $primary-90;
   }
 
   .languageDropdown_menu:hover{
-    background-color:transparent;
-    color:black
+    background: $primary-90;
   }
 
   .el-dropdown-menu__item{
+    position: relative;
+    @include body-1-b;
     padding: 0;
-    @include itemDivider;
     width: 96px;
+    color:$primary-20;
+    @include itemDivider(8px,#95CEEE);
   }
 
   .el-dropdown-menu__item:hover{
-    border-bottom: 1px solid black;
     background-color:transparent;
-    color:black
+    @include itemDivider(8px,transparent);
   }
 
+  .el-dropdown-menu__item::before{
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: top left;
+    transition: transform 0.3s ease;
+  }
+
+  .el-dropdown-menu__item:hover::before{
+    background-color: $primary-20;
+    transform: scaleX(1);
+  }
+
+  .el-dropdown-menu__item:not(.is-disabled):focus{
+    background: transparent;
+  }
+  
   .el-dropdown-menu__item:not(:last-child){
     margin-bottom: 16px;
   }
+
+  .el-popper__arrow:before{
+    width: 0;
+    height: 0;
+    border: 0;
+  }
+
 }
 
 </style>

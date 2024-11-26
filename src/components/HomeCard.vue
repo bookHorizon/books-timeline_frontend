@@ -33,17 +33,16 @@ defineProps({
 
   .card{
     box-sizing: content-box;
-
-    // border: 1px solid;
     display: flex;
+    align-items: center;
     padding: 16px;
     border-radius: 16px;
     box-shadow: 2px 4px 12px 0 #00354826;
-    height: 202px;
-
+    background: var(--home-card-backgroundColor);
     
     @include breakpoint($tablet){
       box-shadow: none;
+      background:transparent;
     }
     @include breakpoint($desktop){
       height: 338px;

@@ -1,11 +1,3 @@
-@media (prefers-color-scheme: light){
-
-} 
-
-@media (prefers-color-scheme: dark){
-
-} 
-
 $primary-10:#001E2C;
 $primary-20:#003548;
 $primary-30:#004D68;
@@ -42,3 +34,115 @@ $success-100:#d5f6df;
 $success-300:#7adba4;
 $success-600:#138850;
 $success-800:#0e5735;
+
+:root{
+  --header-backgroundColor:#{$primary-100};
+  --main-backgroundColor:#{$primary-99};
+  --footer-backgroundColor:#{$primary-20};
+  --footer-copyright-color:#{$primary-80};
+  --footer-color:#{$primary-100};
+  --aside-backgroundColor:#{$primary-95};
+  --aside-underlineBaseColor:#{$primary-80};
+  --aside-signUpBackgroundColor:#{$primary-95};
+  --aside-signUpShadowColor:#00354826;
+  --aside-signUpColor:#{$primary-100};
+
+  --text-color:#{$primary-20};
+
+  --home-startCTA-backgroundColor:#{$secondary};
+  --home-card-backgroundColor:#{$primary-90};
+
+  --home-carousel-arrow-color:#0A4368;
+  --home-carousel-arrow-backgroundColor:#{$primary-90};
+  --home-carousel-arrow-hover-color:#{$primary-100};
+  --home-carousel-arrow-hover-backgroundColor:#0A4368;
+  --home-carousel-bullet-color:#{$primary-90};
+  --home-carousel-bullet-active-color:#{$primary-20};
+
+  --home-aboutUs-color:#003853;
+  --home-aboutUs-backgroundColor:#{$primary-85};
+  --home-faqs-backgroundColor:#{$primary-40};
+  --home-faqs-color:#{$primary-100};
+
+  --switchThemeColor-backgroundColor:#{$primary-70};
+  --switchThemeColor-iconBackgroundColor:#{$primary-100};
+
+  --button-primary-backgroundColor:#{$primary-20};
+  --button-primary-color:#{$primary-100};
+
+}
+
+.dark{
+  --header-backgroundColor:#0A4368;
+  --main-backgroundColor:#0A4368;
+  --footer-backgroundColor:#{$primary-10};
+  --footer-copyright-color:#{$primary-80};
+  --footer-color:#CCEBFFCC;
+
+  --aside-backgroundColor:#003853;
+  --aside-underlineBaseColor:#{$primary-50};
+  --aside-signUpBackgroundColor:#{$primary-30};
+  --aside-signUpShadowColor:#000D1126;
+  --aside-signUpColor:#0A4368CC;
+
+  --text-color:#CCEBFFCC;
+
+  --home-startCTA-backgroundColor:#FFD701CC;
+  --home-card-backgroundColor:linear-gradient(#7BA8C280,#7BA8C233);
+
+  --home-carousel-arrow-color:#F5FBFF99;
+  --home-carousel-arrow-backgroundColor:#{$primary-50};
+  --home-carousel-arrow-hover-color:#004D68E5;
+  --home-carousel-arrow-hover-backgroundColor:#95CEEEE5;
+  --home-carousel-bullet-color:#{$primary-50};
+  --home-carousel-bullet-active-color:#B0E0FFCC;
+
+  --home-aboutUs-color:#003853E5;
+  --home-aboutUs-backgroundColor:#003853;
+  --home-faqs-color:#CCEBFFCC;
+  --home-faqs-backgroundColor:#062940;
+
+  --switchThemeColor-backgroundColor:#7AB2D1CC;
+  --switchThemeColor-iconBackgroundColor:#0A4368CC;
+
+  --button-primary-backgroundColor:#{$primary-90};
+  --button-primary-color:#0a4268CC;
+}
+
+@media (prefers-color-scheme: dark){
+  .dark{
+    --header-backgroundColor:#0A4368;
+    --main-backgroundColor:#0A4368;
+    
+    --footer-backgroundColor:#{$primary-10};
+    --footer-copyright-color:#{$primary-80};
+    --footer-color:#CCEBFFCC;
+  
+    --aside-backgroundColor:#003853;
+    --aside-underlineBaseColor:#{$primary-50};
+    --aside-signUpBackgroundColor:#{$primary-30};
+    --aside-signUpShadowColor:#000D1126;
+    --aside-signUpColor:#0A4368CC;
+  
+    --text-color:#CCEBFFCC;
+  
+    --home-startCTA-backgroundColor:#FFD701CC;
+    --home-card-backgroundColor:linear-gradient(#7BA8C280,#7BA8C233);
+  
+    --home-carousel-arrow-color:#F5FBFF99;
+    --home-carousel-arrow-backgroundColor:#{$primary-50};
+    --home-carousel-arrow-hover-color:#004D68E5;
+    --home-carousel-arrow-hover-backgroundColor:#95CEEEE5;
+
+    --home-aboutUs-color:#003853;
+    --home-aboutUs-backgroundColor:#003853;
+    --home-faqs-color:#B0E0FFCC
+    --home-faqs-backgroundColor:#062940;
+  
+    --switchThemeColor-backgroundColor:#7AB2D1CC;
+    --switchThemeColor-iconBackgroundColor:#0A4368CC;
+  
+    --button-primary-backgroundColor:#{$primary-90};
+    --button-primary-color:#0a4268CC;
+  } 
+} 

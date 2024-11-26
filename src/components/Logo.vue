@@ -8,6 +8,7 @@ h1{
   line-height: 16px;
   font-weight: 700;
   letter-spacing: calc(16px*0.05);
+  color:var(--text-color);
 
   @include breakpoint($tablet){
     font-size: 24px;

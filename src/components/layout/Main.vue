@@ -10,5 +10,6 @@ import { RouterLink, RouterView } from 'vue-router'
 <style lang="scss" scoped>
 main{
   padding: 0;
+  background-color: var(--main-backgroundColor);
 }
 </style>

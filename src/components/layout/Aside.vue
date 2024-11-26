@@ -17,7 +17,7 @@ const { toggleOpenMenu } = global;
     <div class="scrollbar_container">
       <el-scrollbar>
         <div class="iconClose">
-          <IconBasic name="IconClose" @click="toggleOpenMenu"></IconBasic>
+          <IconBasic name="IconClose" @click="toggleOpenMenu" :color="'var(--text-color)'"></IconBasic>
         </div>
         <div class="menuContent">
           <div class="menuContent_anchorLink">
@@ -37,7 +37,7 @@ const { toggleOpenMenu } = global;
     </div>
 
     <div class="signUp" v-show="isPhoneWidth">
-      <SoildButton>
+      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'" :font-color="'var(--aside-signUpColor)'"> 
         <template #default>
           {{ $t("header.signUp.button") }}
         </template>
@@ -49,18 +49,23 @@ const { toggleOpenMenu } = global;
 <style lang="scss" scoped>
 @use '@/assets/style/decorative.scss' as *;
 @use '@/assets/style/font.scss' as *;
+@use '@/assets/style/breakpoint.scss' as *;
+
 aside{
   position: fixed;
   right: 0;
   height: 100vh;
   z-index: 30;
-  background-color: #cacaca;
+  background-color: var(--aside-backgroundColor);
   overflow: hidden;
 }
 
 .scrollbar_container{
-  padding: 16px 16px 0;
+  padding: 16px;
   height: 100%;
+  @include breakpoint($tablet){
+    padding: 24px;
+  }
 }
 
 .iconClose{
@@ -76,23 +81,43 @@ aside{
   flex-direction: column;
   gap: 16px;
   padding: 16px 0 0;
-  
-  &_anchorLink{
+
+  .menuContent_anchorLink,.menuContent_function{
     display: flex;
     flex-direction: column;
     gap:16px;
-    >* {
-      @include itemDivider;
-      display: block;
-      text-decoration: none;
-    }
-  }
-  &_function{
-    display: flex;
-    flex-direction: column;
-    gap:16px;
+
     >*{
-      @include itemDivider;
+      position: relative;
+      text-decoration: none;
+      @include itemDivider(16px,var(--aside-underlineBaseColor));
+      @include body-1-b;
+
+      @include breakpoint($tablet){
+        @include h4-b;
+      }
+    }
+
+    >*:hover{
+      @include itemDivider(16px,transparent);
+    }
+    
+    >*::before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: top left;
+      transition: transform 0.3s ease;
+    }
+
+    >*:hover::before{
+      background-color: var(--text-color);
+      transform: scaleX(1);
     }
   }
 }
@@ -108,13 +133,13 @@ aside{
   bottom: 0;
   display: flex;
   padding: 16px;
-  z-index: 5;
+  z-index: 10;
   width: 100%;
-  box-shadow: 0 -4px 12px 0 #000;
-  background-color: #cacaca;
+  box-shadow: 0 -4px 12px 0 var(--aside-signUpShadowColor);
+  background-color: var(--aside-signUpBackgroundColor);
 
   >*{
-    @include body-1;
+    @include body-1-b;
     flex: 1;
     padding: 6px 0;
   }

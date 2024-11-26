@@ -21,7 +21,7 @@ import { footerLinks } from '@/config/links';
   height: initial;
   padding: 16px 67px;
   text-align: center;
-  background-color: #999999;
+  background-color: var(--footer-backgroundColor);
   white-space:nowrap;
 
   @include breakpoint($tablet){
@@ -54,9 +54,13 @@ import { footerLinks } from '@/config/links';
 
 .logo{
   line-height: 24px;
+  color:var(--footer-color);
+  letter-spacing: calc(16px*0.24);
+
   @include breakpoint($tablet){
     text-align: left; 
     line-height: 36px;
+    letter-spacing: calc(24px*0.24);
   }
 }
 
@@ -64,6 +68,10 @@ import { footerLinks } from '@/config/links';
   @include body-2-b;
   display: flex;
   justify-content: space-between;
+
+  span{
+    color:var(--footer-color);
+  }
   @include breakpoint($tablet){
     @include body-1-b;
     gap: 64px;
@@ -72,6 +80,7 @@ import { footerLinks } from '@/config/links';
 
 .copyRight{
   @include body-3;
+  color:var(--footer-copyright-color);
   @include breakpoint($tablet){
     flex-basis: 100%;
   }
