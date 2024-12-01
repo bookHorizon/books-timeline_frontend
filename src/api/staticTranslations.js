@@ -1,5 +1,4 @@
 import axios from "axios";
-import * as fs from 'node:fs/promises';
 
 const translationApi = axios.create({
   baseURL: `https://api.book-horizon.com/book/static`,
@@ -17,27 +16,21 @@ async function GET(url) {
     return Promise.reject(error);
   }
 }
-async function getStaticTranlationData(){
-  return await GET('/translation/')
+
+async function POST(url,data) {
+  try {
+    const result = await translationApi.post(url,data) ;
+    return result;
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
-
-async function mapStaticTranlationData(){
-  const tranlationData = await getStaticTranlationData()
-  const twData = {}
-  const enData = {}
-
-  tranlationData.data.data.forEach(data=>{
-    twData[`${data.key}`] = data.zh_hant
-    enData[`${data.key}`] = data.en
-  })  
-  
-  fs.writeFile(`src/i18n/language/zh-TW.json`,JSON.stringify(twData),'utf8',(error)=>{
-    console.log(error);
-  })
-  fs.writeFile(`src/i18n/language/en-US.json`,JSON.stringify(enData),'utf8',(error)=>{
-    console.log(error);
-  })
+export default {
+  getStaticTranlationData(){
+    return GET()
+  },
+  postStaticTranlationData(data){
+    return POST('/translation/',data)
+  }
 }
-
-await mapStaticTranlationData()
