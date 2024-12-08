@@ -56,6 +56,22 @@ const aboutUsDecorative = getThemeImage(
   new URL('@/assets/img/home/light/關於我們背景_pc (3000px）.png', import.meta.url).href
 )
 
+const itemNumber = ref(1)
+const subTitleItem = computed(()=>`home.hero.subTitleItem${itemNumber.value}`)
+setInterval(()=>{  
+  switch (itemNumber.value){
+    case 1:
+      itemNumber.value = 2;
+      break;
+    case 2:
+      itemNumber.value = 3;
+      break;
+    case 3:
+      itemNumber.value = 1;
+      break;
+    }
+},3000)
+
 async function faqsData(locale){
   try{
     if (locale==='zh-TW'){
@@ -84,7 +100,13 @@ onMounted(async()=>{
 <template>
   <section id="#hero" class="heroSection">
     <h2>{{ $t("home.hero.title") }}</h2>
-    <h3>{{ $t("home.hero.subTitle") }}</h3>
+    <h3>
+      <span>{{ $t("home.hero.subTitle") }}</span>
+      <div class="subTitleItem_container">
+        <span class="subTitleItem">{{ $t(subTitleItem) }}</span>
+      </div>
+      <span>{{ $t("home.hero.subTitleEnd") }}</span>
+    </h3>
     <p>{{ $t("home.hero.content") }}</p>
     <el-button class="start_button">
       {{ $t("home.hero.button") }}
@@ -191,12 +213,49 @@ onMounted(async()=>{
 
   >h3{
     @include h5-b;
+    display: flex;
+    // justify-content: center;
     margin-bottom:32px;
+    // text-align: initial;
+    // width: 100%;
+
     @include breakpoint($tablet){
       @include h2-b;
     }
     @include breakpoint($desktop){
       @include h1-b;
+    }
+  }
+
+  // .subTitle{
+    // display: flex;
+    // position: relative;
+    // left: 30%;
+    // max-width:  500px;
+  // }
+
+  .subTitleItem_container{
+    overflow: hidden;
+  }
+
+  .subTitleItem{
+    left: -100px;
+    animation-name:moveItem; 
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    transition: all;
+  }
+
+  @keyframes moveItem{
+    0%{
+      // left: -100px;
+      translate: -100px 100px;
+    }
+    100%{
+      // left: 0;
+      translate: 0px 0;
+
     }
   }
 
@@ -577,6 +636,10 @@ onMounted(async()=>{
     background-color: transparent;
     @include breakpoint($tablet){
       @include h4;
+      color: var(--home-faqs-color);
+    }
+
+    .el-collapse-item__header.focusing:focus:not(:hover){
       color: var(--home-faqs-color);
     }
 
