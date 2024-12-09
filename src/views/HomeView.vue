@@ -639,7 +639,7 @@ onMounted(async()=>{
       color: var(--home-faqs-color);
     }
 
-    .el-collapse-item__header.focusing:focus:not(:hover){
+    &.focusing:focus:not(:hover){
       color: var(--home-faqs-color);
     }
 
