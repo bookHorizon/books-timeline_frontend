@@ -70,6 +70,8 @@ $success-800:#0e5735;
   --button-primary-backgroundColor:#{$primary-20};
   --button-primary-color:#{$primary-100};
 
+  --menu-mask-backgroundColor:#5E5E5E80;
+
 }
 
 .dark{
@@ -100,7 +102,7 @@ $success-800:#0e5735;
   --home-aboutUs-color:#003853E5;
   --home-aboutUs-backgroundColor:#003853;
   --home-faqs-color:#CCEBFFCC;
-  
+
   --home-faqs-backgroundColor:#062940;
 
   --switchThemeColor-backgroundColor:#7AB2D1CC;
@@ -108,6 +110,9 @@ $success-800:#0e5735;
 
   --button-primary-backgroundColor:#{$primary-90};
   --button-primary-color:#0a4268CC;
+
+  --menu-mask-backgroundColor:#616161B2;
+
 }
 
 @media (prefers-color-scheme: dark){
@@ -147,5 +152,8 @@ $success-800:#0e5735;
   
     --button-primary-backgroundColor:#{$primary-90};
     --button-primary-color:#0a4268CC;
+
+    --menu-mask-backgroundColor:#616161B2;
+
   } 
 } 
