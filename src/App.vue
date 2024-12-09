@@ -37,7 +37,7 @@ const locale = computed(()=>elementPlusI18n.value === 'zh-tw' ? zhTw:en)
   height: 100vh;
   position: fixed;
   z-index: 20;
-  background-color: rgba(255,255,255,.5);
+  background-color: var(--menu-mask-backgroundColor);
 }
 
 </style>
