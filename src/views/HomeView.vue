@@ -98,7 +98,7 @@ onMounted(async()=>{
 </script>
 
 <template>
-  <section id="#hero" class="heroSection">
+  <section id="hero" class="heroSection">
     <h2>{{ $t("home.hero.title") }}</h2>
     <h3>
       <span>{{ $t("home.hero.subTitle") }}</span>
