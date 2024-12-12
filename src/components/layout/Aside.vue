@@ -11,6 +11,8 @@ const global = globalStore();
 const { isPhoneWidth } = storeToRefs(global)
 const { toggleOpenMenu } = global;
 
+// const signUp = ref(signUp);
+
 </script>
 <template>
   <el-aside width="256px">
@@ -21,23 +23,23 @@ const { toggleOpenMenu } = global;
         </div>
         <div class="menuContent">
           <div class="menuContent_anchorLink">
-            <a v-for="link in anchorLinks" :href="link.href">{{ $t(link.i18n) }}</a>
+            <a v-for="link in anchorLinks" :href="link.href" @click="toggleOpenMenu">{{ $t(link.i18n) }}</a>
           </div>
           <div class="menuContent_function" v-show="isPhoneWidth">
-            <LanguageDropDown/>
+            <LanguageDropDown @click="toggleOpenMenu"/>
             <div class="toggleThemeColor">
               <span>{{ $t("header.themeColor.toggle") }}</span>
-              <ToggleThemeColor/>
+              <ToggleThemeColor @click="toggleOpenMenu"/>
             </div>
             <!-- 這邊要改成router -->
-            <a class="loginIn">{{ $t("header.loginIn.button") }}</a>
+            <a class="loginIn" @click="toggleOpenMenu">{{ $t("header.loginIn.button") }}</a>
           </div>
         </div>
       </el-scrollbar>
     </div>
 
-    <div class="signUp" v-show="isPhoneWidth">
-      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'" :font-color="'var(--aside-signUpColor)'"> 
+    <div class="signUp" ref="signUp" v-show="isPhoneWidth">
+      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'" :font-color="'var(--aside-signUpColor)'" @click="toggleOpenMenu"> 
         <template #default>
           {{ $t("header.signUp.button") }}
         </template>
