@@ -13,6 +13,7 @@ import { computed } from 'vue';
 
 const global = globalStore();
 const { isOpenMenu,elementPlusI18n } = storeToRefs(global)
+const { toggleOpenMenu } = global;
 
 const locale = computed(()=>elementPlusI18n.value === 'zh-tw' ? zhTw:en)
 </script>
@@ -25,7 +26,7 @@ const locale = computed(()=>elementPlusI18n.value === 'zh-tw' ? zhTw:en)
             <Main></Main>
           <Footer></Footer>
       </el-container>
-      <div v-show="isOpenMenu" class="mask"></div>
+      <div v-show="isOpenMenu" class="mask" @click="toggleOpenMenu"></div>
       <Aside v-show="isOpenMenu"></Aside>
     </el-container>
   </el-config-provider>
