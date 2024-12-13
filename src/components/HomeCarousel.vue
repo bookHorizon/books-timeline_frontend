@@ -29,27 +29,29 @@ const slideSpace = computed(()=>{
   }
 })
 
+// :autoplay="{
+//         delay: 5000,
+//         pauseOnMouseEnter:true,
+//        }"
 const isShowContainer = computed(()=>global.widthView>=1440)
+
 </script>
 
 <template>
   <div>
     <swiper
       :modules="modules"
-      :loop="true"
       :space-between="slideSpace"
-      :slidesPerView="'auto'"
       :centeredSlides="true"
+      :slidesPerView= "'auto'"
       :pagination="isShowContainer"
+      :initialSlide="1"
+      :loop="true" 
+      :loopedSlides="4"
       :navigation="{
         nextEl: '.mySwiper .swiper-right-button',
         prevEl: '.mySwiper .swiper-left-button',
       }"
-      
-      :autoplay="{
-        pauseOnMouseEnter:true,
-       }"
-      :parallax="true"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
       class="mySwiper"
@@ -81,45 +83,27 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 }
 
 .mySwiper{  
-  @include breakpoint($tablet){
-    width: $tablet;
-  }
-
-  @include breakpoint($desktop){
-    width: $desktop;
-  }
-
+  padding-bottom: 10px;
   .swiper-wrapper{
-    align-items: flex-end
+    align-items: flex-end;
   }
   
-  .swiper-slide {    
-    border-radius: 16px;
-    height: initial;
-    background:var(--home-card-backgroundColor);
-    backdrop-filter: blur(30px);
-    box-shadow:2px 4px 12px 0 #00354826;
+  .swiper-slide{
+    width: fit-content;
+    height: fit-content;
     @include breakpoint($tablet){
-      max-width: 552px;
-    }
-
-    @include breakpoint($desktop){
-      max-width:  652px;
-    }
-  }
-  
-  .swiper-slide-prev,.swiper-slide-next{
-    opacity: 60%;
-    box-shadow:none;
-
-    .card{
-      box-shadow:initial;
-    }
-    
-    @include breakpoint($tablet){
+      .card{
+        max-width: 513px;
+        opacity: var(--home-carousel-card-opacity);
+        background: var(--home-carousel-card-backgroundColor);
+        box-shadow: none;
+      }
       .card_img{
         width: 213px;
         height:213px;
+        transition-property:all;
+        transition-duration:2s;
+        box-shadow:none;
       }
 
       .card_title{
@@ -133,11 +117,14 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 
     @include breakpoint($desktop){
       .card{
-        height: fit-content;
+        max-width: 547px;
       }
       .card_img{
         width: 226px;
         height:226px;
+
+        transition-property:width;
+        transition-duration:1s;
       }
 
       .card_article{
@@ -154,25 +141,55 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     }
   }
 
-  .swiper-slide-prev{
+  .swiper-slide-active.swiper-slide {    
     @include breakpoint($tablet){
-      background-image: linear-gradient(to left, #B0E0FF 0%, transparent 20%, transparent 100%);
-    }
-      
-    @include breakpoint($desktop){
-      background-image: linear-gradient(to left, #B0E0FF 0%, transparent 50%, transparent 100%);
-    }
-  }
-  .swiper-slide-next{
-    @include breakpoint($tablet){
-      background-image: linear-gradient(to right,#B0E0FF 0% ,transparent 20%, transparent 100%);
-    }
-      
-    @include breakpoint($desktop){
-      background-image: linear-gradient(to right,#B0E0FF 0% ,transparent 50%, transparent 100%);
-    }
-  }
+      .card{
+        max-width: 552px;
+        opacity: 100%;
+        background:var(--home-carousel-card-active-backgroundColor);
+        backdrop-filter: blur(30px);
+        box-shadow:var(--home-carousel-card-shadow-color);
+      }
 
+      .card_img{
+        width: 252px;
+        height: 252px;
+      }
+
+      .card_title{
+        @include h3-b;
+        margin-bottom: 24px;
+      }
+
+      .card_text{
+        @include h4;
+      }
+    }
+
+    @include breakpoint($desktop){
+      .card{
+        max-width:  652px;
+      }
+
+      .card_img{
+        width: 306px;
+        height: 306px;
+      }
+
+      .card_article{
+        padding: 64px 24px;
+      }
+
+      .card_title{
+        @include h2-b;
+      }
+
+      .card_text{
+        text-align: initial;
+      }
+    }
+  }
+  
   .mySwiperSlide{
     display: flex;
     justify-content: center;
@@ -215,6 +232,10 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     .swiper-pagination-bullet.swiper-pagination-bullet-active{
       background: var(--home-carousel-bullet-active-color);
     }
+  }
+
+  .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+    bottom:15px;
   }
 }
 
