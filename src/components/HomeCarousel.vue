@@ -29,10 +29,6 @@ const slideSpace = computed(()=>{
   }
 })
 
-// :autoplay="{
-//         delay: 5000,
-//         pauseOnMouseEnter:true,
-//        }"
 const isShowContainer = computed(()=>global.widthView>=1440)
 
 </script>
@@ -51,6 +47,10 @@ const isShowContainer = computed(()=>global.widthView>=1440)
       :navigation="{
         nextEl: '.mySwiper .swiper-right-button',
         prevEl: '.mySwiper .swiper-left-button',
+      }"
+      :autoplay="{
+       delay: 5000,
+       pauseOnMouseEnter:true,
       }"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
@@ -93,7 +93,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     height: fit-content;
     @include breakpoint($tablet){
       .card{
-        max-width: 513px;
+        width: 513px;
         opacity: var(--home-carousel-card-opacity);
         background: var(--home-carousel-card-backgroundColor);
         box-shadow: none;
@@ -101,8 +101,6 @@ const isShowContainer = computed(()=>global.widthView>=1440)
       .card_img{
         width: 213px;
         height:213px;
-        transition-property:all;
-        transition-duration:2s;
         box-shadow:none;
       }
 
@@ -117,14 +115,11 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 
     @include breakpoint($desktop){
       .card{
-        max-width: 547px;
+        width: 547px;
       }
       .card_img{
         width: 226px;
         height:226px;
-
-        transition-property:width;
-        transition-duration:1s;
       }
 
       .card_article{
@@ -144,7 +139,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
   .swiper-slide-active.swiper-slide {    
     @include breakpoint($tablet){
       .card{
-        max-width: 552px;
+        width: 552px;
         opacity: 100%;
         background:var(--home-carousel-card-active-backgroundColor);
         backdrop-filter: blur(30px);
@@ -168,7 +163,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 
     @include breakpoint($desktop){
       .card{
-        max-width:  652px;
+        width:  652px;
       }
 
       .card_img{

@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
 const { languageLabelPhone,languageLabel,isPhoneWidth,elementPlusI18n } = storeToRefs(global)
+const { toggleOpenMenu } = global;
 const isOpenOption = ref(false)
 const languageOptionPhone = [
   {
@@ -122,9 +123,10 @@ onBeforeMount(()=>{
         <IconBasic class="languageDropdown_icon" :name="arrowIcon" :key="arrowIcon" :width="16" :height="16"/>
       </span>
       <div v-show="isOpenOption" class="languageDropdown_option">
-        <span v-for="option in languageOptionPhone" @click="chooseLanguage(option.localeCode)">{{ option.label }}</span>
+        <span v-for="option in languageOptionPhone" @click="chooseLanguage(option.localeCode);toggleOpenMenu();">{{ option.label }}</span>
       </div>
     </div>
+
     <el-dropdown v-show="!isPhoneWidth" class="languageDropdown" @command="updateLanguage" @visible-change="isClickLangDropdown" trigger="click" :teleported="false">
       <span class="languageDropdown_text">{{ languageLabel }}
         <IconBasic class="languageDropdown_icon" :name="arrowIcon" :key="arrowIcon" :width="16" :height="16"/>
