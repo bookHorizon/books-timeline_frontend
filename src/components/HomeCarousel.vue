@@ -29,10 +29,6 @@ const slideSpace = computed(()=>{
   }
 })
 
-// :autoplay="{
-//         delay: 5000,
-//         pauseOnMouseEnter:true,
-//        }"
 const isShowContainer = computed(()=>global.widthView>=1440)
 
 </script>
@@ -51,6 +47,10 @@ const isShowContainer = computed(()=>global.widthView>=1440)
       :navigation="{
         nextEl: '.mySwiper .swiper-right-button',
         prevEl: '.mySwiper .swiper-left-button',
+      }"
+      :autoplay="{
+       delay: 5000,
+       pauseOnMouseEnter:true,
       }"
       @swiper="onSwiper"
       @slideChange="onSlideChange"
