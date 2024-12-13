@@ -37,39 +37,20 @@ defineProps({
     align-items: center;
     padding: 16px;
     border-radius: 16px;
-    box-shadow: 2px 4px 12px 0 #00354826;
-    background: var(--home-card-backgroundColor);
-    
-    @include breakpoint($tablet){
-      box-shadow: none;
-      background:transparent;
-    }
-    @include breakpoint($desktop){
-      height: 338px;
-    }
-
+    background:var(--home-carousel-card-active-backgroundColor);
+    backdrop-filter: blur(30px);
+    box-shadow:var(--home-carousel-card-shadow-color);
 
     &_img{
-      // border: 1px solid;
       width: 167px;
-
-      @include breakpoint($tablet){
-        width: 252px;
-        height: 252px;
-      }  
-
-      @include breakpoint($desktop){
-        width: 306px;
-        height: 306px;
-      }
     }
 
     &_article{
       flex:1 1 0;
       padding: 24px 24px; 
-        @include breakpoint($desktop){
-          padding: 64px 24px;
-        }
+        // @include breakpoint($desktop){
+        //   padding: 64px 24px;
+        // }
       }
 
     &_title{
@@ -77,29 +58,12 @@ defineProps({
       display: block;
       margin-bottom: 16px;
       text-align: center;
-
-      @include breakpoint($tablet){
-        @include h3-b;
-        margin-bottom: 24px;
-      }
-
-      @include breakpoint($desktop){
-        @include h2-b;
-      }
     }
     &_text{
       @include body-1;
       display: block;
       text-align: justify;
       
-      @include breakpoint($tablet){
-        @include h4;
-      }
-
-      @include breakpoint($desktop){
-        text-align: initial;
-        // letter-spacing: -1px;
-      }
     }
   }
 </style>
