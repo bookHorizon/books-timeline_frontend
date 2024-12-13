@@ -50,7 +50,6 @@ $success-800:#0e5735;
   --text-color:#{$primary-20};
 
   --home-startCTA-backgroundColor:#{$secondary};
-  --home-card-backgroundColor:#{$primary-90};
 
   --home-carousel-arrow-color:#0A4368;
   --home-carousel-arrow-backgroundColor:#{$primary-90};
@@ -58,6 +57,12 @@ $success-800:#0e5735;
   --home-carousel-arrow-hover-backgroundColor:#0A4368;
   --home-carousel-bullet-color:#{$primary-90};
   --home-carousel-bullet-active-color:#{$primary-20};
+
+  --home-carousel-card-active-backgroundColor:#{$primary-90};
+  --home-carousel-card-active-blur:0px;
+  --home-carousel-card-backgroundColor:radial-gradient(circle closest-side at center,#E1F4FF,#B0E0FF);
+  --home-carousel-card-shadow-color:0px 4px 8px 2px #000D1126;
+  --home-carousel-card-opacity:60%;
 
   --home-aboutUs-color:#003853;
   --home-aboutUs-backgroundColor:#{$primary-85};
@@ -87,17 +92,26 @@ $success-800:#0e5735;
   --aside-signUpShadowColor:#000D1126;
   --aside-signUpColor:#0A4368CC;
 
-  --text-color:#CCEBFFCC;
+  --text-color:#B0E0FFCC;
 
   --home-startCTA-backgroundColor:#FFD701CC;
-  --home-card-backgroundColor:linear-gradient(#7BA8C280,#7BA8C233);
 
   --home-carousel-arrow-color:#F5FBFF99;
   --home-carousel-arrow-backgroundColor:#{$primary-50};
   --home-carousel-arrow-hover-color:#004D68E5;
   --home-carousel-arrow-hover-backgroundColor:#95CEEEE5;
-  --home-carousel-bullet-color:#{$primary-50};
+  --home-carousel-bullet-color:#7AB2D166;
   --home-carousel-bullet-active-color:#B0E0FFCC;
+
+  --home-carousel-card-active-backgroundColor:radial-gradient(circle farthest-corner at top,#7AB2D166,#7AB2D129);
+
+  --home-carousel-card-active-blur:30px;
+
+  --home-carousel-card-backgroundColor:radial-gradient(circle farthest-corner at top,#7AB2D112,#7AB2D159);
+
+  --home-carousel-card-shadow-color:0 4px 12px 2px #000D1126;
+  
+  --home-carousel-card-opacity:40%;
 
   --home-aboutUs-color:#003853E5;
   --home-aboutUs-backgroundColor:#003853;
@@ -129,7 +143,7 @@ $success-800:#0e5735;
     --aside-signUpShadowColor:#000D1126;
     --aside-signUpColor:#0A4368CC;
   
-    --text-color:#CCEBFFCC;
+    --text-color:#B0E0FFCC;
   
     --home-startCTA-backgroundColor:#FFD701CC;
     --home-card-backgroundColor:linear-gradient(#7BA8C280,#7BA8C233);
@@ -140,6 +154,16 @@ $success-800:#0e5735;
     --home-carousel-arrow-hover-backgroundColor:#95CEEEE5;
     --home-carousel-bullet-color:#{$primary-50};
     --home-carousel-bullet-active-color:#B0E0FFCC;
+
+    --home-carousel-card-active-backgroundColor:radial-gradient(circle farthest-corner at top,#7AB2D166,#7AB2D129);
+    
+    --home-carousel-card-active-blur:30px
+    
+    --home-carousel-card-backgroundColor:radial-gradient(circle farthest-corner at top,#7AB2D112,#7AB2D159);
+    
+    --home-carousel-card-shadow-color:0 4px 12px 2px #000D1126;
+    
+    --home-carousel-card-opacity:40%;
   
     --home-aboutUs-color:#003853E5;
     --home-aboutUs-backgroundColor:#003853;
