@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { watch, ref,onBeforeUnmount } from 'vue'
 import IconBasic from '../icons/IconBasic.vue';
 import { globalStore } from '@/stores/globalStore';
 import { anchorLinks } from '@/config/links'
@@ -11,12 +11,30 @@ const global = globalStore();
 const { isPhoneWidth } = storeToRefs(global)
 const { toggleOpenMenu } = global;
 
-// const signUp = ref(signUp);
+const signUp = ref(null);
+const signHeight = ref();
+const observer = ref();
+function getHeightValue(element){
+  observer.value = new ResizeObserver((entries)=>{
+   const rect = entries[0].contentRect
+   signHeight.value = rect.height;
+  })
+  observer.value.observe(element)
+}
+
+watch(signUp,(element) => {    
+    if (element) getHeightValue(element);
+  }
+)
+
+onBeforeUnmount(()=>{
+  observer.value.unobserve();
+})
 
 </script>
 <template>
   <el-aside width="256px">
-    <div class="scrollbar_container">
+    <div class="scrollbar_container" :style="{paddingBottom:`${signHeight+32}px`}">
       <el-scrollbar>
         <div class="iconClose">
           <IconBasic name="IconClose" @click="toggleOpenMenu" :color="'var(--text-color)'"></IconBasic>
@@ -26,7 +44,7 @@ const { toggleOpenMenu } = global;
             <a v-for="link in anchorLinks" :href="link.href" @click="toggleOpenMenu">{{ $t(link.i18n) }}</a>
           </div>
           <div class="menuContent_function" v-show="isPhoneWidth">
-            <LanguageDropDown @click="toggleOpenMenu"/>
+            <LanguageDropDown/>
             <div class="toggleThemeColor">
               <span>{{ $t("header.themeColor.toggle") }}</span>
               <ToggleThemeColor @click="toggleOpenMenu"/>
