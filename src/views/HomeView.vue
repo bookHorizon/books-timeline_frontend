@@ -9,7 +9,7 @@ import API from '@/api/index.js'
 import { useI18n } from 'vue-i18n'
 const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
-const { isPhoneWidth,isDark } = storeToRefs(global);
+const { isPhoneWidth,isDark,elementPlusI18n } = storeToRefs(global);
 const faqs = ref({})
 
 function getThemeImage(darkPath, lightPath) {
@@ -103,12 +103,12 @@ onMounted(async()=>{
   <section id="hero" class="heroSection">
     <h2>{{ $t("home.hero.title") }}</h2>
     <h3>
-      <span>{{ $t("home.hero.subTitle") }}</span>
+      <span :style="{marginRight: elementPlusI18n!=='zh-tw'?'5px':'0px'}">{{ $t("home.hero.subTitle") }}</span>
       <div class="subTitleItem" v-for="n in 3" :class="{active:itemNumber===n}" >
         <!-- <span v-for="n in 3" class="subTitleItem" :class="{active:itemNumber===n}">{{ $t(subTitleItemContent) }}</span> -->
         <span v-show="itemNumber===n">{{ $t(subTitleItemContent) }}</span>
       </div>
-      <span>{{ $t("home.hero.subTitleEnd") }}</span>
+      <span v-show="elementPlusI18n!=='zh-tw'" :style="{marginLeft: elementPlusI18n!=='zh-tw'?'5px':'0px'}">{{ $t("home.hero.subTitleEnd") }}</span>
     </h3>
     <p>{{ $t("home.hero.content") }}</p>
     <el-button class="start_button">
@@ -219,7 +219,6 @@ onMounted(async()=>{
     display: flex;
     align-items:center;
     margin-bottom:32px;
-    gap:3px;
     overflow:hidden;
 
     @include breakpoint($tablet){
