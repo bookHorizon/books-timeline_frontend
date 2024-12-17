@@ -57,20 +57,7 @@ const aboutUsDecorative = getThemeImage(
 )
 
 const itemNumber = ref(1)
-const subTitleItem = computed(()=>`home.hero.subTitleItem${itemNumber.value}`)
-setInterval(()=>{  
-  switch (itemNumber.value){
-    case 1:
-      itemNumber.value = 2;
-      break;
-    case 2:
-      itemNumber.value = 3;
-      break;
-    case 3:
-      itemNumber.value = 1;
-      break;
-    }
-},3000)
+const subTitleItemContent = computed(()=>`home.hero.subTitleItem${itemNumber.value}`)
 
 async function faqsData(locale){
   try{
@@ -91,8 +78,23 @@ watch(locale,async()=>{
   if(locale.value==='en-US'&&!faqs.value.en) await faqsData(locale.value);
 })
 
+
 onMounted(async()=>{
   await faqsData(locale.value)
+  window.setInterval(()=>{  
+  //替換=>走一秒=>停一秒  
+    switch (itemNumber.value){
+      case 1:
+        itemNumber.value = 2;
+        break;
+      case 2:
+        itemNumber.value = 3;
+        break;
+      case 3:
+        itemNumber.value = 1;
+        break;
+    }
+  },2000)
 })
 
 </script>
@@ -102,8 +104,9 @@ onMounted(async()=>{
     <h2>{{ $t("home.hero.title") }}</h2>
     <h3>
       <span>{{ $t("home.hero.subTitle") }}</span>
-      <div class="subTitleItem_container">
-        <span class="subTitleItem">{{ $t(subTitleItem) }}</span>
+      <div class="subTitleItem" v-for="n in 3" :class="{active:itemNumber===n}" >
+        <!-- <span v-for="n in 3" class="subTitleItem" :class="{active:itemNumber===n}">{{ $t(subTitleItemContent) }}</span> -->
+        <span v-show="itemNumber===n">{{ $t(subTitleItemContent) }}</span>
       </div>
       <span>{{ $t("home.hero.subTitleEnd") }}</span>
     </h3>
@@ -214,10 +217,10 @@ onMounted(async()=>{
   >h3{
     @include h5-b;
     display: flex;
-    // justify-content: center;
+    align-items:center;
     margin-bottom:32px;
-    // text-align: initial;
-    // width: 100%;
+    gap:3px;
+    overflow:hidden;
 
     @include breakpoint($tablet){
       @include h2-b;
@@ -227,36 +230,19 @@ onMounted(async()=>{
     }
   }
 
-  // .subTitle{
-    // display: flex;
-    // position: relative;
-    // left: 30%;
-    // max-width:  500px;
-  // }
-
-  .subTitleItem_container{
-    overflow: hidden;
-  }
-
   .subTitleItem{
-    left: -100px;
-    animation-name:moveItem; 
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-duration: 1s;
-    transition: all;
+    display:flex;
+    position: relative;
+    white-space: nowrap;
+    transition: transform .5s ease;
   }
 
-  @keyframes moveItem{
-    0%{
-      // left: -100px;
-      translate: -100px 100px;
-    }
-    100%{
-      // left: 0;
-      translate: 0px 0;
+  .subTitleItem.active{
+    transform: translateY(0); /* 滑入視窗 */
+  }
 
-    }
+  .subTitleItem:not(.active){
+    transform: translateY(100%); /* 滑出視窗 */
   }
 
   >p{
@@ -344,7 +330,7 @@ onMounted(async()=>{
   &_waveSailboat{
     position: absolute;
     width: 67px;
-    top:310px;
+    top:320px;
     right: 10%;
     animation-name: sailboat;
     animation-duration: 3s;
@@ -378,33 +364,34 @@ onMounted(async()=>{
   @keyframes sailboat {
     0%,
     100% {
-      translate: 0 0;
+      translate:0 0;
     }
 
     50%{
-      translate: 0 10px;
+      translate:0 10px;
     }
   }
 
   @keyframes waveBefore {
     0%,
     100%{
-      translate: -50px 0;
+      translate:-50px 0;
     }
 
     50%{
-      translate: 50px 0;
+      translate:0 50px;
     }
   }
 
   @keyframes waveAfter {
     0%,
     100% {
-      translate: 50px 0;
+      translate:50px 0;
+      
     }
 
     50%{
-      translate: -50px 0;
+      translate:-50px 0;
     }
   }
 }
