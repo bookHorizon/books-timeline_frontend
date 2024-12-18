@@ -35,10 +35,11 @@ onBeforeUnmount(()=>{
 <template>
   <el-aside width="256px">
     <div class="scrollbar_container" :style="{paddingBottom:`${signHeight+32}px`}">
+      <div class="iconClose">
+        <IconBasic @click.stop="toggleOpenMenu" name="IconClose" :color="'var(--text-color)'"></IconBasic>
+      </div>
+      
       <el-scrollbar>
-        <div class="iconClose">
-          <IconBasic name="IconClose" @click="toggleOpenMenu" :color="'var(--text-color)'"></IconBasic>
-        </div>
         <div class="menuContent">
           <div class="menuContent_anchorLink">
             <a v-for="link in anchorLinks" :href="link.href" @click="toggleOpenMenu">{{ $t(link.i18n) }}</a>
@@ -50,7 +51,7 @@ onBeforeUnmount(()=>{
               <ToggleThemeColor @click="toggleOpenMenu"/>
             </div>
             <!-- 這邊要改成router -->
-            <a class="loginIn" @click="toggleOpenMenu">{{ $t("header.loginIn.button") }}</a>
+            <a class="loginIn">{{ $t("header.loginIn.button") }}</a>
           </div>
         </div>
       </el-scrollbar>
