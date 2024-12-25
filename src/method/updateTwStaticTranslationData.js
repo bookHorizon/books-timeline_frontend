@@ -7,7 +7,9 @@ const zh_hant = JSON.parse(
   )
 );
 
-const data = {zh_hant:zh_hant}
+const data = {
+  zh_hant:zh_hant
+}
 
 async function updateTranslation(){
   try {
