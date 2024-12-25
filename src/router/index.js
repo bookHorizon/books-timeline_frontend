@@ -8,17 +8,26 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta:{
+        isDefaultLayout:true,
+      }
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/AboutView.vue'),
+      meta:{
+        isDefaultLayout:true,
+      }
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/404.vue'),
+      meta:{
+        isDefaultLayout:false,
+      }
     },
   ]
 })
