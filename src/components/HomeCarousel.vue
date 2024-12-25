@@ -2,10 +2,10 @@
 import { computed, defineProps } from 'vue';
 import IconBasic from './icons/IconBasic.vue';
 import Card from './HomeCard.vue';
-
 import { globalStore } from '@/stores/globalStore';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
+
 import { Pagination, Autoplay,Navigation } from 'swiper/modules';
 const modules = [Autoplay, Pagination,Navigation];
 // Import Swiper styles
@@ -30,57 +30,48 @@ const slideSpace = computed(()=>{
 })
 
 const isShowContainer = computed(()=>global.widthView>=1440)
-
 </script>
 
 <template>
-  <div>
-    <swiper
-      :modules="modules"
-      :space-between="slideSpace"
-      :centeredSlides="true"
-      :slidesPerView= "'auto'"
-      :pagination="isShowContainer"
-      :initialSlide="1"
-      :loop="true" 
-      :loopedSlides="4"
-      :navigation="{
-        nextEl: '.mySwiper .swiper-right-button',
-        prevEl: '.mySwiper .swiper-left-button',
-      }"
-      :autoplay="{
-       delay: 5000,
-       pauseOnMouseEnter:true,
-      }"
-      @swiper="onSwiper"
-      @slideChange="onSlideChange"
-      class="mySwiper"
-    >
-      <swiper-slide v-for="item,index in i18n" :key="item.img">
-        <Card class="card" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="global.isDark?item.darkImg:item.img"></Card>
-      </swiper-slide>
-      <div v-show="global.isDesktopWidth" class="mySwiperSlide">
-        <div class="swiper-left-button">
-          <IconBasic name="IconArrowBack" color="var(--home-carousel-arrow-color)"/>
-        </div>
-        <div class="swiper-right-button">
-          <IconBasic name="IconArrowForward" color="var(--home-carousel-arrow-color)"/>
-        </div>
+  <swiper
+    :modules="modules"
+    :space-between="slideSpace"
+    :centeredSlides="true"
+    :slidesPerView= "'auto'"
+    :pagination="isShowContainer"
+    :initialSlide="0"
+    :loop="true" 
+    :loopedSlides="true"
+    :observer="true"
+    :navigation="{
+      nextEl: '.mySwiper .swiper-right-button',
+      prevEl: '.mySwiper .swiper-left-button',
+    }"
+    :autoplay="{
+      delay: 3000,
+      pauseOnMouseEnter:true,
+    }"
+    @swiper="onSwiper"
+    @slideChange="onSlideChange"
+    class="mySwiper"
+  >
+    <swiper-slide v-for="item,index in i18n" :key="item.img">
+      <Card class="card" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="global.isDark?item.darkImg:item.img"></Card>
+    </swiper-slide>
+    <div v-show="global.isDesktopWidth" class="mySwiperSlide">
+      <div class="swiper-left-button">
+        <IconBasic name="IconArrowBack" color="var(--home-carousel-arrow-color)"/>
       </div>
-    </swiper>
-
-  </div>
+      <div class="swiper-right-button">
+        <IconBasic name="IconArrowForward" color="var(--home-carousel-arrow-color)"/>
+      </div>
+    </div>
+  </swiper>
 </template>
 
 <style lang="scss">
 @use '@/assets/style/font.scss' as *;
 @use '@/assets/style/breakpoint.scss' as *;
-
-.cardButtons{
-  position: absolute;
-  top:100%;
-  z-index: 10;
-}
 
 .mySwiper{  
   padding-bottom: 10px;
@@ -93,6 +84,10 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     height: fit-content;
     @include breakpoint($tablet){
       .card{
+        // transform:scaleX(0.85);
+        // transition-property:all;
+        // transform-origin:bottom;
+        // transition-duration:3s;
         width: 513px;
         opacity: var(--home-carousel-card-opacity);
         background: var(--home-carousel-card-backgroundColor);
@@ -115,6 +110,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 
     @include breakpoint($desktop){
       .card{
+        // transform:scaleX(1);
         width: 547px;
       }
       .card_img{
@@ -140,6 +136,8 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     @include breakpoint($tablet){
       .card{
         width: 552px;
+        // transform:scaleX(1);
+
         opacity: 100%;
         background:var(--home-carousel-card-active-backgroundColor);
         backdrop-filter: blur(30px);
@@ -163,6 +161,7 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 
     @include breakpoint($desktop){
       .card{
+        // transform:scale(1.1);
         width:  652px;
       }
 

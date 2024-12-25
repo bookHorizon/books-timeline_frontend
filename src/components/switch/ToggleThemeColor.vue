@@ -7,7 +7,7 @@ import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 const global = globalStore()
 const { isDark } = storeToRefs(global)
-const { toggleThemeColor } = global
+const { toggleThemeColor } = global;
 
 onBeforeMount(()=>{
   const themeMode = localStorage.getItem('themeMode')
