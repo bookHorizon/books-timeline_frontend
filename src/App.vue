@@ -22,23 +22,26 @@ const locale = computed(()=>elementPlusI18n.value === 'zh-tw' ? zhTw:en)
   <el-config-provider :locale="locale">
     <el-container class="container">
       <el-container class="mainContent" direction="vertical">
-          <Header></Header>
-            <Main></Main>
-          <Footer></Footer>
+        <Header></Header>
+        <Main></Main>
+        <Footer></Footer>
       </el-container>
-      <div v-show="isOpenMenu" class="mask" @click="toggleOpenMenu"></div>
-      <Aside v-show="isOpenMenu"></Aside>
+      <el-container v-show="isOpenMenu" class="mask" @click="toggleOpenMenu">
+        <Aside v-show="isOpenMenu"></Aside>
+      </el-container>
     </el-container>
   </el-config-provider>
 </template>
 
 <style scoped>
 .mask{
-  width: 100%;
   height: 100vh;
   position: fixed;
-  z-index: 20;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index: 1000;
   background-color: var(--menu-mask-backgroundColor);
 }
-
 </style>
