@@ -77,6 +77,8 @@ $success-800:#0e5735;
 
   --menu-mask-backgroundColor:#5E5E5E80;
 
+  --404-backgroundColor:#CEECFF;
+  --404-color:#003853;
 }
 
 .dark{
@@ -127,6 +129,8 @@ $success-800:#0e5735;
 
   --menu-mask-backgroundColor:#616161B2;
 
+  --404-backgroundColor:#163D55;
+  --404-color:#B0E0FFCC;
 }
 
 @media (prefers-color-scheme: dark){
@@ -178,6 +182,8 @@ $success-800:#0e5735;
     --button-primary-color:#0a4268CC;
 
     --menu-mask-backgroundColor:#616161B2;
-
+    
+    --404-backgroundColor:#163D55;
+    --404-color:#B0E0FFCC;
   } 
 } 
