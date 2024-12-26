@@ -2,23 +2,12 @@
 import IconBasic from '@/components/icons/IconBasic.vue';
 import SVGIconSunny from '@/components/icons/SVGIconSunny.vue';
 import SVGIconNight from '@/components/icons/SVGIconNight.vue';
-import { onBeforeMount, } from 'vue';
+// import { onBeforeMount } from 'vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 const global = globalStore()
 const { isDark } = storeToRefs(global)
 const { toggleThemeColor } = global;
-
-onBeforeMount(()=>{
-  const themeMode = localStorage.getItem('themeMode')
-  if(themeMode==='dark') {
-    isDark.value = true;
-  } else {
-    isDark.value = false;
-  }
-
-  toggleThemeColor();
-})
 </script>
 
 <template>
