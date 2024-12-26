@@ -9,17 +9,31 @@ import en from 'element-plus/dist/locale/en.mjs'
 
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import { computed,onBeforeMount } from 'vue';
+
+import { RouterView, useRoute } from 'vue-router';
 
 const global = globalStore();
-const { isOpenMenu,elementPlusI18n } = storeToRefs(global)
-const { toggleOpenMenu } = global;
+const { isOpenMenu,elementPlusI18n,isDark } = storeToRefs(global)
+const { toggleOpenMenu,toggleThemeColor } = global;
 
 const locale = computed(()=>elementPlusI18n.value === 'zh-tw' ? zhTw:en)
+const route = useRoute();
+
+onBeforeMount(()=>{
+  const themeMode = localStorage.getItem('themeMode')
+  if(themeMode==='dark') {
+    isDark.value = true;
+  } else {
+    isDark.value = false;
+  }
+
+  toggleThemeColor();
+})
 </script>
 
 <template>
-  <el-config-provider :locale="locale">
+  <el-config-provider :locale="locale" v-if="route.meta.isDefaultLayout">
     <el-container class="container">
       <el-container class="mainContent" direction="vertical">
         <Header></Header>
@@ -31,6 +45,7 @@ const locale = computed(()=>elementPlusI18n.value === 'zh-tw' ? zhTw:en)
       </el-container>
     </el-container>
   </el-config-provider>
+  <RouterView v-else/>
 </template>
 
 <style scoped>
