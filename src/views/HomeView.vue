@@ -133,7 +133,7 @@ onMounted(async()=>{
       <p class="function_introduction_text">{{ $t("home.function.introduction") }}</p>
     </div>
     <div class="function_cards" v-show="isPhoneWidth">
-      <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
+      <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(article.title)" :content="$t(article.content)" :img="isDark?article.darkImg:article.img">
       </Card>
     </div>
     <Carousel v-show="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel>
@@ -378,7 +378,7 @@ onMounted(async()=>{
     }
 
     50%{
-      translate:0 50px;
+      translate:50px 0;
     }
   }
 
