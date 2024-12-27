@@ -42,7 +42,6 @@ const notFoundImg = getThemeImage(
   align-items:center;
   flex-direction:column;
   padding:56px 12px 0;
-  height:100vh;
   background-color:var(--404-backgroundColor);
   color:var(--404-color);
 
@@ -51,6 +50,7 @@ const notFoundImg = getThemeImage(
     justify-content:center;
     gap:24px;
     padding:47px 0 47px 60px;
+    height:100vh;
   }
 
   @include breakpoint($desktop){
