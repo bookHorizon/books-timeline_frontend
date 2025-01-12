@@ -143,8 +143,8 @@ onMounted(async()=>{
     </div>
     <!-- <Splide/> -->
      <!-- <Test></Test> -->
-    <TestCarousel v-else :i18n="cardArticleI18n"></TestCarousel>
-    <!-- <Carousel v-show="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel> -->
+    <!-- <TestCarousel v-else :i18n="cardArticleI18n"></TestCarousel> -->
+    <Carousel v-if="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel>
   </section>
   <section class="aboutUs" id="aboutUs">
     <div class="aboutUs_sailboatImg">
