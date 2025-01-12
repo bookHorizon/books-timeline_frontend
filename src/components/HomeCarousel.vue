@@ -6,64 +6,52 @@ import { globalStore } from '@/stores/globalStore';
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 
-import { Pagination, Autoplay,Navigation } from 'swiper/modules';
-const modules = [Autoplay, Pagination,Navigation];
+import { Pagination, Autoplay, Navigation } from 'swiper/modules';
+const modules = [Autoplay, Pagination, Navigation];
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 defineProps({
-  i18n:{
-    type:Object,
-    default:{}
+  i18n: {
+    type: Object,
+    default: {}
   }
 })
 
 const global = globalStore();
-const slideSpace = computed(()=>{
-  if (global.widthView>767&&global.widthView<1440){
+const slideSpace = computed(() => {
+  if (global.widthView > 767 && global.widthView < 1440) {
     return 24
-  } else if (global.widthView>=1440){
+  } else if (global.widthView >= 1440) {
     return 64
   }
 })
 
-const isShowContainer = computed(()=>global.widthView>=1440)
+const isShowContainer = computed(() => global.widthView >= 1440)
 </script>
 
 <template>
-  <swiper
-    :modules="modules"
-    :space-between="slideSpace"
-    :centeredSlides="true"
-    :slidesPerView= "'auto'"
-    :pagination="isShowContainer"
-    :initialSlide="0"
-    :loop="true" 
-    :loopedSlides="true"
-    :observer="true"
+  <swiper :modules="modules" :space-between="slideSpace" :centeredSlides="true" :slidesPerView="'auto'"
+    :pagination="isShowContainer" :initialSlide="0" :loop="true" :loopAdditionalSlides="10" :observer="true"
     :navigation="{
       nextEl: '.mySwiper .swiper-right-button',
       prevEl: '.mySwiper .swiper-left-button',
-    }"
-    :autoplay="{
+    }" :autoplay="{
       delay: 3000,
-      pauseOnMouseEnter:true,
-    }"
-    @swiper="onSwiper"
-    @slideChange="onSlideChange"
-    class="mySwiper"
-  >
-    <swiper-slide v-for="item,index in i18n" :key="item.img">
-      <Card class="card" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="global.isDark?item.darkImg:item.img"></Card>
+      pauseOnMouseEnter: true,
+    }" @swiperslidechange="onSlideChange" class="mySwiper">
+    <swiper-slide v-for="item, index in i18n" :key="item.img">
+      <Card class="card" :title="$t(item.title)" :content="$t(item.content)" :img="global.isDark ? item.darkImg : item.img">
+      </Card>
     </swiper-slide>
     <div v-show="global.isDesktopWidth" class="mySwiperSlide">
       <div class="swiper-left-button">
-        <IconBasic name="IconArrowBack" color="var(--home-carousel-arrow-color)"/>
+        <IconBasic name="IconArrowBack" color="var(--home-carousel-arrow-color)" />
       </div>
       <div class="swiper-right-button">
-        <IconBasic name="IconArrowForward" color="var(--home-carousel-arrow-color)"/>
+        <IconBasic name="IconArrowForward" color="var(--home-carousel-arrow-color)" />
       </div>
     </div>
   </swiper>
@@ -73,17 +61,19 @@ const isShowContainer = computed(()=>global.widthView>=1440)
 @use '@/assets/style/font.scss' as *;
 @use '@/assets/style/breakpoint.scss' as *;
 
-.mySwiper{  
+.mySwiper {
   padding-bottom: 10px;
-  .swiper-wrapper{
+
+  .swiper-wrapper {
     align-items: flex-end;
   }
-  
-  .swiper-slide{
+
+  .swiper-slide {
     width: fit-content;
     height: fit-content;
-    @include breakpoint($tablet){
-      .card{
+
+    @include breakpoint($tablet) {
+      .card {
         // transform:scaleX(0.85);
         // transition-property:all;
         // transform-origin:bottom;
@@ -93,105 +83,108 @@ const isShowContainer = computed(()=>global.widthView>=1440)
         background: var(--home-carousel-card-backgroundColor);
         box-shadow: none;
       }
-      .card_img{
+
+      .card_img {
         width: 213px;
-        height:213px;
-        box-shadow:none;
+        height: 213px;
+        box-shadow: none;
       }
 
-      .card_title{
+      .card_title {
         @include h4-b;
       }
 
-      .card_text{
+      .card_text {
         @include h5;
       }
     }
 
-    @include breakpoint($desktop){
-      .card{
+    @include breakpoint($desktop) {
+      .card {
         // transform:scaleX(1);
         width: 547px;
       }
-      .card_img{
+
+      .card_img {
         width: 226px;
-        height:226px;
+        height: 226px;
       }
 
-      .card_article{
+      .card_article {
         padding: 24px;
       }
 
-      .card_title{
+      .card_title {
         @include h2-b;
       }
 
-      .card_text{
+      .card_text {
         @include h4;
       }
     }
   }
 
-  .swiper-slide-active.swiper-slide {    
-    @include breakpoint($tablet){
-      .card{
+  .swiper-slide-active.swiper-slide {
+    @include breakpoint($tablet) {
+      .card {
         width: 552px;
         // transform:scaleX(1);
 
         opacity: 100%;
-        background:var(--home-carousel-card-active-backgroundColor);
+        background: var(--home-carousel-card-active-backgroundColor);
         backdrop-filter: blur(30px);
-        box-shadow:var(--home-carousel-card-shadow-color);
+        box-shadow: var(--home-carousel-card-shadow-color);
       }
 
-      .card_img{
+      .card_img {
         width: 252px;
         height: 252px;
       }
 
-      .card_title{
+      .card_title {
         @include h3-b;
         margin-bottom: 24px;
       }
 
-      .card_text{
+      .card_text {
         @include h4;
       }
     }
 
-    @include breakpoint($desktop){
-      .card{
+    @include breakpoint($desktop) {
+      .card {
         // transform:scale(1.1);
-        width:  652px;
+        width: 652px;
       }
 
-      .card_img{
+      .card_img {
         width: 306px;
         height: 306px;
       }
 
-      .card_article{
+      .card_article {
         padding: 64px 24px;
       }
 
-      .card_title{
+      .card_title {
         @include h2-b;
       }
 
-      .card_text{
+      .card_text {
         text-align: initial;
       }
     }
   }
-  
-  .mySwiperSlide{
+
+  .mySwiperSlide {
     display: flex;
     justify-content: center;
-    gap:168px;
-    margin-top:48px;
+    gap: 168px;
+    margin-top: 48px;
   }
 
-  .swiper-right-button,.swiper-left-button{
+  .swiper-right-button,
+  .swiper-left-button {
     width: 32px;
     height: 32px;
     display: flex;
@@ -201,36 +194,36 @@ const isShowContainer = computed(()=>global.widthView>=1440)
     border-radius: 50%;
     cursor: pointer;
 
-    &:hover{
+    &:hover {
       background-color: var(--home-carousel-arrow-hover-backgroundColor);
     }
 
-    &>svg:hover{
-      fill:var(--home-carousel-arrow-hover-color);
+    &>svg:hover {
+      fill: var(--home-carousel-arrow-hover-color);
     }
   }
 
-  .swiper-pagination{
+  .swiper-pagination {
     text-align: center;
-    pointer-events:none;
+    pointer-events: none;
 
-    .swiper-pagination-bullet:not(:last-child){
+    .swiper-pagination-bullet:not(:last-child) {
       margin: 0 24px 0 0;
     }
 
-    .swiper-pagination-bullet{
+    .swiper-pagination-bullet {
       background: var(--home-carousel-bullet-color);
       opacity: 100%;
     }
 
-    .swiper-pagination-bullet.swiper-pagination-bullet-active{
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
       background: var(--home-carousel-bullet-active-color);
     }
   }
 
-  .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
-    bottom:15px;
+  .swiper-horizontal>.swiper-pagination-bullets,
+  .swiper-pagination-bullets.swiper-pagination-horizontal {
+    bottom: 15px;
   }
 }
-
 </style>
