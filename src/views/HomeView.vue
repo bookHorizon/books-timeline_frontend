@@ -137,13 +137,8 @@ onMounted(async()=>{
       <h3 class="function_introduction_title">{{ $t("home.function.categoryTitle") }}</h3>
       <p class="function_introduction_text">{{ $t("home.function.introduction") }}</p>
     </div>
-<<<<<<< Updated upstream
-    <div class="function_cards" v-show="isPhoneWidth">
-      <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(article.title)" :content="$t(article.content)" :img="isDark?article.darkImg:article.img">
-=======
     <div class="function_cards" v-if="isPhoneWidth">
       <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
->>>>>>> Stashed changes
       </Card>
     </div>
     <!-- <Splide/> -->
