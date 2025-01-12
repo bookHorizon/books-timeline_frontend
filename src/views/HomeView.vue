@@ -4,6 +4,11 @@ import Card from '@/components/HomeCard.vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 import Carousel from '@/components/HomeCarousel.vue';
+import TestCarousel from '@/components/TestCarousel.vue';
+import Splide from '@/components/Splide.vue';
+import Test from '@/components/Test.vue';
+
+
 import cardArticleI18n from '@/config/homeFunctionCard.js'
 import API from '@/api/index.js'
 import { useI18n } from 'vue-i18n'
@@ -132,11 +137,19 @@ onMounted(async()=>{
       <h3 class="function_introduction_title">{{ $t("home.function.categoryTitle") }}</h3>
       <p class="function_introduction_text">{{ $t("home.function.introduction") }}</p>
     </div>
+<<<<<<< Updated upstream
     <div class="function_cards" v-show="isPhoneWidth">
       <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(article.title)" :content="$t(article.content)" :img="isDark?article.darkImg:article.img">
+=======
+    <div class="function_cards" v-if="isPhoneWidth">
+      <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
+>>>>>>> Stashed changes
       </Card>
     </div>
-    <Carousel v-show="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel>
+    <!-- <Splide/> -->
+     <!-- <Test></Test> -->
+    <TestCarousel v-else :i18n="cardArticleI18n"></TestCarousel>
+    <!-- <Carousel v-show="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel> -->
   </section>
   <section class="aboutUs" id="aboutUs">
     <div class="aboutUs_sailboatImg">

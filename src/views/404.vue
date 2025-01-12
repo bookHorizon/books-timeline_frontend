@@ -1,9 +1,26 @@
 <script setup>
-import { computed,onMounted } from 'vue';
+import { ref,computed,onMounted,onBeforeUnmount} from 'vue';
 import { storeToRefs } from 'pinia';
 import { globalStore } from '@/stores/globalStore';
+import { useRouter } from 'vue-router';
 const global = globalStore();
 const { isDark } = storeToRefs(global);
+const router = useRouter();
+const isLastDotVisible = ref('inline')
+
+const dotAnimation = setInterval(()=>{
+  if (isLastDotVisible.value==='inline') {
+    isLastDotVisible.value = 'none';
+    return;
+  } else {
+    isLastDotVisible.value = 'inline';
+  }
+},500)
+
+const backHomePage = setTimeout(()=>{
+  router.push('/');
+  router.go(1);
+},3000)
 
 function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
@@ -13,6 +30,11 @@ const notFoundImg = getThemeImage(
   new URL('@/assets/img/404/404_dark_pc.png', import.meta.url).href, 
   new URL('@/assets/img/404/404_light_pc.png', import.meta.url).href
 )
+
+onBeforeUnmount(()=>{
+  clearInterval(dotAnimation)
+  clearTimeout(backHomePage)
+})
 
 </script>
 
@@ -25,7 +47,7 @@ const notFoundImg = getThemeImage(
         <span>4</span>
       </p>
       <span class="notFound_text--notFound">Page Not Found</span>
-      <span class="notFound_text--redirect">{{$t('404.title')}}</span>
+      <p class="notFound_text--redirect">{{$t('404.title')}}<span>.</span><span>.</span><span :style="{display:isLastDotVisible}">.</span></p>
     </div>
     <div>
       <img :src="notFoundImg">

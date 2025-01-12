@@ -15,10 +15,11 @@
     "updateTw": "node ./src/method/updateTwStaticTranslationData.js"
   },
   "dependencies": {
+    "@splidejs/vue-splide": "^0.6.12",
     "axios": "^1.7.7",
     "element-plus": "^2.8.7",
     "pinia": "^2.1.7",
-    "swiper": "^11.1.14",
+    "swiper": "^11.1.15",
     "vue": "^3.4.29",
     "vue-i18n": "^10.0.0",
     "vue-router": "^4.3.3"

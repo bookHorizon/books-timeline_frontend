@@ -1,4 +1,8 @@
 {
+<<<<<<< Updated upstream
+=======
+    "404.title": "It will redirect to the homepage",
+>>>>>>> Stashed changes
     "footer.links.contactUs": "Contact Us",
     "footer.links.fAQ": "FAQ",
     "footer.links.termsOfService": "Terms of Service",
