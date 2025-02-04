@@ -48,13 +48,22 @@ export default defineComponent({
     const options = ref({
       autoplay:true,
       type: 'loop',
-      gap: global.isDesktopWidth ? 64 : 24,
-      fixedWidth: global.isDesktopWidth ? 652 : 552,
       drag: true,
       arrows: false,
       perPage: 3,
       focus: 'center',
       updateOnMove: true,
+      mediaQuery: 'min',
+      breakpoints: {
+        768:{
+          gap: 24,
+          fixedWidth: 552,
+        },
+        1440: {
+          gap: 64,
+          fixedWidth: 652,
+        },
+      }
     });
     const slideData = ref(JSON.parse(JSON.stringify(cardArticleI18n)))
     return { options, slideData, global };
