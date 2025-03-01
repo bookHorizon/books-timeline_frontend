@@ -8,6 +8,9 @@ import Splide from '@/components/splide/Splide.vue';
 import cardArticleI18n from '@/config/homeFunctionCard.js'
 import API from '@/api/index.js'
 import { useI18n } from 'vue-i18n'
+
+import { pageview } from 'vue-gtag';
+pageview({ page_path: '/' })
 const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
 const { isPhoneWidth,isDark,elementPlusI18n } = storeToRefs(global);
