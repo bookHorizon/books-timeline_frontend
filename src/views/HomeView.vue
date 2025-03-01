@@ -3,11 +3,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import Card from '@/components/HomeCard.vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-import Carousel from '@/components/HomeCarousel.vue';
-import TestCarousel from '@/components/TestCarousel.vue';
 import Splide from '@/components/Splide.vue';
-import Test from '@/components/Test.vue';
-
 
 import cardArticleI18n from '@/config/homeFunctionCard.js'
 import API from '@/api/index.js'
@@ -141,10 +137,7 @@ onMounted(async()=>{
       <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
       </Card>
     </div>
-    <Splide v-else/>
-     <!-- <Test></Test> -->
-    <!-- <TestCarousel v-else :i18n="cardArticleI18n"></TestCarousel> -->
-    <!-- <Carousel v-if="!isPhoneWidth" :i18n="cardArticleI18n"></Carousel> -->
+    <Splide/>
   </section>
   <section class="aboutUs" id="aboutUs">
     <div class="aboutUs_sailboatImg">
@@ -182,7 +175,7 @@ onMounted(async()=>{
   <section id="faq" class="faq">
     <div class="faq_container">
       <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
-      <el-collapse class="faq_collapse">
+      <el-collapse @change="handleChange" class="faq_collapse">
         <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
           <div class="el-collapse-item__text">
             <span>A：</span>
