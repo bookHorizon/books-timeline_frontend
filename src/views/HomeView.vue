@@ -3,7 +3,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import Card from '@/components/HomeCard.vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-import Splide from '@/components/Splide.vue';
+import Splide from '@/components/splide/Splide.vue';
 
 import cardArticleI18n from '@/config/homeFunctionCard.js'
 import API from '@/api/index.js'
