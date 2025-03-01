@@ -5,7 +5,6 @@ import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import { defineComponent } from 'vue';
 import cardArticleI18n from '@/config/homeFunctionCard.js'
 import { globalStore } from '@/stores/globalStore';
-import IconBasic from './icons/IconBasic.vue';
 
 export default defineComponent({
   data() {
