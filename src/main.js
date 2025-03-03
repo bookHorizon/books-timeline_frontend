@@ -23,5 +23,5 @@ app.use(createPinia())
         config:{
             id:"G-TB42RCM7R1"
         }
-    },router)
+    })
     .mount('#app')
