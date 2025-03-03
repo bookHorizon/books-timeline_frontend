@@ -1,12 +1,6 @@
-<script setup>
-console.log("ga");
-console.log("ga");
-console.log("ga");
-
-</script>
-
 <template>
   <h1>BOOK HORIZON</h1>
+  <h2>TEST ver</h2>
 </template>
 <style lang="scss">
 
