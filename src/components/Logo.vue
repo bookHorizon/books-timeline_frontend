@@ -1,7 +1,10 @@
-<template>
-  <!-- <h1>BOOK HORIZON</h1> -->
-  <h1>BOOK HORIZON TEST</h1>
+<script setup>
+console.log("ga");
 
+</script>
+
+<template>
+  <h1>BOOK HORIZON</h1>
 </template>
 <style lang="scss">
 
