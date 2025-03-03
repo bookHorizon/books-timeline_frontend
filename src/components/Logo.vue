@@ -1,5 +1,7 @@
 <template>
-  <h1>BOOK HORIZON</h1>
+  <!-- <h1>BOOK HORIZON</h1> -->
+  <h1>BOOK HORIZON TEST</h1>
+
 </template>
 <style lang="scss">
 
