@@ -1,5 +1,7 @@
 <script setup>
 console.log("ga");
+console.log("ga");
+console.log("ga");
 
 </script>
 
