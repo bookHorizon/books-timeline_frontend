@@ -1,4 +1,4 @@
-name: Build Image & Push to Docker Hub & Deploy to Kubernetes on Vultr
+name: Build Image & Deploy to Kubernetes stg
 
 on:
   push:
