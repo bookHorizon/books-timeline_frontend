@@ -9,8 +9,13 @@ import cardArticleI18n from '@/config/homeFunctionCard.js'
 import API from '@/api/index.js'
 import { useI18n } from 'vue-i18n'
 
-import { pageview } from 'vue-gtag';
-pageview({ page_path: '/' })
+import { time } from 'vue-gtag';
+time({
+  'name' : 'load',
+  'value' : 3549,
+  'event_category' : 'JS Dependencies'
+})
+
 const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
 const { isPhoneWidth,isDark,elementPlusI18n } = storeToRefs(global);
@@ -178,7 +183,7 @@ onMounted(async()=>{
   <section id="faq" class="faq">
     <div class="faq_container">
       <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
-      <el-collapse @change="handleChange" class="faq_collapse">
+      <el-collapse class="faq_collapse">
         <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
           <div class="el-collapse-item__text">
             <span>A：</span>

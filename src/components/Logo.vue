@@ -1,6 +1,5 @@
 <template>
   <h1>BOOK HORIZON</h1>
-  <h2>TEST ver</h2>
 </template>
 <style lang="scss">
 
