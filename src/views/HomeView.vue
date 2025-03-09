@@ -10,7 +10,7 @@ import API from '@/api/index.js'
 import { useI18n } from 'vue-i18n'
 
 import { event } from 'vue-gtag';
-event({
+event('get-home-data',{
   'name' : 'get-home-data',
   'value' : 3549,
 })
