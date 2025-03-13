@@ -8,6 +8,13 @@ import Splide from '@/components/splide/Splide.vue';
 import cardArticleI18n from '@/config/homeFunctionCard.js'
 import API from '@/api/index.js'
 import { useI18n } from 'vue-i18n'
+
+import { event } from 'vue-gtag';
+event('get-home-data',{
+  'name' : 'get-home-data',
+  'value' : 3549,
+})
+
 const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
 const { isPhoneWidth,isDark,elementPlusI18n } = storeToRefs(global);
@@ -60,133 +67,157 @@ const aboutUsDecorative = getThemeImage(
 const itemNumber = ref(1)
 const subTitleItemContent = computed(()=>`home.hero.subTitleItem${itemNumber.value}`)
 
-async function faqsData(locale){
-  try{
-    if (locale==='zh-TW'){
-      const result = await API.faqsGET("zh-hant")
-      faqs.value.zhTw = result.data
-    } else {
-      const result  = await API.faqsGET("en")
-      faqs.value.en = result.data
-    }    
-  } catch (error){
-    console.log(error);  
-  }
+// async function faqsData(locale){
+//   try{
+//     if (locale==='zh-TW'){
+//       const result = await API.faqsGET("zh-hant")
+//       faqs.value.zhTw = result.data
+//     } else {
+//       const result  = await API.faqsGET("en")
+//       faqs.value.en = result.data
+//     }    
+//   } catch (error){
+//     console.log(error);  
+//   }
+// }
+
+// watch(locale,async()=>{  
+//   if(locale.value==='zh-TW'&&!faqs.value.zhTw) await faqsData(locale.value);
+//   if(locale.value==='en-US'&&!faqs.value.en) await faqsData(locale.value);
+// })
+
+
+// onMounted(async()=>{
+//   await faqsData(locale.value)
+//   window.setInterval(()=>{  
+//   //替換=>走一秒=>停一秒  
+//     switch (itemNumber.value){
+//       case 1:
+//         itemNumber.value = 2;
+//         break;
+//       case 2:
+//         itemNumber.value = 3;
+//         break;
+//       case 3:
+//         itemNumber.value = 1;
+//         break;
+//     }
+//   },2000)
+// })
+
+const seaAnimation = ref(null);
+const hero = ref(null);
+const functionSection = ref(null);
+const aboutUs = ref(null);
+const faq = ref(null);
+const intersectionObserver = ()=>{
+  
+  const callback = (entries, observer) => {    
+    entries.forEach((entry) => {
+      console.log(entry.target);
+    });
+  };
+
+  const observer = new IntersectionObserver(callback);  
+
+  [seaAnimation.value,hero.value,functionSection.value,aboutUs.value,faq.value].forEach((section)=>observer.observe(section));
 }
 
-watch(locale,async()=>{  
-  if(locale.value==='zh-TW'&&!faqs.value.zhTw) await faqsData(locale.value);
-  if(locale.value==='en-US'&&!faqs.value.en) await faqsData(locale.value);
-})
-
-
-onMounted(async()=>{
-  await faqsData(locale.value)
-  window.setInterval(()=>{  
-  //替換=>走一秒=>停一秒  
-    switch (itemNumber.value){
-      case 1:
-        itemNumber.value = 2;
-        break;
-      case 2:
-        itemNumber.value = 3;
-        break;
-      case 3:
-        itemNumber.value = 1;
-        break;
-    }
-  },2000)
+onMounted(()=>{
+    intersectionObserver();
 })
 
 </script>
 
 <template>
-  <section id="hero" class="heroSection">
-    <h2>{{ $t("home.hero.title") }}</h2>
-    <h3>
-      <span :style="{marginRight: elementPlusI18n!=='zh-tw'?'5px':'0px'}">{{ $t("home.hero.subTitle") }}</span>
-      <div class="subTitleItem" v-for="n in 3" :class="{active:itemNumber===n}" >
-        <!-- <span v-for="n in 3" class="subTitleItem" :class="{active:itemNumber===n}">{{ $t(subTitleItemContent) }}</span> -->
-        <span v-show="itemNumber===n">{{ $t(subTitleItemContent) }}</span>
+  <div>
+    <section id="hero" class="heroSection" ref="hero">
+      <h2>{{ $t("home.hero.title") }}</h2>
+      <h3>
+        <span :style="{marginRight: elementPlusI18n!=='zh-tw'?'5px':'0px'}">{{ $t("home.hero.subTitle") }}</span>
+        <div class="subTitleItem" v-for="n in 3" :class="{active:itemNumber===n}" >
+          <!-- <span v-for="n in 3" class="subTitleItem" :class="{active:itemNumber===n}">{{ $t(subTitleItemContent) }}</span> -->
+          <span v-show="itemNumber===n">{{ $t(subTitleItemContent) }}</span>
+        </div>
+        <span v-show="elementPlusI18n!=='zh-tw'" :style="{marginLeft: elementPlusI18n!=='zh-tw'?'5px':'0px'}">{{ $t("home.hero.subTitleEnd") }}</span>
+      </h3>
+      <p>{{ $t("home.hero.content") }}</p>
+      <el-button class="start_button">
+        {{ $t("home.hero.button") }}
+      </el-button>
+      <div class="heroSection_towerImg">
+        <img v-show="isDark" :src="darkTower" loading="lazy"/>
       </div>
-      <span v-show="elementPlusI18n!=='zh-tw'" :style="{marginLeft: elementPlusI18n!=='zh-tw'?'5px':'0px'}">{{ $t("home.hero.subTitleEnd") }}</span>
-    </h3>
-    <p>{{ $t("home.hero.content") }}</p>
-    <el-button class="start_button">
-      {{ $t("home.hero.button") }}
-    </el-button>
-    <div class="heroSection_towerImg">
-      <img v-show="isDark" :src="darkTower" loading="lazy"/>
+    </section>
+    <div class="seaAnimation_waveSailboat">
+      <img loading="lazy" :src="waveSailboat">
     </div>
-  </section>
-  <div class="seaAnimation_waveSailboat">
-    <img loading="lazy" :src="waveSailboat">
-  </div>
-  <div class="seaAnimation">
-    <div class="seaAnimation_container">
-      <div class="seaAnimation_waveAfter wave"></div>
-      <div class="seaAnimation_waveBefore wave"></div>
+    <div class="seaAnimation" ref="seaAnimation">
+      <div class="seaAnimation_container">
+        <div class="seaAnimation_waveAfter wave"></div>
+        <div class="seaAnimation_waveBefore wave"></div>
+      </div>
     </div>
-  </div>
-  <section id="function" class="function">
-    <div class="function_introduction">
-      <h3 class="function_introduction_title">{{ $t("home.function.categoryTitle") }}</h3>
-      <p class="function_introduction_text">{{ $t("home.function.introduction") }}</p>
-    </div>
-    <div class="function_cards" v-if="isPhoneWidth">
-      <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
-      </Card>
-    </div>
-    <Splide/>
-  </section>
-  <section class="aboutUs" id="aboutUs">
-    <div class="aboutUs_sailboatImg">
-      <img :src="sailboat"/>
-    </div>
-    <div class="aboutUs_phone" v-show="isPhoneWidth">
-      <div class="aboutUs_introduction">
-        <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
-        <div class="aboutUs_introduction_text">
-          <el-scrollbar max-height="120px">
+    <section id="function" class="function" ref="functionSection">
+      <div class="function_introduction">
+        <h3 class="function_introduction_title">{{ $t("home.function.categoryTitle") }}</h3>
+        <p class="function_introduction_text">{{ $t("home.function.introduction") }}</p>
+      </div>
+      <div class="function_cards" v-if="isPhoneWidth">
+        <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
+        </Card>
+      </div>
+      <Splide/>
+    </section>
+    <section class="aboutUs" id="aboutUs" ref="aboutUs">
+      <div class="aboutUs_sailboatImg">
+        <img :src="sailboat"/>
+      </div>
+      <div class="aboutUs_phone" v-show="isPhoneWidth">
+        <div class="aboutUs_introduction">
+          <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
+          <div class="aboutUs_introduction_text">
+            <el-scrollbar max-height="120px">
+              <p> 
+                {{ $t("home.aboutUs.content1")  }}
+              </p>
+              <p>
+                {{ $t("home.aboutUs.content2")  }}
+              </p>
+            </el-scrollbar>
+          </div>
+        </div>
+      </div>
+      <div class="aboutUs_tablet" v-show="!isPhoneWidth">
+        <div class="aboutUs_introduction">
+          <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
+          <div class="aboutUs_introduction_text">
             <p> 
               {{ $t("home.aboutUs.content1")  }}
             </p>
             <p>
               {{ $t("home.aboutUs.content2")  }}
             </p>
-          </el-scrollbar>
-        </div>
-      </div>
-    </div>
-    <div class="aboutUs_tablet" v-show="!isPhoneWidth">
-      <div class="aboutUs_introduction">
-        <h3 class="aboutUs_introduction_title">{{ $t("home.aboutUs.title") }}</h3>
-        <div class="aboutUs_introduction_text">
-          <p> 
-            {{ $t("home.aboutUs.content1")  }}
-          </p>
-          <p>
-            {{ $t("home.aboutUs.content2")  }}
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section id="faq" class="faq">
-    <div class="faq_container">
-      <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
-      <el-collapse @change="handleChange" class="faq_collapse">
-        <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
-          <div class="el-collapse-item__text">
-            <span>A：</span>
-            <p>
-             {{ q.answer }}
-            </p>
           </div>
-        </el-collapse-item>
-      </el-collapse>
-    </div>
-  </section>
+        </div>
+      </div>
+    </section>
+    <section id="faq" class="faq" ref="faq">
+      <div class="faq_container">
+        <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
+        <el-collapse class="faq_collapse">
+          <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
+            <div class="el-collapse-item__text">
+              <span>A：</span>
+              <p>
+               {{ q.answer }}
+              </p>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+    </section>
+  </div>
 </template>
 
 <style lang="scss" scoped>
