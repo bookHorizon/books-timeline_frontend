@@ -15,6 +15,7 @@
     "updateTw": "node ./src/method/updateTwStaticTranslationData.js"
   },
   "dependencies": {
+    "@gtm-support/vue-gtm": "^3.1.0",
     "@splidejs/vue-splide": "^0.6.12",
     "axios": "^1.7.7",
     "element-plus": "^2.8.7",
