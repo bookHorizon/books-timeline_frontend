@@ -137,7 +137,7 @@ onMounted(async()=>{
       <Card v-for="article,index in cardArticleI18n" :key="article" :title="$t(`home.function.itemTitle${index+1}`)" :content="$t(`home.function.itemContent${index+1}`)" :img="isDark?article.darkImg:article.img">
       </Card>
     </div>
-    <Splide/>
+    <Splide v-else/>
   </section>
   <section class="aboutUs" id="aboutUs">
     <div class="aboutUs_sailboatImg">
