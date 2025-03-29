@@ -20,11 +20,13 @@ const { toggleOpenMenu } = global;
     <div class="header_container">
       <Logo />
       <div v-show="isPhoneWidth">
-        <TextButton :fontColor="'var(--text-color)'">
+        <!-- <RouterLink to="/register" v-slot="{ navigate }"> -->
+        <TextButton :fontColor="'var(--text-color)'" class="links">
           <template #default>
-            <RouterLink to="/register">{{ $t("header.signUp.button") }}</RouterLink>
+            {{ $t("header.signUp.button") }}
           </template>
         </TextButton>
+        <!-- </RouterLink> -->
         <el-button type="default" text class="menuButton" @click="toggleOpenMenu">
           <IconBasic name="IconMeun" :color="'var(--text-color)'"></IconBasic>
         </el-button>
@@ -38,12 +40,14 @@ const { toggleOpenMenu } = global;
             {{ $t("header.loginIn.button") }}
           </template>
         </SoildButton>
+        <!-- <RouterLink to="/register"> -->
         <SoildButton class="signButton_text" :backgroundColor="'var(--text-color)'" :borderColor="'var(--text-color)'"
           :fontColor="'var(--button-primary-color)'">
           <template #default>
-            <RouterLink to="/register">{{ $t("header.signUp.button") }}</RouterLink>
+            {{ $t("header.signUp.button") }}
           </template>
         </SoildButton>
+        <!-- </RouterLink> -->
         <el-button type="default" text class="menuButton" @click="toggleOpenMenu">
           <IconBasic name="IconMeun" :color="'var(--text-color)'"></IconBasic>
         </el-button>
@@ -98,5 +102,10 @@ header {
 
 :deep(.signButton_text) {
   @include h5-b;
+}
+
+:deep(.links) {
+  color: var(--text-color);
+  text-decoration: none;
 }
 </style>
