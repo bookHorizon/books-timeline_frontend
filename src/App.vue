@@ -4,6 +4,8 @@ import Main from './components/layout/Main.vue';
 import Footer from './components/layout/Footer.vue';
 import Aside from './components/layout/Aside.vue';
 
+import { ref } from 'vue';
+
 import zhTw from 'element-plus/dist/locale/zh-tw.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
 
@@ -30,11 +32,19 @@ onBeforeMount(()=>{
 
   toggleThemeColor();
 })
+
+const isLoading = ref(true);
+const toggleLoading = () => {
+  isLoading.value = !isLoading.value;
+}
 </script>
 
 <template>
-  <el-config-provider :locale="locale" v-if="route.meta.isDefaultLayout">
-    <el-container class="container">
+  <el-config-provider :locale="locale">
+    <el-container class="container" :v-loading="isLoading" @load ="toggleLoading"  element-loading-text="Loading..."
+    :element-loading-spinner="svg"  element-loading-svg-view-box="-10, -10, 50, 50"
+    element-loading-background="rgba(122, 122, 122, 0.8)" style="width: 100%"
+    >
       <el-container class="mainContent" direction="vertical">
         <Header></Header>
         <Main></Main>
@@ -45,7 +55,6 @@ onBeforeMount(()=>{
       </el-container>
     </el-container>
   </el-config-provider>
-  <RouterView v-else/>
 </template>
 
 <style scoped>
