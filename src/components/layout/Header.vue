@@ -53,10 +53,6 @@ const { toggleOpenMenu } = global;
 </template>
 
 <style lang="scss" scoped>
-@use '@/assets/style/font.scss' as *;
-@use '@/assets/style/breakpoint.scss' as *;
-
-
 header {
   position: fixed;
   z-index: 10;
