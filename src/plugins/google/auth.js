@@ -6,7 +6,7 @@ import { userStore } from '@/store/user.js'
 const user = userStore();
 
 import { BASE_URL } from '@/utils/apiHelpers/apiConfig.js';
-import { getIpData } from '@/apis/ipapi/getIpData.js';
+import { getIpData } from '@/plugins/ipapi/getIpData.js';
 import router from '@/router/index.js';
 
 export function initGoogleClient(){
