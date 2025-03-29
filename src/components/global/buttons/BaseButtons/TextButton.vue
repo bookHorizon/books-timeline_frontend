@@ -1,28 +1,28 @@
 <script setup>
 import { defineProps } from 'vue';
 defineProps({
-  fontColor:{
-    type:String,
-    default:'#000000'
+  fontColor: {
+    type: String,
+    default: '#000000'
   }
 })
 
 </script>
 <template>
-  <el-button class="button" text :style="{color:fontColor}">
+  <el-button class="button" text :style="{ color: fontColor }">
     <slot></slot>
   </el-button>
 </template>
 
 <style lang="scss">
-@use '@/assets/style/vendorOverrides/element.scss' as *;
+@use '@/style/vendorOverrides/element.scss' as *;
 
 .button {
   @include baseButton;
   background-color: transparent;
 }
 
-.el-button.is-text:not(.is-disabled):hover{
+.el-button.is-text:not(.is-disabled):hover {
   background-color: transparent;
 }
 </style>
