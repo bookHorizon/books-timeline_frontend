@@ -1,4 +1,4 @@
-import API from '../apis/staticTranslations.js'
+import API from '../plugins/staticTranslations.js'
 
 import { readFile } from 'fs/promises';
 const zh_hant = JSON.parse(

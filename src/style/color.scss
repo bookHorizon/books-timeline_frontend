@@ -36,6 +36,49 @@ $success-600:#138850;
 $success-800:#0e5735;
 
 :root{
+  // common
+  --text-color:#{$primary-20};
+  --background-color:#{$primary-95};
+  --mask-backgroundColor:#5E5E5E99;
+
+  --button-action-backgroundColor:#{$secondary};
+  --button-action-color:#003853;
+  --button-action-hover-backgroundColor:#FFDF33;
+
+  --button-action-focus-border-color:#B2970180;
+  --button-primary-backgroundColor:#0A4368;
+  --button-primary-color:#{primary-100};
+
+
+  // input
+  --input-default-placeholderColor:#7AB2D1CC;
+  --input-default-backgroundColor:#{$primary-100};
+  --input-default-borderColor:#{$primary-70};
+
+  --input-hover-borderColor:#{$primary-20};
+
+  // --input-focus-textColor:#{$primary-20};
+  --input-focus-backgroundColor:#{$primary-100};
+  --input-focus-borderColor:#{$primary-70};
+
+  // --input-disabled-textColor:#{$neutral-40};
+  --input-disabled-backgroundColor:#{$neutral-20};
+  // --input-disabled-borderColor:#{$neutral-40};
+
+  // --input-showPassword-icon:#{$primary-20};
+
+  --input-default-searchButton-icon-backgroundColor:#{$primary-20};
+  --input-default-searchButton-icon-color:#{$primary-100};
+
+  --input-hover-searchButton-icon-backgroundColor:#{$primary-50};
+  --input-focus-searchButton-icon-focusBorderColor:#447E9B80;
+
+  // toast
+  --toast-header-backgroundColor:#E1F4FFD9;
+  // --toast-header-border-color:#0A436899;
+  --toast-content-backgroundColor:#{$primary-85};
+
+  // layout
   --header-backgroundColor:#{$primary-100};
   --main-backgroundColor:#{$primary-99};
   --footer-backgroundColor:#{$primary-20};
@@ -47,10 +90,7 @@ $success-800:#0e5735;
   --aside-signUpShadowColor:#00354826;
   --aside-signUpColor:#{$primary-100};
 
-  --text-color:#{$primary-20};
-
-  --home-startCTA-backgroundColor:#{$secondary};
-
+  // home
   --home-carousel-arrow-color:#0A4368;
   --home-carousel-arrow-backgroundColor:#{$primary-90};
   --home-carousel-arrow-hover-color:#{$primary-100};
@@ -69,6 +109,7 @@ $success-800:#0e5735;
   --home-faqs-backgroundColor:#{$primary-40};
   --home-faqs-color:#{$primary-100};
 
+  // switch theme
   --switchThemeColor-backgroundColor:#{$primary-70};
   --switchThemeColor-iconBackgroundColor:#{$primary-100};
 
@@ -79,9 +120,55 @@ $success-800:#0e5735;
 
   --404-backgroundColor:#CEECFF;
   --404-color:#003853;
+
+  //register
+  --register-successIconColor:#{$success-600};
+  --register-arrowColor:#{$primary-95};
 }
 
 .dark{
+
+  // common
+  --text-color:#B0E0FFCC;
+  --background-color:#0A4368;
+  --mask-backgroundColor:#61616199;
+
+  --button-action-backgroundColor:#FFD701CC;
+  --button-action-color:#003853;
+
+  --button-action-focus-border-color:#FFD80180;
+  --button-primary-backgroundColor:#{$primary-90};
+  --button-primary-color:#0A4368CC;
+
+  // input
+  --input-default-placeholderColor:#7AB2D1CC;
+  --input-default-backgroundColor:#447E9BCC;
+  --input-default-borderColor:#B0E0FFCC;
+
+  --input-hover-borderColor:#{$primary-90};
+
+  // --input-focus-textColor:#{$primary-20};
+  --input-focus-backgroundColor:#A0DDFFCC;
+  --input-focus-borderColor:#B0E0FFCC;
+
+  // --input-disabled-textColor:#{$neutral-40};
+  --input-disabled-backgroundColor:#{$neutral-50};
+  // --input-disabled-borderColor:#{$neutral-40};
+
+  // --input-showPassword-icon:#{$primary-20};
+
+  --input-default-searchButton-icon-backgroundColor:#B0E0FFCC;
+  --input-default-searchButton-icon-color:#0A4368CC;
+
+  --input-hover-searchButton-icon-backgroundColor:#{$primary-90};
+  --input-focus-searchButton-icon-focusBorderColor:#B0E0FF99;
+
+  // toast
+  --toast-header-backgroundColor:#B0E0FFD9;
+  // --toast-header-border-color:#0A436899;
+  --toast-content-backgroundColor:#{$primary-50};
+
+  // layout
   --header-backgroundColor:#0A4368;
   --main-backgroundColor:#0A4368;
   --footer-backgroundColor:#{$primary-10};
@@ -93,10 +180,6 @@ $success-800:#0e5735;
   --aside-signUpBackgroundColor:#{$primary-30};
   --aside-signUpShadowColor:#000D1126;
   --aside-signUpColor:#0A4368CC;
-
-  --text-color:#B0E0FFCC;
-
-  --home-startCTA-backgroundColor:#FFD701CC;
 
   --home-carousel-arrow-color:#F5FBFF99;
   --home-carousel-arrow-backgroundColor:#{$primary-50};
@@ -131,6 +214,10 @@ $success-800:#0e5735;
 
   --404-backgroundColor:#163D55;
   --404-color:#B0E0FFCC;
+
+  //register
+  --register-successIconColor:#7ADBA4CC;
+  --register-arrowColor:#{$primary-20};
 }
 
 @media (prefers-color-scheme: dark){

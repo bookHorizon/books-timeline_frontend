@@ -1,5 +1,5 @@
 <script>
-import Card from '@/components/card/HomeCard.vue';
+import Card from '@/components/home/components/card/HomeCard.vue';
 import { computed, ref, nextTick } from 'vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import { defineComponent } from 'vue';
@@ -8,8 +8,8 @@ import { globalStore } from '@/stores/globalStore';
 
 export default defineComponent({
   data() {
-    return{
-      slideIndex:0,
+    return {
+      slideIndex: 0,
     }
   },
   components: {
@@ -22,18 +22,18 @@ export default defineComponent({
       const slideDatalength = JSON.parse(JSON.stringify(cardArticleI18n)).length
 
       this.$refs.splide.go(index);
-      if(Number.isInteger(index)){
+      if (Number.isInteger(index)) {
         this.slideIndex = index
         return;
       }
-      if(!Number.isInteger(index)){
+      if (!Number.isInteger(index)) {
         const currentCountIndex = this.slideIndex + Number(index)
-        if(currentCountIndex<0){
+        if (currentCountIndex < 0) {
           this.slideIndex = 3;
           return;
         }
 
-        if(currentCountIndex>(slideDatalength-1)){
+        if (currentCountIndex > (slideDatalength - 1)) {
           this.slideIndex = 0;
           return;
         }
@@ -45,7 +45,7 @@ export default defineComponent({
   setup() {
     const global = globalStore();
     const options = ref({
-      autoplay:true,
+      autoplay: true,
       type: 'loop',
       drag: true,
       arrows: false,
@@ -54,7 +54,7 @@ export default defineComponent({
       updateOnMove: true,
       mediaQuery: 'min',
       breakpoints: {
-        768:{
+        768: {
           gap: 24,
           fixedWidth: 552,
         },
@@ -84,7 +84,8 @@ import '@splidejs/vue-splide/css/skyblue';
       <IconBasic name="IconArrowBack" color="var(--home-carousel-arrow-color)" />
     </div>
     <ul class="splide__dot">
-      <li :class="{'splide__dot__active':slideIndex===index}" v-for="(n, index) in slideData" @click="goSlide(index)">
+      <li :class="{ 'splide__dot__active': slideIndex === index }" v-for="(n, index) in slideData"
+        @click="goSlide(index)">
       </li>
     </ul>
     <div class="splide__arrow--next" @click="goSlide('+1')">
@@ -93,8 +94,6 @@ import '@splidejs/vue-splide/css/skyblue';
   </div>
 </template>
 <style lang="scss">
-@use '@/assets/style/font.scss' as *;
-
 .splide {
   margin: 0 auto 48px;
 
@@ -205,7 +204,7 @@ import '@splidejs/vue-splide/css/skyblue';
   }
 }
 
-.splide__controller__container{
+.splide__controller__container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -223,14 +222,15 @@ import '@splidejs/vue-splide/css/skyblue';
   border-radius: 50%;
   cursor: pointer;
 
-  &>svg{
-    transform:none;
+  &>svg {
+    transform: none;
   }
+
   &:hover {
     background-color: var(--home-carousel-arrow-hover-backgroundColor);
   }
 
-  &:hover svg{
+  &:hover svg {
     fill: var(--home-carousel-arrow-hover-color);
   }
 }
@@ -241,7 +241,7 @@ import '@splidejs/vue-splide/css/skyblue';
   display: flex;
   gap: 32px;
 
-  li{
+  li {
     width: 16px;
     height: 16px;
     border-radius: 50%;
@@ -250,7 +250,7 @@ import '@splidejs/vue-splide/css/skyblue';
     cursor: pointer;
   }
 
-  .splide__dot__active{
+  .splide__dot__active {
     background: var(--home-carousel-bullet-active-color);
   }
 }

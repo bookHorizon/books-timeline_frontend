@@ -1,11 +1,11 @@
 <script setup>
 import { defineEmits, computed } from 'vue';
-import Logo from '../global/layout/logo/Logo.vue';
-import SoildButton from '@/components/buttons/BaseButtons/SoildButton.vue'
-import TextButton from '../buttons/BaseButtons/TextButton.vue';
-import IconBasic from '../icons/IconBasic.vue';
-import ToggleThemeColor from '../switch/ToggleThemeColor.vue';
-import LanguageDropDown from '../dropdown/LanguageDropDown.vue';
+import Logo from '@/components/global/layout/logo/Logo.vue';
+import SoildButton from '@/components/global/buttons/BaseButtons/SoildButton.vue'
+import TextButton from '@/components/global/buttons/BaseButtons/TextButton.vue';
+import IconBasic from '@/components/global/icons/IconBasic.vue';
+import ToggleThemeColor from '@/components/global/layout/switch/ToggleThemeColor.vue';
+import LanguageDropDown from '@/components/global/layout/dropdown/LanguageDropDown.vue';
 import { globalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 

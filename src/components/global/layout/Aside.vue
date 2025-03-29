@@ -1,12 +1,12 @@
 <script setup>
-import { watch, ref,onBeforeUnmount } from 'vue'
+import { watch, ref, onBeforeUnmount } from 'vue'
 import IconBasic from '../icons/IconBasic.vue';
 import { globalStore } from '@/stores/globalStore';
 import { anchorLinks } from '@/config/links'
 import { storeToRefs } from 'pinia';
-import ToggleThemeColor from '../switch/ToggleThemeColor.vue';
-import LanguageDropDown from '../dropdown/LanguageDropDown.vue';
-import SoildButton from '../buttons/BaseButtons/SoildButton.vue';
+import ToggleThemeColor from '@/components/global/layout/switch/ToggleThemeColor.vue';
+import LanguageDropDown from '@/components/global/layout/dropdown/LanguageDropDown.vue';
+import SoildButton from '@/components/global/buttons/BaseButtons/SoildButton.vue';
 const global = globalStore();
 const { isPhoneWidth } = storeToRefs(global)
 const { toggleOpenMenu } = global;
@@ -14,41 +14,41 @@ const { toggleOpenMenu } = global;
 const signUp = ref(null);
 const signHeight = ref();
 const observer = ref();
-function getHeightValue(element){
-  observer.value = new ResizeObserver((entries)=>{
-   const rect = entries[0].contentRect
-   signHeight.value = rect.height;
+function getHeightValue(element) {
+  observer.value = new ResizeObserver((entries) => {
+    const rect = entries[0].contentRect
+    signHeight.value = rect.height;
   })
   observer.value.observe(element)
 }
 
-watch(signUp,(element) => {    
-    if (element) getHeightValue(element);
-  }
+watch(signUp, (element) => {
+  if (element) getHeightValue(element);
+}
 )
 
-onBeforeUnmount(()=>{
+onBeforeUnmount(() => {
   observer.value.unobserve();
 })
 
 </script>
 <template>
   <el-aside width="256px">
-    <div class="scrollbar_container" :style="{paddingBottom:`${signHeight+32}px`}">
+    <div class="scrollbar_container" :style="{ paddingBottom: `${signHeight + 32}px` }">
       <div class="iconClose">
         <IconBasic @click.stop="toggleOpenMenu" name="IconClose" :color="'var(--text-color)'"></IconBasic>
       </div>
-      
+
       <el-scrollbar>
         <div class="menuContent">
           <div class="menuContent_anchorLink">
             <a v-for="link in anchorLinks" :href="link.href" @click="toggleOpenMenu">{{ $t(link.i18n) }}</a>
           </div>
           <div class="menuContent_function" v-show="isPhoneWidth">
-            <LanguageDropDown/>
+            <LanguageDropDown />
             <div class="toggleThemeColor">
               <span>{{ $t("header.themeColor.toggle") }}</span>
-              <ToggleThemeColor @click="toggleOpenMenu"/>
+              <ToggleThemeColor @click="toggleOpenMenu" />
             </div>
             <!-- 這邊要改成router -->
             <a class="loginIn">{{ $t("header.loginIn.button") }}</a>
@@ -58,7 +58,8 @@ onBeforeUnmount(()=>{
     </div>
 
     <div class="signUp" ref="signUp" v-show="isPhoneWidth">
-      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'" :font-color="'var(--aside-signUpColor)'" @click="toggleOpenMenu"> 
+      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'"
+        :font-color="'var(--aside-signUpColor)'" @click="toggleOpenMenu">
         <template #default>
           {{ $t("header.signUp.button") }}
         </template>
@@ -66,13 +67,9 @@ onBeforeUnmount(()=>{
     </div>
   </el-aside>
 </template>
- 
-<style lang="scss" scoped>
-@use '@/assets/style/decorative.scss' as *;
-@use '@/assets/style/font.scss' as *;
-@use '@/assets/style/breakpoint.scss' as *;
 
-aside{
+<style lang="scss" scoped>
+aside {
   position: fixed;
   right: 0;
   height: 100vh;
@@ -81,48 +78,54 @@ aside{
   overflow: hidden;
 }
 
-.scrollbar_container{
+.scrollbar_container {
   padding: 16px;
   height: 100%;
-  @include breakpoint($tablet){
+
+  @include breakpoint($tablet) {
     padding: 24px;
   }
 }
 
-.iconClose{
+.iconClose {
   display: flex;
   justify-content: right;
-  >*{
+
+  >* {
     cursor: pointer;
   }
 }
 
-.menuContent{
+.menuContent {
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 16px 0 0;
 
-  .menuContent_anchorLink,.menuContent_function{
+  .menuContent_anchorLink,
+  .menuContent_function {
     display: flex;
     flex-direction: column;
-    gap:16px;
+    gap: 16px;
 
-    >*{
+    >* {
       position: relative;
       text-decoration: none;
-      @include itemDivider(16px,var(--aside-underlineBaseColor));
+
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--aside-underlineBaseColor);
       @include body-1-b;
 
-      @include breakpoint($tablet){
+      @include breakpoint($tablet) {
         @include h4-b;
       }
     }
 
-    >*:hover{
-      @include itemDivider(16px,transparent);
+    >*:hover {
+      padding-bottom: 16px;
+      border-bottom: 2px solid transparent;
     }
-    
+
     >*::before {
       content: "";
       position: absolute;
@@ -136,20 +139,20 @@ aside{
       transition: transform 0.3s ease;
     }
 
-    >*:hover::before{
+    >*:hover::before {
       background-color: var(--text-color);
       transform: scaleX(1);
     }
   }
 }
 
-.toggleThemeColor{
+.toggleThemeColor {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.signUp{
+.signUp {
   position: absolute;
   bottom: 0;
   display: flex;
@@ -159,7 +162,7 @@ aside{
   box-shadow: 0 -4px 12px 0 var(--aside-signUpShadowColor);
   background-color: var(--aside-signUpBackgroundColor);
 
-  >*{
+  >* {
     @include body-1-b;
     flex: 1;
     padding: 6px 0;

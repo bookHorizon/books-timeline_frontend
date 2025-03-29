@@ -1,0 +1,23 @@
+@mixin actionButton($width:auto){
+  padding:13px 40px;
+
+  width:$width;
+  max-height:56px;
+  
+  text-align: center;
+
+  @include typography-base(20px,150%,700);
+}
+
+.actionButton{
+  background-color: var(--button-action-backgroundColor);
+  color: var(--button-action-color);
+}
+
+.actionButton:hover{
+  background-color: #FFDF33;
+}
+
+.actionButton:focus{
+  box-shadow: 0 0 0 4px var(--button-action-focus-border-color);
+}
