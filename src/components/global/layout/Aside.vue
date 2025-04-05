@@ -1,13 +1,13 @@
 <script setup>
 import { watch, ref, onBeforeUnmount } from 'vue'
 import IconBasic from '../icons/IconBasic.vue';
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { anchorLinks } from '@/config/links'
 import { storeToRefs } from 'pinia';
 import ToggleThemeColor from '@/components/global/layout/switch/ToggleThemeColor.vue';
 import LanguageDropDown from '@/components/global/layout/dropdown/LanguageDropDown.vue';
 import SoildButton from '@/components/global/buttons/BaseButtons/SoildButton.vue';
-const global = globalStore();
+const global = useGlobalStore();
 const { isPhoneWidth } = storeToRefs(global)
 const { toggleOpenMenu } = global;
 

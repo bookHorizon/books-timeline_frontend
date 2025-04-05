@@ -1,10 +1,10 @@
 <script>
 import Card from '@/components/home/components/card/HomeCard.vue';
-import { computed, ref, nextTick } from 'vue';
+import { ref, } from 'vue';
 import { Splide, SplideSlide } from '@splidejs/vue-splide';
 import { defineComponent } from 'vue';
 import cardArticleI18n from '@/config/homeFunctionCard.js'
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 
 export default defineComponent({
   data() {
@@ -43,7 +43,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const global = globalStore();
+    const global = useGlobalStore();
     const options = ref({
       autoplay: true,
       type: 'loop',
