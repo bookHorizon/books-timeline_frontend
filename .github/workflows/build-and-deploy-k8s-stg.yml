@@ -3,7 +3,7 @@ name: Build Image & Deploy to Kubernetes stg
 on:
   push:
     branches:
-      - ga4
+      - develop
 
 env:
   IMAGE_TAG: "new-for-vultr-k8s-stg"
