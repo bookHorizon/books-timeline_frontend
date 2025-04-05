@@ -1,8 +1,7 @@
 <script setup lang="js">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import * as useResizeObserver from '@/composables/useResizeObserver';
-import SoildButton from '@/components/global/buttons/solidButton/SolidButton.vue';
-import OutlineButton from '@/components/global/buttons/outlineButton/OutlineButton.vue';
+import SoildButton from '@/components/global/buttons/Button.vue';
 const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
@@ -21,7 +20,7 @@ const registerFormInput = ref([
   { label: "請輸入密碼", key: "userPassword", type: "password", placeholder: "請輸入至少8位數的密碼 (包含英文大小寫和數字)" },
 ])
 
-const disable = ref(false);
+const disabled = ref(false);
 
 function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
@@ -107,7 +106,7 @@ onMounted(() => {
                       :minlength="item.key === 'userPassword' ? 8 : 0" />
                   </el-form-item>
                   <el-form-item>
-                    <SoildButton type="action" size="large" @click="createAccount">
+                    <SoildButton layout="solid" type="action" size="large" @click="createAccount">
                       註冊
                     </SoildButton>
                   </el-form-item>
@@ -119,15 +118,16 @@ onMounted(() => {
             </div>
 
             <div class="register__content--item">
-              <OutlineButton class="register__google" type="primary" size="large" :iconOnly="isPhoneWidth" isSocialIcon>
-                <div class="register__google--icon" v-if="!disable">
+              <SoildButton class="register__google" layout="outline" type="primary" size="large"
+                :isIconOnly="isPhoneWidth" hasSocialIcon="!isPhoneWidth" :disabled="disabled">
+                <div class="register__google--icon" v-if="!disabled">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
                 <div class="register__google--icon" v-else>
                   <img src="@/assets/img/icons/GoogleDisableIcon.svg" alt="禁用google icon">
                 </div>
                 <span v-if="!isPhoneWidth">使用 google 帳號註冊</span>
-              </OutlineButton>
+              </SoildButton>
               <p class="register__agreement">
                 <span>
                   點擊註冊擊表示同意書海藍圖的<RouterLink to="/"><strong>服務條款</strong></RouterLink>和<RouterLink to="/">

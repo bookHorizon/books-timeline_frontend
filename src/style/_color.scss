@@ -48,10 +48,13 @@ $success-800:#0e5735;
   --button-action-hover-backgroundColor:#FFDF33;
   --button-action-active-border-color:#B2970180;
 
-  --button-primary-backgroundColor:#0A4368;
-  --button-primary-color:#{primary-100};
+  --button-primary-default-backgroundColor:#0A4368;
+  --button-primary-default-color:#{$primary-100};
+
   --button-primary-hover-backgroundColor:#{$primary-50};
+
   --button-primary-active-borderColor:#447E9B80;
+  --button-primary-active-backgroundColor:#{$primary-50};
 
   --button-disable-backgroundColor:#{$neutral-30};
   --button-disable-color:#{$neutral-50};
@@ -152,10 +155,12 @@ $success-800:#0e5735;
 
   --button-action-active-border-color:#FFD80180;
 
-  --button-primary-backgroundColor:#{$primary-90};
-  --button-primary-color:#0A4368CC;
+  --button-primary-default-backgroundColor:#B0E0FFCC;
+  --button-primary-default-color:#0A4368CC;
   --button-primary-hover-backgroundColor:#{$primary-90};
   --button-primary-active-borderColor:#B0E0FF99;
+  --button-primary-active-backgroundColor:#{$primary-50};
+
 
   --button-disable-backgroundColor:#{$neutral-50};
   --button-disable-color:#{$neutral-40};
