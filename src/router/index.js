@@ -9,17 +9,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta:{
-        isDefaultLayout:true,
-      }
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
-      meta:{
-        isDefaultLayout:true,
-      }
     },
     {
       path: '/register',
