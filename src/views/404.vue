@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { useRouter } from 'vue-router';
-const global = globalStore();
+const global = useGlobalStore();
 const { isDark } = storeToRefs(global);
 const router = useRouter();
 const isLastDotVisible = ref('inline')

@@ -1,16 +1,17 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import Card from '@/components/home/components/card/HomeCard.vue';
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 import Splide from '@/components/home/Splide.vue';
 
 import cardArticleI18n from '@/config/homeFunctionCard.js'
 import API from '@/api/index.js'
 import { useI18n } from 'vue-i18n'
+import { isDark } from '@/composables/useToggleTheme';
 const { locale } = useI18n({ useScope: 'global' })
-const global = globalStore();
-const { isPhoneWidth, isDark, elementPlusI18n } = storeToRefs(global);
+const global = useGlobalStore();
+const { isPhoneWidth, elementPlusI18n } = storeToRefs(global);
 const faqs = ref({})
 
 function getThemeImage(darkPath, lightPath) {
