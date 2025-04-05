@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -38,7 +38,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to,from)=>{
-  const global = globalStore()
+  const global = useGlobalStore()
   function webTitle(item){
     return item==='中文'?'書海藍圖':'Book Horizon'
   }
