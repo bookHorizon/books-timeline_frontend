@@ -32,9 +32,9 @@ export default defineConfig({
       scss:{
         api: 'modern-compiler',
         additionalData:`
-          @use "@/style/breakpoint.scss" as *;
-          @use "@/style/color.scss" as *;
-          @use "@/style/font.scss" as *;
+          @use "@/style/_breakpoint.scss" as *;
+          @use "@/style/_color.scss" as *;
+          @use "@/style/_font.scss" as *;
 
         `,
       }

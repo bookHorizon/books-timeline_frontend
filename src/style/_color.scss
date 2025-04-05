@@ -41,14 +41,30 @@ $success-800:#0e5735;
   --background-color:#{$primary-95};
   --mask-backgroundColor:#5E5E5E99;
 
+  --text-color-deepBackground-color:#{$primary-100};
+
   --button-action-backgroundColor:#{$secondary};
   --button-action-color:#003853;
   --button-action-hover-backgroundColor:#FFDF33;
+  --button-action-active-border-color:#B2970180;
 
-  --button-action-focus-border-color:#B2970180;
-  --button-primary-backgroundColor:#0A4368;
-  --button-primary-color:#{primary-100};
+  --button-primary-default-backgroundColor:#0A4368;
+  --button-primary-default-color:#{$primary-100};
 
+  --button-primary-hover-backgroundColor:#{$primary-50};
+
+  --button-primary-active-borderColor:#447E9B80;
+  --button-primary-active-backgroundColor:#{$primary-50};
+
+  --button-disable-backgroundColor:#{$neutral-30};
+  --button-disable-color:#{$neutral-50};
+
+  --button-outline-primary-borderColor:#{$primary-20};
+  --button-outline-primary-color:#B0E0FFCC;
+  --button-outline-primary-hover-borderColor:#{$primary-50};
+  --button-outline-primary-hover-color:#{$primary-50};
+  --button-outline-primary-active-borderColor:#447E9B80;
+  --button-outline-primary-disable:#{$neutral-40};
 
   // input
   --input-default-placeholderColor:#7AB2D1CC;
@@ -127,19 +143,36 @@ $success-800:#0e5735;
 }
 
 .dark{
-
   // common
   --text-color:#B0E0FFCC;
   --background-color:#0A4368;
   --mask-backgroundColor:#61616199;
 
+  --text-color-deepBackground-color:#0A4368CC;
+
   --button-action-backgroundColor:#FFD701CC;
   --button-action-color:#003853;
 
-  --button-action-focus-border-color:#FFD80180;
-  --button-primary-backgroundColor:#{$primary-90};
-  --button-primary-color:#0A4368CC;
+  --button-action-active-border-color:#FFD80180;
 
+  --button-primary-default-backgroundColor:#B0E0FFCC;
+  --button-primary-default-color:#0A4368CC;
+  --button-primary-hover-backgroundColor:#{$primary-90};
+  --button-primary-active-borderColor:#B0E0FF99;
+  --button-primary-active-backgroundColor:#{$primary-50};
+
+
+  --button-disable-backgroundColor:#{$neutral-50};
+  --button-disable-color:#{$neutral-40};
+
+  --button-outline-primary-borderColor:#B0E0FFCC;
+  --button-outline-primary-color:#B0E0FFCC;
+
+  --button-outline-primary-hover-borderColor:#{$primary-90};
+  --button-outline-primary-hover-color:#{$primary-90};
+
+  --button-outline-primary-active-borderColor:#B0E0FF99;
+  --button-outline-primary-disable:#{$neutral-50};
   // input
   --input-default-placeholderColor:#7AB2D1CC;
   --input-default-backgroundColor:#447E9BCC;

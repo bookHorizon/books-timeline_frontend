@@ -1,24 +1,27 @@
 <script setup>
-import { defineEmits, computed } from 'vue';
+import { defineEmits, ref, onMounted } from 'vue';
 import Logo from '@/components/global/layout/logo/Logo.vue';
 import SoildButton from '@/components/global/buttons/BaseButtons/SoildButton.vue'
 import TextButton from '@/components/global/buttons/BaseButtons/TextButton.vue';
 import IconBasic from '@/components/global/icons/IconBasic.vue';
 import ToggleThemeColor from '@/components/global/layout/switch/ToggleThemeColor.vue';
 import LanguageDropDown from '@/components/global/layout/dropdown/LanguageDropDown.vue';
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-
+import { isTop } from '@/composables/useViewIsTop';
+//useViewIsTop改成isViewTop && isTop出自這個檔案而且同時偵測滾動跟位移
 const emit = defineEmits(['isOpenMeun'])
-const global = globalStore();
+const global = useGlobalStore();
 const { isPhoneWidth, isViewTop } = storeToRefs(global)
 const { toggleOpenMenu } = global;
 
 </script>
 <template>
-  <el-header :style="{ backgroundColor: isViewTop ? 'transparent' : 'var(--header-backgroundColor)' }">
+  <el-header :style="{ backgroundColor: isViewTop && isTop ? 'transparent' : 'var(--header-backgroundColor)' }">
     <div class="header_container">
-      <Logo />
+      <RouterLink class="logo" to="/">
+        <Logo />
+      </RouterLink>
       <div v-show="isPhoneWidth">
         <TextButton :fontColor="'var(--text-color)'">
           <template #default>
@@ -41,7 +44,7 @@ const { toggleOpenMenu } = global;
         <SoildButton class="signButton_text" :backgroundColor="'var(--text-color)'" :borderColor="'var(--text-color)'"
           :fontColor="'var(--button-primary-color)'">
           <template #default>
-            <RouterLink to="/register">{{ $t("header.signUp.button") }}</RouterLink>
+            <RouterLink to="/register" class="signButton_text">{{ $t("header.signUp.button") }}</RouterLink>
           </template>
         </SoildButton>
         <el-button type="default" text class="menuButton" @click="toggleOpenMenu">
@@ -77,6 +80,10 @@ header {
   height: 100%;
 }
 
+.logo {
+  text-decoration: none;
+}
+
 .toolBar {
   display: flex;
   gap: 16px;
@@ -98,5 +105,14 @@ header {
 
 :deep(.signButton_text) {
   @include h5-b;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.signButton_text {
+  color: var(--text-color-deepBackground-color);
 }
 </style>

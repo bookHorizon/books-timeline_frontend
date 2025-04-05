@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -9,17 +9,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta:{
-        isDefaultLayout:true,
-      }
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
-      meta:{
-        isDefaultLayout:true,
-      }
     },
     {
       path: '/register',
@@ -30,15 +24,12 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/404.vue'),
-      meta:{
-        isDefaultLayout:false,
-      }
     },
   ]
 })
 
 router.beforeEach((to,from)=>{
-  const global = globalStore()
+  const global = useGlobalStore()
   function webTitle(item){
     return item==='中文'?'書海藍圖':'Book Horizon'
   }

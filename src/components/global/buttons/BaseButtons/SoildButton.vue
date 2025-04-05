@@ -12,7 +12,7 @@ defineProps({
   borderColor: {
     type: String,
     default: '#000000'
-  }
+  },
 })
 
 </script>
@@ -27,5 +27,6 @@ defineProps({
 
 .button {
   @include baseButton;
+  color: v-bind(color);
 }
 </style>
