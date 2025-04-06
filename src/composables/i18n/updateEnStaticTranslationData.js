@@ -1,14 +1,14 @@
-import API from '../api/staticTranslations.js'
+import API from '../../services/api/staticTranslations.js'
 
 import { readFile } from 'fs/promises';
-const zh_hant = JSON.parse(
+const en = JSON.parse(
   await readFile(
-    new URL('../i18n/language/zh-TW.json', import.meta.url)
+    new URL('../i18n/language/en-US.json', import.meta.url)
   )
 );
 
 const data = {
-  zh_hant:zh_hant
+  en:en
 }
 
 async function updateTranslation(){

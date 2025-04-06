@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/utils/apiHelpers/apiConfig.js';
+import { BASE_URL } from '@/services/apiConfig.js';
 
 const myHeaders = new Headers();
 myHeaders.append("accept", "application/json");
@@ -23,6 +23,7 @@ export const getToken = async (raw)=>{
     }
 
     const result = await response.json();
+    
     return result;
   } catch (error){
     //有錯誤會先跑catch捕捉錯誤，並回傳相關的錯誤訊息

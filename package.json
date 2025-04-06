@@ -11,8 +11,10 @@
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
     "i18n": "node ./src/method/mapStaticTranlationData.js",
-    "updateEn": "node ./src/method/updateEnStaticTranslationData.js",
-    "updateTw": "node ./src/method/updateTwStaticTranslationData.js"
+    "updateEn": "node ./src/utils/updateEnStaticTranslationData.js",
+    "updateTw": "node ./src/utils/updateTwStaticTranslationData.js",
+    "downloadI18n": "node ./src/utils/updateTwStaticTranslationData.js"
+
   },
   "dependencies": {
     "@splidejs/vue-splide": "^0.6.12",

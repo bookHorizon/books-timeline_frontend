@@ -1,4 +1,4 @@
-import API from  '../api/staticTranslations.js'
+import API from  '../../services/api/staticTranslations.js'
 
 async function mapStaticTranlationData(){
   const tranlationData = await API.getStaticTranlationData()
