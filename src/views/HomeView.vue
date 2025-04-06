@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 import Splide from '@/components/home/Splide.vue';
 
 import cardArticleI18n from '@/config/homeFunctionCard.js'
-import API from '@/api/index.js'
+import API from '@/services/api/index.js'
 import { useI18n } from 'vue-i18n'
 import { isDark } from '@/composables/useToggleTheme';
 const { locale } = useI18n({ useScope: 'global' })
