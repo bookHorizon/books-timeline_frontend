@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL,header } from '@/utils/apiHelpers/apiConfig.js';
+import { BASE_URL,header } from '@/services/apiConfig.js';
 
 const bookAPI = axios.create({
   baseURL:`${BASE_URL}/book`,
