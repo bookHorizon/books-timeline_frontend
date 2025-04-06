@@ -29,5 +29,21 @@
     "home.hero.subTitleItem1": "熱門書籍。",
     "home.hero.subTitleItem2": "好書評。",
     "home.hero.subTitleItem3": "觀點。",
-    "home.hero.title": "在書海中航行，寫下閱讀的藍圖。"
+    "home.hero.title": "在書海中航行，寫下閱讀的藍圖。",
+    "register.agreeSignup.text1": "若您註冊，即代表您同意",
+    "register.agreeSignup.text2": "服務條款",
+    "register.agreeSignup.text3": "和",
+    "register.agreeSignup.text4": "隱私政策",
+    "register.button.googleSignUp": "使用 google 帳號註冊",
+    "register.button.signUp": "註冊",
+    "register.differentSignUpMethod.text": "或使用以下方式",
+    "register.error.emailFormat": "信箱格式錯誤",
+    "register.error.passwordFormat": "密碼至少需要8碼，包含英文大小寫和數字",
+    "register.error.required": "此為必填欄位",
+    "register.form.title": "註冊",
+    "register.form.userEmail": "請填入 E-mail 帳號",
+    "register.form.username": "用戶名稱",
+    "register.form.userPassword": "請輸入密碼",
+    "register.login.text1": "已經有帳號了嗎? 請點此",
+    "register.login.text2": "登入"
 }
