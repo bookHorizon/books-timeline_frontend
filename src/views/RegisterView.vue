@@ -1,7 +1,7 @@
 <script setup lang="js">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import * as useResizeObserver from '@/composables/useResizeObserver';
-import SoildButton from '@/components/global/buttons/Button.vue';
+import Button from '@/components/global/buttons/Button.vue';
 const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
@@ -63,10 +63,36 @@ const registerFormRules = ref({
   ]
 })
 
-const createAccount = () => {
+const createAccount = async () => {
   registerFormRef.value.validate((valid) => {
     if (!valid) return
   })
+
+  const data = JSON.stringify({
+    email: formData.email,
+    full_name: formData.name,
+    password: formData.password1,
+    password2: formData.password2
+  })
+
+  //打API
+  try {
+    await API.signup(data);
+    isSignupSuccess.value = true;
+    setTimeout(() => {
+      router.push('/')
+    }, 5000)
+  } catch (error) {
+    const errorCode = error.response.data.code;
+    const errorMessage = error.response.data.msg;
+    switch (errorCode) {
+      case -1000:
+        break;
+      default:
+        break;
+    }
+  }
+
   //此帳號已註冊過，請點擊下方登入
   registerFormRef.value.resetFields();
 }
@@ -106,9 +132,9 @@ onMounted(() => {
                       :minlength="item.key === 'userPassword' ? 8 : 0" />
                   </el-form-item>
                   <el-form-item>
-                    <SoildButton layout="solid" type="action" size="large" @click="createAccount">
+                    <Button layout="solid" type="action" size="large" @click="createAccount">
                       註冊
-                    </SoildButton>
+                    </Button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -118,8 +144,8 @@ onMounted(() => {
             </div>
 
             <div class="register__content--item">
-              <SoildButton class="register__google" layout="outline" type="primary" size="large"
-                :isIconOnly="isPhoneWidth" hasSocialIcon="!isPhoneWidth" :disabled="disabled">
+              <Button class="register__google" layout="outline" type="primary" size="large" :isIconOnly="isPhoneWidth"
+                hasSocialIcon="!isPhoneWidth" :disabled="disabled">
                 <div class="register__google--icon" v-if="!disabled">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
@@ -127,7 +153,7 @@ onMounted(() => {
                   <img src="@/assets/img/icons/GoogleDisableIcon.svg" alt="禁用google icon">
                 </div>
                 <span v-if="!isPhoneWidth">使用 google 帳號註冊</span>
-              </SoildButton>
+              </Button>
               <p class="register__agreement">
                 <span>
                   點擊註冊擊表示同意書海藍圖的<RouterLink to="/"><strong>服務條款</strong></RouterLink>和<RouterLink to="/">
