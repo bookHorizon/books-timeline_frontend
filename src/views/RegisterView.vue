@@ -17,8 +17,6 @@ const translations = {
   enUS: enUs
 }
 
-console.log(t)
-
 const registerFormRef = ref(null);
 const register = ref(null)
 const isRegisterLoading = ref(false)
@@ -53,7 +51,7 @@ const registerFormRules = ref({
   ],
   userEmail: [
     { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
-    { type: 'email', message: computed(() => t('register.error.email')), trigger: 'blur' }
+    { type: 'email', message: computed(() => t('register.error.emailFormat')), trigger: 'blur' }
   ],
   userPassword: [
     { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
