@@ -128,7 +128,7 @@ onMounted(() => {
                       :minlength="item.key === 'userPassword' ? 8 : 0" />
                   </el-form-item>
                   <el-form-item>
-                    <Button layout="solid" type="action" size="large" @click="createAccount"
+                    <Button layout="solid" types="action" size="large" @click="createAccount"
                       :loading="isRegisterLoading">
                       {{ $t('register.button.signUp') }}
                     </Button>
@@ -141,8 +141,8 @@ onMounted(() => {
             </div>
 
             <div class="register__content--item">
-              <Button class="register__google" layout="outline" type="primary" size="large" :isIconOnly="isPhoneWidth"
-                hasSocialIcon="!isPhoneWidth" :loading="isRegisterLoading">
+              <Button class="register__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
+                :hasSocialIcon="!isPhoneWidth" :loading="isRegisterLoading">
                 <div class="register__google--icon" v-if="!isRegisterLoading">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
@@ -154,7 +154,7 @@ onMounted(() => {
               <p class="register__agreement">
                 <span>
                   {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
                   <RouterLink to="/">
                     <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>
