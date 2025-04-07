@@ -185,18 +185,8 @@ onMounted(() => {
 
   z-index: 5;
 
-  padding: 88px 12px 20px;
   background-color: var(--background-color);
 
-  box-shadow: 0 4px 12px 0 #00354826 inset;
-
-  @include breakpoint($tablet) {
-    padding: 88px 155px 20px;
-  }
-
-  @include breakpoint($desktop) {
-    padding: 0;
-  }
 
   &__container {
     display: flex;
@@ -204,7 +194,14 @@ onMounted(() => {
     align-items: center;
     gap: 40px;
 
+    padding: 88px 12px 20px;
+
+    @include breakpoint($tablet) {
+      padding: 88px 155px 20px;
+    }
+
     @include breakpoint($desktop) {
+      padding: 0;
       flex-direction: row;
     }
 
@@ -272,7 +269,7 @@ onMounted(() => {
     border-radius: 8px;
 
     &:focus-within {
-      background-color: #A0DDFFCC;
+      background-color: var(--input-focus-backgroundColor);
     }
   }
 
@@ -283,6 +280,12 @@ onMounted(() => {
     &::placeholder {
       @include body-1;
       color: var(--input-default-placeholderColor);
+    }
+
+    &:focus-within {
+      &::placeholder {
+        color: transparent;
+      }
     }
   }
 
