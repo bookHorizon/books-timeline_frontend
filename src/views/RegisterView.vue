@@ -5,9 +5,21 @@ import Button from '@/components/global/buttons/Button.vue';
 const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
+import zhTw from '@/i18n/language/zh-TW.json'
+import enUs from '@/i18n/language/en-US.json'
+
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n({ useScope: 'global' })
+const currentLanguage = computed(() => locale.value.replace('-', ''))
+const currentTranslations = computed(() => translations[currentLanguage.value])
+const translations = {
+  zhTW: zhTw,
+  enUS: enUs
+}
 
 const registerFormRef = ref(null);
 const register = ref(null)
+const isRegisterLoading = ref(false)
 const registerForm = ref({
   userName: "",
   userEmail: "",
@@ -15,12 +27,10 @@ const registerForm = ref({
 })
 
 const registerFormInput = ref([
-  { label: "用戶名稱", key: "userName", type: "text", placeholder: "請輸入名稱 (最多10字)" },
-  { label: "請填入 E-mail 帳號", key: "userEmail", type: "email", placeholder: "請輸入email帳號" },
-  { label: "請輸入密碼", key: "userPassword", type: "password", placeholder: "請輸入至少8位數的密碼 (包含英文大小寫和數字)" },
+  { label: computed(() => t('register.form.username')), key: "userName", type: "text", placeholder: computed(() => t('register.placeholder.name')) },
+  { label: computed(() => t('register.form.userEmail')), key: "userEmail", type: "email", placeholder: computed(() => t('register.placeholder.email')) },
+  { label: computed(() => t('register.form.userPassword')), key: "userPassword", type: "password", placeholder: computed(() => t('register.placeholder.password')) },
 ])
-
-const disabled = ref(false);
 
 function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
@@ -32,34 +42,20 @@ const registerTabletImg = getThemeImage(new URL('@/assets/img/register/dark/sign
   new URL('@/assets/img/register/light/signin_pad.png', import.meta.url).href)
 const registerDesktopImg = getThemeImage(new URL('@/assets/img/register/dark/signin_web.png', import.meta.url).href,
   new URL('@/assets/img/register/light/signin_web.png', import.meta.url).href)
-// const validatePass = (rule, value, callback) => {
-//   if (value === '') {
-//     callback(new Error('Please input the password'))
-//   } else {
-//     if (ruleForm.checkPass !== '') {
-//       if (!ruleFormRef.value) return
-//       ruleFormRef.value.validateField('checkPass')
-//     }
-//     callback()
-//   }
-// }
-// const rules = reactive({
-//   pass: [{ validator: validatePass, trigger: 'blur' }],
-//   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
-//   age: [{ validator: checkAge, trigger: 'blur' }],
-// })
 
+
+// 可使用t('register.error.required')，但切換語言時，沒有做即時切換內容
 const registerFormRules = ref({
   userName: [
-    { required: true, message: '此為必填欄位', trigger: 'blur' },
+    { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
   ],
   userEmail: [
-    { required: true, message: '此為必填欄位', trigger: 'blur' },
-    { type: 'email', message: '請輸入正確的email地址', trigger: 'blur' }
+    { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
+    { type: 'email', message: computed(() => t('register.error.emailFormat')), trigger: 'blur' }
   ],
   userPassword: [
-    { required: true, message: '此為必填欄位', trigger: 'blur' },
-    { min: 8, max: 16, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$/, message: '密碼至少需要8碼，包含英文大小寫和數字', trigger: 'blur' }
+    { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
+    { min: 8, max: 16, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$/, message: computed(() => t('register.error.passwordFormat')), trigger: 'blur' }
   ]
 })
 
@@ -69,19 +65,19 @@ const createAccount = async () => {
   })
 
   const data = JSON.stringify({
-    email: formData.email,
-    full_name: formData.name,
-    password: formData.password1,
-    password2: formData.password2
+    email: registerForm.value.userEmail,
+    full_name: registerForm.value.userName,
+    password: registerForm.value.userPassword,
+    password2: registerForm.value.userPassword
   })
 
   //打API
   try {
     await API.signup(data);
-    isSignupSuccess.value = true;
-    setTimeout(() => {
-      router.push('/')
-    }, 5000)
+    // isSignupSuccess.value = true;
+    // setTimeout(() => {
+    //   router.push('/')
+    // }, 5000)
   } catch (error) {
     const errorCode = error.response.data.code;
     const errorMessage = error.response.data.msg;
@@ -122,7 +118,7 @@ onMounted(() => {
             <h2 v-if="isDesktopWidth" class="website_title">BOOK HORIZON</h2>
             <div class="register__content--item">
               <div class="register__normalRegister">
-                <h3 class="register__title">註冊</h3>
+                <h3 class="register__title">{{ $t('register.form.title') }}</h3>
                 <el-form :model="registerForm" class="register__form" :rules="registerFormRules" label-position="top"
                   require-asterisk-position="right" :scroll-to-error="true" ref="registerFormRef">
                   <el-form-item v-for="item in registerFormInput" :key="item.key" :label="item.label" :prop="item.key">
@@ -132,36 +128,40 @@ onMounted(() => {
                       :minlength="item.key === 'userPassword' ? 8 : 0" />
                   </el-form-item>
                   <el-form-item>
-                    <Button layout="solid" type="action" size="large" @click="createAccount">
-                      註冊
+                    <Button layout="solid" types="action" size="large" @click="createAccount"
+                      :loading="isRegisterLoading">
+                      {{ $t('register.button.signUp') }}
                     </Button>
                   </el-form-item>
                 </el-form>
               </div>
               <span class="register__or">
-                或使用以下方式
+                {{ $t('register.differentSignUpMethod.text') }}
               </span>
             </div>
 
             <div class="register__content--item">
-              <Button class="register__google" layout="outline" type="primary" size="large" :isIconOnly="isPhoneWidth"
-                hasSocialIcon="!isPhoneWidth" :disabled="disabled">
-                <div class="register__google--icon" v-if="!disabled">
+              <Button class="register__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
+                :hasSocialIcon="!isPhoneWidth" :loading="isRegisterLoading">
+                <div class="register__google--icon" v-if="!isRegisterLoading">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
                 <div class="register__google--icon" v-else>
                   <img src="@/assets/img/icons/GoogleDisableIcon.svg" alt="禁用google icon">
                 </div>
-                <span v-if="!isPhoneWidth">使用 google 帳號註冊</span>
+                <span v-if="!isPhoneWidth">{{ $t('register.button.googleSignUp') }}</span>
               </Button>
               <p class="register__agreement">
                 <span>
-                  點擊註冊擊表示同意書海藍圖的<RouterLink to="/"><strong>服務條款</strong></RouterLink>和<RouterLink to="/">
-                    <strong>隱私政策</strong>
+                  {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
+                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                  <RouterLink to="/">
+                    <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>
                 </span>
                 <span>
-                  已經有帳號了嗎? 請點此<RouterLink to="/"><strong>登入</strong></RouterLink>
+                  {{ $t('register.login.text1') }}<RouterLink to="/"><strong>{{ $t('register.login.text2') }}</strong>
+                  </RouterLink>
                 </span>
               </p>
             </div>
@@ -183,18 +183,8 @@ onMounted(() => {
 
   z-index: 5;
 
-  padding: 88px 12px 20px;
   background-color: var(--background-color);
 
-  box-shadow: 0 4px 12px 0 #00354826 inset;
-
-  @include breakpoint($tablet) {
-    padding: 88px 155px 20px;
-  }
-
-  @include breakpoint($desktop) {
-    padding: 0;
-  }
 
   &__container {
     display: flex;
@@ -202,7 +192,14 @@ onMounted(() => {
     align-items: center;
     gap: 40px;
 
+    padding: 88px 12px 20px;
+
+    @include breakpoint($tablet) {
+      padding: 88px 155px 20px;
+    }
+
     @include breakpoint($desktop) {
+      padding: 0;
       flex-direction: row;
     }
 
@@ -270,7 +267,7 @@ onMounted(() => {
     border-radius: 8px;
 
     &:focus-within {
-      background-color: #A0DDFFCC;
+      background-color: var(--input-focus-backgroundColor);
     }
   }
 
@@ -281,6 +278,12 @@ onMounted(() => {
     &::placeholder {
       @include body-1;
       color: var(--input-default-placeholderColor);
+    }
+
+    &:focus-within {
+      &::placeholder {
+        color: transparent;
+      }
     }
   }
 
