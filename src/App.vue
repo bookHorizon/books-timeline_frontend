@@ -51,7 +51,7 @@ const toggleLoading = () => {
         <Footer></Footer>
       </el-container>
       <el-container v-show="isOpenMenu" class="mask" @click="toggleOpenMenu">
-        <Aside v-show="isOpenMenu"></Aside>
+        <Aside v-show="isOpenMenu" @click.stop></Aside>
       </el-container>
     </el-container>
   </el-config-provider>

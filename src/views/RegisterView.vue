@@ -1,5 +1,5 @@
 <script setup lang="js">
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import * as useResizeObserver from '@/composables/useResizeObserver';
 import Button from '@/components/global/buttons/Button.vue';
 const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
@@ -7,6 +7,9 @@ import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
 import zhTw from '@/i18n/language/zh-TW.json'
 import enUs from '@/i18n/language/en-US.json'
+import Dialog from '@/components/register/Dialog.vue';
+import IconBasic from '@/components/global/icons/IconBasic.vue';
+import API from '@/services/api'
 
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n({ useScope: 'global' })
@@ -59,6 +62,13 @@ const registerFormRules = ref({
   ]
 })
 
+const accountError = ref({
+  errorStatus: "",
+  message: ""
+})
+
+const toggleSuccessDialog = ref(true);
+
 const createAccount = async () => {
   registerFormRef.value.validate((valid) => {
     if (!valid) return
@@ -74,23 +84,27 @@ const createAccount = async () => {
   //打API
   try {
     await API.signup(data);
-    // isSignupSuccess.value = true;
-    // setTimeout(() => {
-    //   router.push('/')
-    // }, 5000)
+
+    //註冊成功，重置表單
+    registerFormRef.value.resetFields();
+    toggleSuccessDialog.value = true;
+
+
   } catch (error) {
     const errorCode = error.response.data.code;
-    const errorMessage = error.response.data.msg;
+    accountError.value.errorStatus = "error";
+
     switch (errorCode) {
       case -1000:
+        accountError.value.message = t('register.error.invalidFormat');
         break;
+      case -1003:
+        accountError.value.message = t('register.error.beRegistered');
       default:
+        accountError.value.message = t('register.error.invalidFormat');
         break;
     }
   }
-
-  //此帳號已註冊過，請點擊下方登入
-  registerFormRef.value.resetFields();
 }
 
 const { connect } = useScrollTopDetection();
@@ -99,9 +113,8 @@ onMounted(() => {
     connect(register.value);
   }
 });
-
-
 </script>
+
 <template>
   <Teleport to="body">
     <div class="register">
@@ -121,11 +134,14 @@ onMounted(() => {
                 <h3 class="register__title">{{ $t('register.form.title') }}</h3>
                 <el-form :model="registerForm" class="register__form" :rules="registerFormRules" label-position="top"
                   require-asterisk-position="right" :scroll-to-error="true" ref="registerFormRef">
-                  <el-form-item v-for="item in registerFormInput" :key="item.key" :label="item.label" :prop="item.key">
+                  <el-form-item v-for="item in registerFormInput" :key="item.key" :label="item.label" :prop="item.key"
+                    :validate-status="item.key === 'userEmail' ? accountError.errorStatus : ''"
+                    :error="item.key === 'userEmail' ? accountError.message : ''">
                     <el-input v-model="registerForm[item.key]" :placeholder="item.placeholder" :aria-label="item.label"
                       clearable :show-password="item.type === 'password'"
                       :maxlength="item.key === 'userName' ? 10 : 524288" :show-word-limit="item.key === 'userName'"
-                      :minlength="item.key === 'userPassword' ? 8 : 0" />
+                      :minlength="item.key === 'userPassword' ? 8 : 0">
+                    </el-input>
                   </el-form-item>
                   <el-form-item>
                     <Button layout="solid" types="action" size="large" @click="createAccount"
@@ -154,7 +170,7 @@ onMounted(() => {
               <p class="register__agreement">
                 <span>
                   {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
                   <RouterLink to="/">
                     <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>
@@ -169,6 +185,17 @@ onMounted(() => {
         </div>
       </el-scrollbar>
 
+      <Dialog v-model="toggleSuccessDialog" class="register__success">
+        <h3>
+          <div class="icon">
+            <IconBasic :width:="16" :height="16" :color="'var(--register-arrowColor)'" name="IconArrowDown" />
+          </div>
+          {{ $t('register.dialog.successTitle') }}
+        </h3>
+        <p>{{ $t('register.dialog.successContent1') }}</p>
+        <!-- <p>{{ form.userEmail }}</p> -->
+        <p>{{ $t('register.dialog.successContent2') }}</p>
+      </Dialog>
     </div>
   </Teleport>
 </template>
@@ -361,6 +388,48 @@ onMounted(() => {
 
     a {
       color: var(--text-color);
+    }
+  }
+
+  &__success {
+    text-align: center;
+
+    h3 {
+      @include h3-b;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .icon {
+      width: 32px;
+      height: 32px;
+      padding: 3px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        margin: 2.67px;
+        width: 26px;
+        height: 26px;
+        background-color: var(--register-successIconColor);
+        border-radius: 50%;
+      }
+    }
+
+    svg {
+      z-index: 10;
+    }
+
+    p {
+      @include typography-base(20px, 150%, 400);
     }
   }
 }
