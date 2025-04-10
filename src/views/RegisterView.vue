@@ -67,7 +67,7 @@ const accountError = ref({
   message: ""
 })
 
-const toggleSuccessDialog = ref(true);
+const toggleSuccessDialog = ref(false);
 
 const createAccount = async () => {
   registerFormRef.value.validate((valid) => {
@@ -170,7 +170,7 @@ onMounted(() => {
               <p class="register__agreement">
                 <span>
                   {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
                   <RouterLink to="/">
                     <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>
