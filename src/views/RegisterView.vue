@@ -267,12 +267,8 @@ onMounted(() => {
     color: #{$danger-600};
   }
 
-  :deep(.el-form-item):not(:last-child) {
-    margin-bottom: 8px;
-  }
-
-  :deep(.el-form-item):nth-last-child(2) {
-    margin-bottom: 24px;
+  :deep(.el-form-item) {
+    margin-bottom: 40px;
   }
 
   :deep(.el-form-item__content) {
@@ -322,7 +318,6 @@ onMounted(() => {
 
   :deep(.el-form-item__error) {
     @include body-1;
-    position: static;
 
     display: flex;
     align-items: center;
