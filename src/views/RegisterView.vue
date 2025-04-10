@@ -170,7 +170,7 @@ onMounted(() => {
               <p class="register__agreement">
                 <span>
                   {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
                   <RouterLink to="/">
                     <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>
@@ -264,7 +264,7 @@ onMounted(() => {
 
   :deep(.el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after) {
     @include body-1-b;
-    color: #{$danger-600};
+    color: var(--input-error-textColor);
   }
 
   :deep(.el-form-item) {
@@ -326,7 +326,7 @@ onMounted(() => {
     padding-top: 8px;
 
     width: 100%;
-    color: #{$danger-600};
+    color: var(--input-error-textColor);
 
     &::before {
       content: '';

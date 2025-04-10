@@ -89,6 +89,7 @@ $success-800:#0e5735;
 
   --input-hover-searchButton-icon-backgroundColor:#{$primary-50};
   --input-focus-searchButton-icon-focusBorderColor:#447E9B80;
+  --input-error-textColor:#{$danger-600};
 
   // toast
   --toast-header-backgroundColor:#E1F4FFD9;
@@ -197,6 +198,8 @@ $success-800:#0e5735;
 
   --input-hover-searchButton-icon-backgroundColor:#{$primary-90};
   --input-focus-searchButton-icon-focusBorderColor:#B0E0FF99;
+
+  --input-error-textColor:#{$danger-300};
 
   // toast
   --toast-header-backgroundColor:#B0E0FFD9;
