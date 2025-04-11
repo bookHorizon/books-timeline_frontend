@@ -11,10 +11,31 @@ const props = defineProps({
 const modelValue = defineModel('modelValue');
 </script>
 <template>
-  <el-input v-model="modelValue" :placeholder="formItem.placeholder" :aria-label="formItem.label" clearable>
-  </el-input>
+  <el-form-item :key="formItem.key" :label="formItem.label" :prop="formItem.key">
+    <el-input v-model="modelValue" :placeholder="formItem.placeholder" :aria-label="formItem.label" clearable>
+    </el-input>
+  </el-form-item>
 </template>
 <style lang="scss" scoped>
+:deep(.el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after) {
+  @include body-1-b;
+  color: var(--input-error-textColor);
+}
+
+:deep(.el-form-item) {
+  margin-bottom: 40px;
+}
+
+:deep(.el-form-item__content) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:deep(.el-form-item__label) {
+  @include body-1-b;
+}
+
 :deep(.el-input__wrapper) {
   padding: 8px 12px;
   border: 1px solid var(--input-default-borderColor);
