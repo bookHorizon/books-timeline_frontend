@@ -32,12 +32,16 @@ accountAPI.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 400:
-          console.log(error.message);
+          console.log('Bad Request');
+          break;
+        case 401:
+          console.log('Unauthorized');
+          break;
         case 404:
-          console.log(error.message);
+          console.log('Not Found');
           break;
         case 405:
-          console.log(error.response);
+          console.log('Method Not Allowed');
         default:
           console.log(error.message);
           break;
