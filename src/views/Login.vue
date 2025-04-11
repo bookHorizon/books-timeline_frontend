@@ -5,26 +5,17 @@ import Button from '@/components/global/buttons/Button.vue';
 const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
-import zhTw from '@/i18n/language/zh-TW.json'
-import enUs from '@/i18n/language/en-US.json'
 import Dialog from '@/components/auth/register/Dialog.vue';
 import IconBasic from '@/components/global/icons/IconBasic.vue';
 import API from '@/services/api'
 
 import { useI18n } from 'vue-i18n'
-const { t, locale } = useI18n({ useScope: 'global' })
-const currentLanguage = computed(() => locale.value.replace('-', ''))
-const currentTranslations = computed(() => translations[currentLanguage.value])
-const translations = {
-  zhTW: zhTw,
-  enUS: enUs
-}
+const { t } = useI18n({ useScope: 'global' })
 
-const registerFormRef = ref(null);
-const register = ref(null)
-const isRegisterLoading = ref(false)
-const registerForm = ref({
-  userName: "",
+const authFormRef = ref(null);
+const auth = ref(null)
+const isAuthLoading = ref(false)
+const authForm = ref({
   userEmail: "",
   userPassword: ""
 })
@@ -38,20 +29,15 @@ const registerFormInput = ref([
 function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
 }
-
-const registerMoblieImg = getThemeImage(new URL('@/assets/img/register/dark/signin_mobile.png', import.meta.url).href,
-  new URL('@/assets/img/register/light/signin_mobile.png', import.meta.url).href)
-const registerTabletImg = getThemeImage(new URL('@/assets/img/register/dark/signin_pad.png', import.meta.url).href,
-  new URL('@/assets/img/register/light/signin_pad.png', import.meta.url).href)
-const registerDesktopImg = getThemeImage(new URL('@/assets/img/register/dark/signin_web.png', import.meta.url).href,
-  new URL('@/assets/img/register/light/signin_web.png', import.meta.url).href)
-
+const loginMoblieImg = getThemeImage(new URL('@/assets/img/auth/dark/login_mobile.png', import.meta.url).href,
+  new URL('@/assets/img/auth/light/login_mobile.png', import.meta.url).href)
+const loginTabletImg = getThemeImage(new URL('@/assets/img/auth/dark/login_pad.png', import.meta.url).href,
+  new URL('@/assets/img/auth/light/login_pad.png', import.meta.url).href)
+const loginDesktopImg = getThemeImage(new URL('@/assets/img/auth/dark/login_web.png', import.meta.url).href,
+  new URL('@/assets/img/auth/light/login_web.png', import.meta.url).href)
 
 // 可使用t('register.error.required')，但切換語言時，沒有做即時切換內容
-const registerFormRules = ref({
-  userName: [
-    { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
-  ],
+const authFormRules = ref({
   userEmail: [
     { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
     { type: 'email', message: computed(() => t('register.error.emailFormat')), trigger: 'blur' }
@@ -59,6 +45,10 @@ const registerFormRules = ref({
   userPassword: [
     { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
     { min: 8, max: 16, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$/, message: computed(() => t('register.error.passwordFormat')), trigger: 'blur' }
+  ],
+  verifyCode: [
+    { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
+    { min: 4, max: 4, pattern: /^[0-9]{4}$/, message: computed(() => t('register.error.passwordFormat')), trigger: 'blur' }
   ]
 })
 
@@ -70,15 +60,15 @@ const accountError = ref({
 const toggleSuccessDialog = ref(false);
 
 const createAccount = async () => {
-  registerFormRef.value.validate((valid) => {
+  authFormRef.value.validate((valid) => {
     if (!valid) return
   })
 
   const data = JSON.stringify({
-    email: registerForm.value.userEmail,
-    full_name: registerForm.value.userName,
-    password: registerForm.value.userPassword,
-    password2: registerForm.value.userPassword
+    email: authForm.value.userEmail,
+    full_name: authForm.value.userName,
+    password: authForm.value.userPassword,
+    password2: authForm.value.userPassword
   })
 
   //打API
@@ -86,7 +76,7 @@ const createAccount = async () => {
     await API.signup(data);
 
     //註冊成功，重置表單
-    registerFormRef.value.resetFields();
+    authFormRef.value.resetFields();
     toggleSuccessDialog.value = true;
 
 
@@ -109,8 +99,8 @@ const createAccount = async () => {
 
 const { connect } = useScrollTopDetection();
 onMounted(() => {
-  if (register.value) {
-    connect(register.value);
+  if (auth.value) {
+    connect(auth.value);
   }
 });
 </script>
@@ -119,12 +109,11 @@ onMounted(() => {
   <Teleport to="body">
     <div class="register">
       <el-scrollbar>
-        <div class="register__container" ref="register">
+        <div class="register__container" ref="auth">
           <div class="register__container--item">
             <h2 v-if="!isDesktopWidth" class="website_title">BOOK HORIZON</h2>
             <div class="img">
-              <img :src="registerMoblieImg" :srcset="`${registerTabletImg} 768w, ${registerDesktopImg} 1440w`"
-                alt="註冊圖片">
+              <img :src="loginMoblieImg" :srcset="`${loginTabletImg} 768w, ${loginDesktopImg} 1440w`" alt="註冊圖片">
             </div>
           </div>
           <div class="register__content">
@@ -132,12 +121,12 @@ onMounted(() => {
             <div class="register__content--item">
               <div class="register__normalRegister">
                 <h3 class="register__title">{{ $t('register.form.title') }}</h3>
-                <el-form :model="registerForm" class="register__form" :rules="registerFormRules" label-position="top"
-                  require-asterisk-position="right" :scroll-to-error="true" ref="registerFormRef">
+                <el-form :model="authForm" class="register__form" :rules="authFormRules" label-position="top"
+                  require-asterisk-position="right" :scroll-to-error="true" ref="authFormRef">
                   <el-form-item v-for="item in registerFormInput" :key="item.key" :label="item.label" :prop="item.key"
                     :validate-status="item.key === 'userEmail' ? accountError.errorStatus : ''"
                     :error="item.key === 'userEmail' ? accountError.message : ''">
-                    <el-input v-model="registerForm[item.key]" :placeholder="item.placeholder" :aria-label="item.label"
+                    <el-input v-model="authForm[item.key]" :placeholder="item.placeholder" :aria-label="item.label"
                       clearable :show-password="item.type === 'password'"
                       :maxlength="item.key === 'userName' ? 10 : 524288" :show-word-limit="item.key === 'userName'"
                       :minlength="item.key === 'userPassword' ? 8 : 0">
@@ -146,8 +135,7 @@ onMounted(() => {
                       :show-word-limit="item.key === 'userName'" :minlength="item.key === 'userPassword' ? 8 : 0">
                   </el-form-item>
                   <el-form-item>
-                    <Button layout="solid" types="action" size="large" @click="createAccount"
-                      :loading="isRegisterLoading">
+                    <Button layout="solid" types="action" size="large" @click="createAccount" :loading="isAuthLoading">
                       {{ $t('register.button.signUp') }}
                     </Button>
                   </el-form-item>
@@ -160,8 +148,8 @@ onMounted(() => {
 
             <div class="register__content--item">
               <Button class="register__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
-                :hasSocialIcon="!isPhoneWidth" :loading="isRegisterLoading">
-                <div class="register__google--icon" v-if="!isRegisterLoading">
+                :hasSocialIcon="!isPhoneWidth" :loading="isAuthLoading">
+                <div class="register__google--icon" v-if="!isAuthLoading">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
                 <div class="register__google--icon" v-else>
