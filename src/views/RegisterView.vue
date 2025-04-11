@@ -7,7 +7,7 @@ import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
 import zhTw from '@/i18n/language/zh-TW.json'
 import enUs from '@/i18n/language/en-US.json'
-import Dialog from '@/components/register/Dialog.vue';
+import Dialog from '@/components/auth/register/Dialog.vue';
 import IconBasic from '@/components/global/icons/IconBasic.vue';
 import API from '@/services/api'
 
@@ -141,7 +141,9 @@ onMounted(() => {
                       clearable :show-password="item.type === 'password'"
                       :maxlength="item.key === 'userName' ? 10 : 524288" :show-word-limit="item.key === 'userName'"
                       :minlength="item.key === 'userPassword' ? 8 : 0">
-                    </el-input>
+                    </el-input v-model="registerForm[item.key]" :formItem="item" clearable
+                      :show-password="item.type === 'password'" :maxlength="item.key === 'userName' ? 10 : 524288"
+                      :show-word-limit="item.key === 'userName'" :minlength="item.key === 'userPassword' ? 8 : 0">
                   </el-form-item>
                   <el-form-item>
                     <Button layout="solid" types="action" size="large" @click="createAccount"
@@ -170,7 +172,7 @@ onMounted(() => {
               <p class="register__agreement">
                 <span>
                   {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
                   <RouterLink to="/">
                     <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>
@@ -201,6 +203,8 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
+@use '../components/auth/formInput.scss' as *;
+
 .register {
   position: fixed;
   top: 0;
@@ -260,81 +264,6 @@ onMounted(() => {
 
     margin-bottom: 24px;
     text-align: center;
-  }
-
-  :deep(.el-form-item.is-required:not(.is-no-asterisk).asterisk-right>.el-form-item__label:after) {
-    @include body-1-b;
-    color: var(--input-error-textColor);
-  }
-
-  :deep(.el-form-item) {
-    margin-bottom: 40px;
-  }
-
-  :deep(.el-form-item__content) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  :deep(.el-form-item__label) {
-    @include body-1-b;
-  }
-
-  :deep(.el-input__wrapper) {
-    padding: 8px 12px;
-    border: 1px solid var(--input-default-borderColor);
-
-    background-color: var(--input-default-backgroundColor);
-    box-shadow: none;
-    border-radius: 8px;
-
-    &:focus-within {
-      background-color: var(--input-focus-backgroundColor);
-    }
-  }
-
-  :deep(.el-input__inner) {
-    height: 24px;
-    color: var(--input-default-color);
-
-    &::placeholder {
-      @include body-1;
-      color: var(--input-default-placeholderColor);
-    }
-
-    &:focus-within {
-      &::placeholder {
-        color: transparent;
-      }
-    }
-  }
-
-  :deep(.el-input__count-inner) {
-    @include body-1;
-    color: var(--input-default-placeholderColor);
-    background-color: transparent;
-  }
-
-  :deep(.el-form-item__error) {
-    @include body-1;
-
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
-    padding-top: 8px;
-
-    width: 100%;
-    color: var(--input-error-textColor);
-
-    &::before {
-      content: '';
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      background: url('@/assets/img/icons/errorMessage.svg');
-    }
   }
 
   &__or {
