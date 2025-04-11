@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
               <ToggleThemeColor @click="toggleOpenMenu" />
             </div>
             <!-- 這邊要改成router -->
-            <a class="loginIn">{{ $t("header.loginIn.button") }}</a>
+            <RouterLink class="loginIn" to="/login">{{ $t("header.loginIn.button") }}</RouterLink>
           </div>
         </div>
       </el-scrollbar>
