@@ -38,7 +38,7 @@ const { toggleOpenMenu } = global;
         <SoildButton class="loginButton_text" :backgroundColor="'transparent'" :borderColor="'var(--text-color)'"
           :fontColor="'var(--button-primary-backgroundColor)'">
           <template #default>
-            {{ $t("header.loginIn.button") }}
+            <RouterLink to="/login">{{ $t("header.loginIn.button") }}</RouterLink>
           </template>
         </SoildButton>
         <SoildButton class="signButton_text" :backgroundColor="'var(--text-color)'" :borderColor="'var(--text-color)'"
