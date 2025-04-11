@@ -10,6 +10,7 @@ import enUs from '@/i18n/language/en-US.json'
 import Dialog from '@/components/register/Dialog.vue';
 import IconBasic from '@/components/global/icons/IconBasic.vue';
 import API from '@/services/api'
+import FormInput from '@/components/global/input/FormInput.vue';
 
 import { useI18n } from 'vue-i18n'
 const { t, locale } = useI18n({ useScope: 'global' })
@@ -141,7 +142,10 @@ onMounted(() => {
                       clearable :show-password="item.type === 'password'"
                       :maxlength="item.key === 'userName' ? 10 : 524288" :show-word-limit="item.key === 'userName'"
                       :minlength="item.key === 'userPassword' ? 8 : 0">
-                    </el-input>
+                    </el-input v-model="registerForm[item.key]" :formItem="item" clearable
+                      :show-password="item.type === 'password'" :maxlength="item.key === 'userName' ? 10 : 524288"
+                      :show-word-limit="item.key === 'userName'" :minlength="item.key === 'userPassword' ? 8 : 0">
+                    <Input></Input>
                   </el-form-item>
                   <el-form-item>
                     <Button layout="solid" types="action" size="large" @click="createAccount"
