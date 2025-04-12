@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
 </script>
 <template>
   <el-aside width="256px">
-    <div class="scrollbar_container" :style="{ paddingBottom: `${signHeight + 32}px` }">
+    <div class="scrollbar_container" :style="{ paddingBottom: `${signHeight + 64}px` }">
       <div class="iconClose">
         <IconBasic @click.stop="toggleOpenMenu" name="IconClose" :color="'var(--text-color)'"></IconBasic>
       </div>
@@ -50,7 +50,6 @@ onBeforeUnmount(() => {
               <span>{{ $t("header.themeColor.toggle") }}</span>
               <ToggleThemeColor @click="toggleOpenMenu" />
             </div>
-            <!-- 這邊要改成router -->
             <RouterLink class="loginIn" to="/login">{{ $t("header.loginIn.button") }}</RouterLink>
           </div>
         </div>
