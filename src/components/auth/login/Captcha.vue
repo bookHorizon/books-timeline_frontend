@@ -1,24 +1,20 @@
 <script setup>
-import { onMounted, ref,computed, watch } from 'vue';
-import Text from '@/components/util/inputs/Text.vue'
-const emits = defineEmits(['getVerityCode','refreshToggle'])
-const inputError = defineProps(['isInputCaptchaError','refresh'])
+import { onMounted, ref, computed, watch } from 'vue';
+import { getCode } from '@/components/auth/login/getCaptchaCode.js';
+const emits = defineEmits(['getVerityCode'])
 //產生隨機碼
 const verifyCode = ref('');
-const errorMessage = '驗證碼有誤';
-//使用者輸入隨機碼
-const inputCode = ref('');
 
 //建立refresh的ref，在mounted裡面手動綁事件
 const refresh = ref(null);
 //建立canvas的ref
 const canvas = ref(null);
 
-onMounted(()=>{//同步為初始化的元素加上設定
+onMounted(() => {//同步為初始化的元素加上設定
   const canvasContext = canvas.value.getContext('2d');//渲染canvas使用的類型
   const canvaConfig = {
-    codeLength:4,
-    contentWidth: 111, 
+    codeLength: 4,
+    contentWidth: 111,
     contentHeight: 40,
     backgroundColorMin: 190,
     backgroundColorMax: 250,
@@ -27,25 +23,26 @@ onMounted(()=>{//同步為初始化的元素加上設定
     colorMin: 50,
     colorMax: 150,
     lineColorMin: 40,
-    lineColorMax: 180,  
+    lineColorMax: 180,
     dotColorMin: 0,
     dotColorMax: 255,
   }
 
-  refresh.value.addEventListener('click',Captcha)//手動加上事件
-  watch(inputError,()=>{
-    if(inputError.refresh){
-      Captcha();
-      //當驗證碼更新後，refresh的判斷要切換回去
-      emits('refreshToggle')
-    }
-  })
+  refresh.value.addEventListener('click', Captcha)//手動加上事件
+  // watch(inputError, () => {
+  //   if (inputError.refresh) {
+  //     Captcha();
+  //     //當驗證碼更新後，refresh的判斷要切換回去
+  //     emits('refreshToggle')
+  //   }
+  // })
 
 
   Captcha();//初始化canvas
-  function Captcha(){
+  function Captcha() {
     const randomNum = (min, max) => {//隨機數乘上不超過max到min的範圍
-      return Math.floor(Math.random() * (max-min) + min);
+      return Math.floor(Math.random() * (max - min) + min);
+
     };
 
     const randomColor = (min, max) => {
@@ -80,7 +77,7 @@ onMounted(()=>{//同步為初始化的元素加上設定
         // 繪製弧形 arc(x, y, radius, startAngle, endAngle, anticlockwise)，單位 π
         // (x, y, 半徑, startAngle, endAngle, 順時或逆時)
 
-        ctx.arc( 
+        ctx.arc(
           randomNum(0, canvaConfig.contentWidth),
           randomNum(0, canvaConfig.contentHeight),
           1,
@@ -94,20 +91,20 @@ onMounted(()=>{//同步為初始化的元素加上設定
 
     const drawText = (ctx, txt, i) => {
       ctx.fillStyle = randomColor(canvaConfig.colorMin, canvaConfig.colorMax);
-      ctx.font = randomNum(canvaConfig.fontSizeMin, canvaConfig.fontSizeMax) + "px sans-serif"; 
-     
+      ctx.font = randomNum(canvaConfig.fontSizeMin, canvaConfig.fontSizeMax) + "px sans-serif";
+
       // 設定位置，(i + 1) 會讓文字逐漸向右
-      let x = (i + 1) * (canvaConfig.contentWidth / (canvaConfig.codeLength + 1)); 
+      let x = (i + 1) * (canvaConfig.contentWidth / (canvaConfig.codeLength + 1));
       let y = randomNum(canvaConfig.fontSizeMax, canvaConfig.contentHeight - 12);
-      
+
       // 設定文字本身旋轉度數的範圍
       // let deg = randomNum(-45, 45);
-      
+
       // 設置 canvas 畫布原點和旋轉角度
       ctx.translate(x, y); // translate(x,y) = 移動網格上的畫布
       // ctx.rotate((deg * Math.PI) / 180); // Math.PI = 圓周率
       ctx.fillText(txt, 0, 0); // fillText(canvas 繪製內容，x 方向偏移，y 方向偏移)
-      
+
       // 校正座標原點和旋轉角度
       // ctx.rotate((-deg * Math.PI) / 180);
       ctx.translate(-x, -y);
@@ -120,23 +117,14 @@ onMounted(()=>{//同步為初始化的元素加上設定
         canvaConfig.backgroundColorMax
       );
       canvasContext.fillRect(0, 0, canvaConfig.contentWidth, canvaConfig.contentHeight);
-      
+
       drawLine(canvasContext);
       drawDot(canvasContext);
     };
-    
-    const getCode = ()=> {
-      const randomText = ref([])
-      const letter = 'abcdefghijklmnopqrstuvwxyz0123456789';
-      for(let index = 0;index<canvaConfig.codeLength;index++){
-        const randomLetter = letter[Math.floor(Math.random()*36)]
-        randomText.value.push(randomLetter)
-        drawText(canvasContext,randomLetter,index)
-      }
-      return randomText.value
-    }
+
     drawPic();
-    verifyCode.value = getCode();
+    verifyCode.value = getCode(canvaConfig, drawText, canvasContext);
+    emits('getVerityCode', verifyCode.value);
   }
 })
 
@@ -144,50 +132,34 @@ onMounted(()=>{//同步為初始化的元素加上設定
 
 </script>
 <template>
-  <label for="inputCode">驗證碼</label>
-  <div class="verityCode q-gutter-sm">
-    <div class="verityCode__item">
-      <canvas ref="canvas" :width="111" :height="40"></canvas>
-    </div>
-    <div class="verityCode__item">
-      <Text v-model="inputCode" for="inputCode" placeholder="請輸入驗證碼（不分大小寫）" @update:model-value="$emit('getVerityCode',inputCode,verifyCode);" :error-message="errorMessage" :error="inputError.isInputCaptchaError===true" ></Text>
-    </div>
-    <div class="verityCode__item">
-      <span ref="refresh" class="refresh" style="cursor:pointer">
+  <div class="verityCodeItem">
+    <canvas ref="canvas" :width="111" :height="40" class="verityCodeItem__canvas"></canvas>
+    <div>
+      <span ref="refresh" class="verityCodeItem__refresh" style="cursor:pointer">
         <q-icon name="cached" size="20px"></q-icon>
-        換一個
+        {{ $t('login.form.refreshVerificationCode') }}
       </span>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-
-label{
-  @include t-l;
-}
-
-.verityCode{
+.verityCodeItem {
   display: flex;
-  align-items:center;
-  &__item{
-    //flex child高度一致
-    margin-bottom: auto;
+  flex-grow: 1;
+
+  &__canvas {
+    margin-right: 16px;
+    border-radius: 8px;
+    border: 1px solid;
+  }
+
+  &__refresh {
+    @include body-2-b;
+    color: var(--text-color);
+    white-space: nowrap;
+    line-height: 2.5;
+    text-decoration: underline;
   }
 }
-
-.refresh{
-  @include t-s;
-  white-space: nowrap;
-  line-height: 2.5;
-  color:$primary700;
-}
-
-:deep(.q-field__bottom) {
-    @include t-s;
-    min-height: 0;
-    position:initial;
-    margin-top: 8px;
-    padding: 0;
-  } 
 </style>
