@@ -39,12 +39,12 @@ function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
 }
 
-const registerMoblieImg = getThemeImage(new URL('@/assets/img/auth/dark/login_mobile.png', import.meta.url).href,
-  new URL('@/assets/img/auth/light/login_mobile.png', import.meta.url).href)
-const registerTabletImg = getThemeImage(new URL('@/assets/img/auth/dark/login_pad.png', import.meta.url).href,
-  new URL('@/assets/img/auth/light/login_pad.png', import.meta.url).href)
-const registerDesktopImg = getThemeImage(new URL('@/assets/img/auth/dark/login_web.png', import.meta.url).href,
-  new URL('@/assets/img/auth/light/login_web.png', import.meta.url).href)
+const registerMoblieImg = getThemeImage(new URL('@/assets/img/auth/dark/signup_mobile.png', import.meta.url).href,
+  new URL('@/assets/img/auth/light/signup_mobile.png', import.meta.url).href)
+const registerTabletImg = getThemeImage(new URL('@/assets/img/auth/dark/signup_pad.png', import.meta.url).href,
+  new URL('@/assets/img/auth/light/signup_pad.png', import.meta.url).href)
+const registerDesktopImg = getThemeImage(new URL('@/assets/img/auth/dark/signup_web.png', import.meta.url).href,
+  new URL('@/assets/img/auth/light/signup_web.png', import.meta.url).href)
 
 
 // 可使用t('register.error.required')，但切換語言時，沒有做即時切換內容
