@@ -6,25 +6,21 @@ const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
 import Dialog from '@/components/auth/register/Dialog.vue';
-import IconBasic from '@/components/global/icons/IconBasic.vue';
+import Captcha from '@/components/auth/login/Captcha.vue';
 import API from '@/services/api'
 
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n({ useScope: 'global' })
 
-const authFormRef = ref(null);
-const auth = ref(null)
-const isAuthLoading = ref(false)
-const authForm = ref({
-  userEmail: "",
-  userPassword: ""
+const loginFormRef = ref(null);
+const login = ref(null)
+const isLoginLoading = ref(false)
+const loginForm = ref({
+  userAccount: "",
+  userPassword: "",
+  verifyCode: "",
 })
-
-const registerFormInput = ref([
-  { label: computed(() => t('register.form.username')), key: "userName", type: "text", placeholder: computed(() => t('register.placeholder.name')) },
-  { label: computed(() => t('register.form.userEmail')), key: "userEmail", type: "email", placeholder: computed(() => t('register.placeholder.email')) },
-  { label: computed(() => t('register.form.userPassword')), key: "userPassword", type: "password", placeholder: computed(() => t('register.placeholder.password')) },
-])
+const currentVerifyCode = ref('');
 
 function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
@@ -37,8 +33,14 @@ const loginDesktopImg = getThemeImage(new URL('@/assets/img/auth/dark/login_web.
   new URL('@/assets/img/auth/light/login_web.png', import.meta.url).href)
 
 // 可使用t('register.error.required')，但切換語言時，沒有做即時切換內容
-const authFormRules = ref({
-  userEmail: [
+const loginrFormInput = ref([
+  { label: computed(() => t('login.form.userAccount')), key: "userAccount", type: "text", placeholder: computed(() => t('login.placeholder.userEmail')) },
+  { label: computed(() => t('login.form.userPassword')), key: "userPassword", type: "email", placeholder: computed(() => t('login.placeholder.password')) },
+  { label: computed(() => t('login.form.verificationCode')), key: "verifyCode", type: "password", placeholder: computed(() => t('login.placeholder.inputVerificationCode')) },
+])
+
+const loginFormRules = ref({
+  userAccount: [
     { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
     { type: 'email', message: computed(() => t('register.error.emailFormat')), trigger: 'blur' }
   ],
@@ -52,23 +54,39 @@ const authFormRules = ref({
   ]
 })
 
-const accountError = ref({
-  errorStatus: "",
-  message: ""
+const error = ref({
+  userAccount: {
+    status: "",
+    message: ""
+  },
+  userPassword: {
+    status: "",
+    message: "",
+  },
+  verifyCode: {
+    status: "",
+    message: "",
+  }
 })
 
 const toggleSuccessDialog = ref(false);
-
+const getVerityCode = (code) => {
+  currentVerifyCode.value = code.join('');
+}
 const createAccount = async () => {
-  authFormRef.value.validate((valid) => {
+  loginFormRef.value.validate((valid) => {
     if (!valid) return
   })
 
+  if (currentVerifyCode.value !== loginForm.value.verifyCode) {
+    error.value.verifyCode.status = "error";
+    error.value.verifyCode.message = t('login.error.invalidVerificationCode');
+    return
+  }
+
   const data = JSON.stringify({
-    email: authForm.value.userEmail,
-    full_name: authForm.value.userName,
-    password: authForm.value.userPassword,
-    password2: authForm.value.userPassword
+    email: loginForm.value.userAccount,
+    password: loginForm.value.userPassword,
   })
 
   //打API
@@ -76,97 +94,103 @@ const createAccount = async () => {
     await API.signup(data);
 
     //註冊成功，重置表單
-    authFormRef.value.resetFields();
+    loginFormRef.value.resetFields();
     toggleSuccessDialog.value = true;
 
 
   } catch (error) {
     const errorCode = error.response.data.code;
-    accountError.value.errorStatus = "error";
+    error.value.errorStatus = "error";
 
     switch (errorCode) {
       case -1000:
-        accountError.value.message = t('register.error.invalidFormat');
+        error.value.userAccount.message = t('login.error.notExist');
         break;
-      case -1003:
-        accountError.value.message = t('register.error.beRegistered');
+      case -1010:
+        error.value.userAccount.message = t('login.error.accountClosed');
+        break;
+      case -1011:
+        error.value.userAccount.message = t('login.error.notExist');
+        break;
+      case -1012:
+        error.value.userAccount.message = t('login.error.accountLocked');
+        break;
       default:
-        accountError.value.message = t('register.error.invalidFormat');
+        error.value.userAccount.message = t('login.error.notExist');
         break;
+      // 密碼錯誤，請５分鐘後再嘗試(缺少確認)
     }
   }
 }
 
+
 const { connect } = useScrollTopDetection();
 onMounted(() => {
-  if (auth.value) {
-    connect(auth.value);
+  if (login.value) {
+    connect(login.value);
   }
 });
 </script>
 
 <template>
   <Teleport to="body">
-    <div class="register">
+    <div class="login">
       <el-scrollbar>
-        <div class="register__container" ref="auth">
-          <div class="register__container--item">
+        <div class="login__container" ref="login">
+          <div class="login__container--item">
             <h2 v-if="!isDesktopWidth" class="website_title">BOOK HORIZON</h2>
             <div class="img">
               <img :src="loginMoblieImg" :srcset="`${loginTabletImg} 768w, ${loginDesktopImg} 1440w`" alt="註冊圖片">
             </div>
           </div>
-          <div class="register__content">
+          <div class="login__content">
             <h2 v-if="isDesktopWidth" class="website_title">BOOK HORIZON</h2>
-            <div class="register__content--item">
-              <div class="register__normalRegister">
-                <h3 class="register__title">{{ $t('register.form.title') }}</h3>
-                <el-form :model="authForm" class="register__form" :rules="authFormRules" label-position="top"
-                  require-asterisk-position="right" :scroll-to-error="true" ref="authFormRef">
-                  <el-form-item v-for="item in registerFormInput" :key="item.key" :label="item.label" :prop="item.key"
-                    :validate-status="item.key === 'userEmail' ? accountError.errorStatus : ''"
-                    :error="item.key === 'userEmail' ? accountError.message : ''">
-                    <el-input v-model="authForm[item.key]" :placeholder="item.placeholder" :aria-label="item.label"
-                      clearable :show-password="item.type === 'password'"
-                      :maxlength="item.key === 'userName' ? 10 : 524288" :show-word-limit="item.key === 'userName'"
-                      :minlength="item.key === 'userPassword' ? 8 : 0">
-                    </el-input v-model="registerForm[item.key]" :formItem="item" clearable
+            <div class="login__content--item">
+              <div class="login__normalLogin">
+                <h3 class="login__title">{{ $t('login.form.title') }}</h3>
+                <el-form :model="loginForm" class="login__form" :rules="loginFormRules" label-position="top"
+                  require-asterisk-position="right" :scroll-to-error="true" ref="loginFormRef">
+                  <el-form-item v-for="item in loginrFormInput" :key="item.key" :label="item.label" :prop="item.key"
+                    :validate-status="error[item.key].status" :error="item.key === error[item.key].message">
+                    <el-input v-model="loginForm[item.key]" v-if="item.key !== 'verifyCode'"
+                      :placeholder="item.placeholder" :aria-label="item.label" clearable
                       :show-password="item.type === 'password'" :maxlength="item.key === 'userName' ? 10 : 524288"
-                      :show-word-limit="item.key === 'userName'" :minlength="item.key === 'userPassword' ? 8 : 0">
+                      :minlength="item.key === 'userPassword' ? 8 : 0">
+                    </el-input>
+                    <div class="verityCode" v-else>
+                      <el-input v-model="loginForm[item.key]" :placeholder="item.placeholder" :aria-label="item.label"
+                        clearable>
+                      </el-input>
+                      <Captcha @get-verity-code="getVerityCode" />
+                    </div>
                   </el-form-item>
                   <el-form-item>
-                    <Button layout="solid" types="action" size="large" @click="createAccount" :loading="isAuthLoading">
+                    <Button layout="solid" types="action" size="large" @click="createAccount" :loading="isLoginLoading">
                       {{ $t('register.button.signUp') }}
                     </Button>
                   </el-form-item>
                 </el-form>
               </div>
-              <span class="register__or">
+              <span class="login__or">
                 {{ $t('register.differentSignUpMethod.text') }}
               </span>
             </div>
 
-            <div class="register__content--item">
-              <Button class="register__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
-                :hasSocialIcon="!isPhoneWidth" :loading="isAuthLoading">
-                <div class="register__google--icon" v-if="!isAuthLoading">
+            <div class="login__content--item">
+              <Button class="login__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
+                :hasSocialIcon="!isPhoneWidth" :loading="isLoginLoading">
+                <div class="login__google--icon" v-if="!isLoginLoading">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
-                <div class="register__google--icon" v-else>
+                <div class="login__google--icon" v-else>
                   <img src="@/assets/img/icons/GoogleDisableIcon.svg" alt="禁用google icon">
                 </div>
-                <span v-if="!isPhoneWidth">{{ $t('register.button.googleSignUp') }}</span>
+                <span v-if="!isPhoneWidth">{{ $t('login.button.google') }}</span>
               </Button>
-              <p class="register__agreement">
+              <p class="login__agreement">
                 <span>
-                  {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
-                  <RouterLink to="/">
-                    <strong>{{ $t('register.agreeSignup.text4') }}</strong>
-                  </RouterLink>
-                </span>
-                <span>
-                  {{ $t('register.login.text1') }}<RouterLink to="/"><strong>{{ $t('register.login.text2') }}</strong>
+                  {{ $t('login.form.haveAccountYet1') }}<RouterLink to="/signup">
+                    <strong>{{ $t('login.form.haveAccountYet2') }}</strong>
                   </RouterLink>
                 </span>
               </p>
@@ -175,16 +199,8 @@ onMounted(() => {
         </div>
       </el-scrollbar>
 
-      <Dialog v-model="toggleSuccessDialog" class="register__success">
-        <h3>
-          <div class="icon">
-            <IconBasic :width:="16" :height="16" :color="'var(--register-arrowColor)'" name="IconArrowDown" />
-          </div>
-          {{ $t('register.dialog.successTitle') }}
-        </h3>
-        <p>{{ $t('register.dialog.successContent1') }}</p>
-        <!-- <p>{{ form.userEmail }}</p> -->
-        <p>{{ $t('register.dialog.successContent2') }}</p>
+      <Dialog v-model="toggleSuccessDialog" class="login__success">
+
       </Dialog>
     </div>
   </Teleport>
@@ -193,7 +209,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 @use '../components/auth/formInput.scss' as *;
 
-.register {
+.login {
   position: fixed;
   top: 0;
   left: 0;
@@ -344,6 +360,13 @@ onMounted(() => {
       @include typography-base(20px, 150%, 400);
     }
   }
+}
+
+.verityCode {
+  display: flex;
+  gap: 8px;
+  align-items: self-start;
+  width: 100%;
 }
 
 .website_title {
