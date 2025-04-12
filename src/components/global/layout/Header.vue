@@ -25,7 +25,7 @@ const { toggleOpenMenu } = global;
       <div v-show="isPhoneWidth">
         <TextButton :fontColor="'var(--text-color)'">
           <template #default>
-            <RouterLink to="/register">{{ $t("header.signUp.button") }}</RouterLink>
+            <RouterLink to="/signup">{{ $t("header.signUp.button") }}</RouterLink>
           </template>
         </TextButton>
         <el-button type="default" text class="menuButton" @click="toggleOpenMenu">
@@ -44,7 +44,7 @@ const { toggleOpenMenu } = global;
         <SoildButton class="signButton_text" :backgroundColor="'var(--text-color)'" :borderColor="'var(--text-color)'"
           :fontColor="'var(--button-primary-color)'">
           <template #default>
-            <RouterLink to="/register" class="signButton_text">{{ $t("header.signUp.button") }}</RouterLink>
+            <RouterLink to="/signup" class="signButton_text">{{ $t("header.signUp.button") }}</RouterLink>
           </template>
         </SoildButton>
         <el-button type="default" text class="menuButton" @click="toggleOpenMenu">
