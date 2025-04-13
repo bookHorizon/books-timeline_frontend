@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
 </script>
 <template>
   <el-aside width="256px">
-    <div class="scrollbar_container" :style="{ paddingBottom: `${signHeight + 32}px` }">
+    <div class="scrollbar_container" :style="{ paddingBottom: `${signHeight + 64}px` }">
       <div class="iconClose">
         <IconBasic @click.stop="toggleOpenMenu" name="IconClose" :color="'var(--text-color)'"></IconBasic>
       </div>
@@ -42,7 +42,8 @@ onBeforeUnmount(() => {
       <el-scrollbar>
         <div class="menuContent">
           <div class="menuContent_anchorLink">
-            <a v-for="link in anchorLinks" :href="link.href" @click="toggleOpenMenu">{{ $t(link.i18n) }}</a>
+            <RouterLink v-for="link in anchorLinks" :to="{ path: '/', hash: `${link.href}` }">{{ $t(link.i18n) }}
+            </RouterLink>
           </div>
           <div class="menuContent_function" v-show="isPhoneWidth">
             <LanguageDropDown />
@@ -50,7 +51,6 @@ onBeforeUnmount(() => {
               <span>{{ $t("header.themeColor.toggle") }}</span>
               <ToggleThemeColor @click="toggleOpenMenu" />
             </div>
-            <!-- 這邊要改成router -->
             <RouterLink class="loginIn" to="/login">{{ $t("header.loginIn.button") }}</RouterLink>
           </div>
         </div>
