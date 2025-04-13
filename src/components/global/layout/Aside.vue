@@ -42,7 +42,8 @@ onBeforeUnmount(() => {
       <el-scrollbar>
         <div class="menuContent">
           <div class="menuContent_anchorLink">
-            <a v-for="link in anchorLinks" :href="link.href" @click="toggleOpenMenu">{{ $t(link.i18n) }}</a>
+            <RouterLink v-for="link in anchorLinks" :to="{ path: '/', hash: `${link.href}` }">{{ $t(link.i18n) }}
+            </RouterLink>
           </div>
           <div class="menuContent_function" v-show="isPhoneWidth">
             <LanguageDropDown />
