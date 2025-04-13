@@ -200,7 +200,16 @@ onMounted(() => {
       </el-scrollbar>
 
       <Dialog v-model="toggleSuccessDialog" class="login__success">
-
+        <h3>{{ $t('login.valicateDialog.title') }}</h3>
+        <p>{{ $t('login.valicateDialog.content') }}</p>
+        <div class="login__success--action">
+          <Button layout="outline" types="primary" size="semiLarge">
+            {{ $t('login.valicateDialog.button1') }}
+          </Button>
+          <Button layout="solid" types="primary" size="semiLarge">
+            {{ $t('login.valicateDialog.button2') }}
+          </Button>
+        </div>
       </Dialog>
     </div>
   </Teleport>
@@ -324,43 +333,36 @@ onMounted(() => {
 
     h3 {
       @include h3-b;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .icon {
-      width: 32px;
-      height: 32px;
-      padding: 3px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        margin: 2.67px;
-        width: 26px;
-        height: 26px;
-        background-color: var(--register-successIconColor);
-        border-radius: 50%;
-      }
-    }
-
-    svg {
-      z-index: 10;
+      margin-bottom: 24px;
     }
 
     p {
-      @include typography-base(20px, 150%, 400);
+      margin-bottom: 32px;
+    }
+
+    &--action {
+      display: flex;
+      gap: 40px;
+
+      button {
+        flex-grow: 1;
+      }
+
+      :deep(.el-button+.el-button) {
+        margin: 0;
+      }
     }
   }
+
+  svg {
+    z-index: 10;
+  }
+
+  p {
+    @include typography-base(20px, 150%, 400);
+  }
 }
+
 
 .verityCode {
   display: flex;
