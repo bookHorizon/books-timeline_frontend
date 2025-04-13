@@ -58,10 +58,9 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="signUp" ref="signUp" v-show="isPhoneWidth">
-      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'"
-        :font-color="'var(--aside-signUpColor)'" @click="toggleOpenMenu">
+      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'" @click="toggleOpenMenu">
         <template #default>
-          {{ $t("header.signUp.button") }}
+          <RouterLink class="signUp__link" to="/signup">{{ $t("header.signUp.button") }}</RouterLink>
         </template>
       </SoildButton>
     </div>
@@ -166,6 +165,11 @@ aside {
     @include body-1-b;
     flex: 1;
     padding: 6px 0;
+  }
+
+  &__link {
+    color: var(--aside-signUpColor);
+    text-decoration: none;
   }
 }
 </style>
