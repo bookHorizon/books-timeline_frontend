@@ -72,7 +72,7 @@ async function faqsData(locale) {
       faqs.value.en = result.data
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 }
 
