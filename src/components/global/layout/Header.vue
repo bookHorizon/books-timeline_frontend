@@ -1,5 +1,5 @@
 <script setup>
-import { defineEmits, ref, onMounted } from 'vue';
+import { defineEmits } from 'vue';
 import Logo from '@/components/global/layout/logo/Logo.vue';
 import SoildButton from '@/components/global/buttons/BaseButtons/SoildButton.vue'
 import TextButton from '@/components/global/buttons/BaseButtons/TextButton.vue';
