@@ -10,7 +10,6 @@ import SoildButton from '@/components/global/buttons/BaseButtons/SoildButton.vue
 const global = useGlobalStore();
 const { isPhoneWidth } = storeToRefs(global)
 const { toggleOpenMenu } = global;
-
 const signUp = ref(null);
 const signHeight = ref();
 const observer = ref();
