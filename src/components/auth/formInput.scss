@@ -50,10 +50,10 @@
   }
 }
 
-:deep(.el-input__count-inner) {
+:deep(.el-input__count .el-input__count-inner) {
   @include body-1;
   color: var(--input-default-placeholderColor);
-  background-color: transparent;
+  background: transparent;
 }
 
 :deep(.el-form-item__error) {

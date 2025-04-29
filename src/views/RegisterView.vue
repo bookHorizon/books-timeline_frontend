@@ -58,7 +58,7 @@ const registerFormRules = ref({
   ],
   userPassword: [
     { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
-    { min: 8, max: 16, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$/, message: computed(() => t('register.error.passwordFormat')), trigger: 'blur' }
+    { min: 8, max: 32, pattern: /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,32}$/, message: computed(() => t('register.error.passwordFormat')), trigger: 'blur' }
   ]
 })
 
@@ -172,7 +172,7 @@ onMounted(() => {
               <p class="register__agreement">
                 <span>
                   {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
                   <RouterLink to="/">
                     <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>
