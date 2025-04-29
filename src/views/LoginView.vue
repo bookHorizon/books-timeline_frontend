@@ -150,8 +150,14 @@ onMounted(() => {
                 <h3 class="login__title">{{ $t('login.form.title') }}</h3>
                 <el-form :model="loginForm" class="login__form" :rules="loginFormRules" label-position="top"
                   require-asterisk-position="right" :scroll-to-error="true" ref="loginFormRef">
-                  <el-form-item v-for="item in loginrFormInput" :key="item.key" :label="item.label" :prop="item.key"
-                    :validate-status="error[item.key].status" :error="item.key === error[item.key].message">
+                  <el-form-item v-for="item in loginrFormInput"
+                    :class="{ 'login__form--item': item.key === 'userPassword' }" :key="item.key" :label="item.label"
+                    :prop="item.key" :validate-status="error[item.key].status"
+                    :error="item.key === error[item.key].message">
+                    <RouterLink v-if="item.key === 'userPassword'" class="login__form--forgotPassword"
+                      to="/forgot-password">
+                      {{ $t('login.form.forgetPassword')
+                      }}</RouterLink>
                     <el-input v-model="loginForm[item.key]" v-if="item.key !== 'verifyCode'"
                       :placeholder="item.placeholder" :aria-label="item.label" clearable
                       :show-password="item.type === 'password'" :maxlength="item.key === 'userName' ? 10 : 524288"
@@ -363,6 +369,17 @@ onMounted(() => {
   }
 }
 
+.login__form--item {
+  position: relative;
+
+  .login__form--forgotPassword {
+    @include typography-base(14px, 150%, 400);
+    position: absolute;
+    top: -80%;
+    right: 8px;
+    color: var(--text-color)
+  }
+}
 
 .verityCode {
   display: flex;
