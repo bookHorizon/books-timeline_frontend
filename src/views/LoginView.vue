@@ -134,13 +134,13 @@ onMounted(async () => {
     isLoading.value = true
 
     try {
-      // await API.verifyEmail(route.query);
+      await API.verifyEmail(route.query);
       isLoading.value = false
       toast(t('register.toast.successTitle'), t('register.toast.successContent'))
 
     } catch (error) {
       isLoading.value = false
-      toast(t('驗證失敗'), t('請至個人專區重新驗證'))
+      toast(t('register.toast.errorTitle'), t('register.toast.errorContent'))
     }
   }
 
