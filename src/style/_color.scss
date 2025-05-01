@@ -93,8 +93,8 @@ $success-800:#0e5735;
 
   // toast
   --toast-header-backgroundColor:#E1F4FFD9;
-  // --toast-header-border-color:#0A436899;
   --toast-content-backgroundColor:#{$primary-85};
+  --toast-content-color:#{$primary-20};
 
   // layout
   --header-backgroundColor:#{$primary-100};
@@ -203,8 +203,9 @@ $success-800:#0e5735;
 
   // toast
   --toast-header-backgroundColor:#B0E0FFD9;
-  // --toast-header-border-color:#0A436899;
   --toast-content-backgroundColor:#{$primary-50};
+  
+  --toast-content-color:#CCEBFFE5;
 
   // layout
   --header-backgroundColor:#0A4368;

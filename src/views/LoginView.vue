@@ -2,16 +2,19 @@
 import { ref, computed, onMounted } from 'vue';
 import * as useResizeObserver from '@/composables/useResizeObserver';
 import Button from '@/components/global/buttons/Button.vue';
-const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
 import Dialog from '@/components/auth/register/Dialog.vue';
 import Captcha from '@/components/auth/login/Captcha.vue';
 import API from '@/services/api'
-
+import toast from '@/components/global/toast'
+import Toast from '@/components/auth/login/Toast.vue'
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n({ useScope: 'global' })
+const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 
+const route = useRoute();
 const loginFormRef = ref(null);
 const login = ref(null)
 const isLoginLoading = ref(false)
@@ -125,7 +128,22 @@ const createAccount = async () => {
 
 
 const { connect } = useScrollTopDetection();
-onMounted(() => {
+const isLoading = ref(false)
+onMounted(async () => {
+  if (Object.keys(route.query).length && route.query?.email) {
+    isLoading.value = true
+
+    try {
+      // await API.verifyEmail(route.query);
+      isLoading.value = false
+      toast(t('register.toast.successTitle'), t('register.toast.successContent'))
+
+    } catch (error) {
+      isLoading.value = false
+      toast(t('驗證失敗'), t('請至個人專區重新驗證'))
+    }
+  }
+
   if (login.value) {
     connect(login.value);
   }
@@ -134,7 +152,7 @@ onMounted(() => {
 
 <template>
   <Teleport to="body">
-    <div class="login">
+    <div class="login" v-loading="isLoading">
       <el-scrollbar>
         <div class="login__container" ref="login">
           <div class="login__container--item">
@@ -150,8 +168,14 @@ onMounted(() => {
                 <h3 class="login__title">{{ $t('login.form.title') }}</h3>
                 <el-form :model="loginForm" class="login__form" :rules="loginFormRules" label-position="top"
                   require-asterisk-position="right" :scroll-to-error="true" ref="loginFormRef">
-                  <el-form-item v-for="item in loginrFormInput" :key="item.key" :label="item.label" :prop="item.key"
-                    :validate-status="error[item.key].status" :error="item.key === error[item.key].message">
+                  <el-form-item v-for="item in loginrFormInput"
+                    :class="{ 'login__form--item': item.key === 'userPassword' }" :key="item.key" :label="item.label"
+                    :prop="item.key" :validate-status="error[item.key].status"
+                    :error="item.key === error[item.key].message">
+                    <RouterLink v-if="item.key === 'userPassword'" class="login__form--forgotPassword"
+                      to="/forgot-password">
+                      {{ $t('login.form.forgetPassword')
+                      }}</RouterLink>
                     <el-input v-model="loginForm[item.key]" v-if="item.key !== 'verifyCode'"
                       :placeholder="item.placeholder" :aria-label="item.label" clearable
                       :show-password="item.type === 'password'" :maxlength="item.key === 'userName' ? 10 : 524288"
@@ -211,12 +235,14 @@ onMounted(() => {
           </Button>
         </div>
       </Dialog>
+
+      <Toast></Toast>
     </div>
   </Teleport>
 </template>
 
 <style lang="scss" scoped>
-@use '../components/auth/formInput.scss' as *;
+@use '@/components/auth/formInput' as *;
 
 .login {
   position: fixed;
@@ -363,6 +389,17 @@ onMounted(() => {
   }
 }
 
+.login__form--item {
+  position: relative;
+
+  .login__form--forgotPassword {
+    @include typography-base(14px, 150%, 400);
+    position: absolute;
+    top: -80%;
+    right: 8px;
+    color: var(--text-color)
+  }
+}
 
 .verityCode {
   display: flex;
