@@ -73,6 +73,7 @@ const error = ref({
 })
 
 const toggleSuccessDialog = ref(false);
+const isVerifyEmail = ref(true);
 const getVerityCode = (code) => {
   currentVerifyCode.value = code.join('');
 }
@@ -223,7 +224,7 @@ onMounted(async () => {
         </div>
       </el-scrollbar>
 
-      <Dialog v-model="toggleSuccessDialog" class="login__success">
+      <Dialog v-model="isVerifyEmail" class="login__success">
         <h3>{{ $t('login.valicateDialog.title') }}</h3>
         <p>{{ $t('login.valicateDialog.content') }}</p>
         <div class="login__success--action">

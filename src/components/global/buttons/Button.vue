@@ -36,7 +36,7 @@ const props = defineProps({
 })
 
 const types = ['primary', 'action'];
-const sizes = ['medium', 'large'];
+const sizes = ['medium', 'large', 'semiLarge'];
 const layouts = ['solid', 'outline', 'text', 'icon'];
 
 const buttonContainer = computed(() => {
