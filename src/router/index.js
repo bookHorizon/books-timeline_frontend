@@ -33,7 +33,14 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to,from)=>{
+router.beforeEach((to,from,next)=>{
+  if(to.path==='/verify'&&Object.keys(to.query).length){
+      next({
+        path:'/login',
+        query:to.query
+      })
+  }
+  
   const global = useGlobalStore()
   function webTitle(item){
     return item==='中文'?'書海藍圖':'Book Horizon'
@@ -44,6 +51,8 @@ router.beforeEach((to,from)=>{
   global.$subscribe((mutation,state)=>{      
     document.title = webTitle(state.languageLabel)
   })
+
+  next();
 })
 
 // router.beforeEach((to,from)=>{
