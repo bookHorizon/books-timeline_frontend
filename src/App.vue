@@ -9,15 +9,16 @@ import { ref } from 'vue';
 import zhTw from 'element-plus/dist/locale/zh-tw.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
 
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 import { computed, onBeforeMount } from 'vue';
 
 import { RouterView, useRoute } from 'vue-router';
+import { isDark, toggleThemeColor } from '@/composables/useToggleTheme';
 
-const global = globalStore();
-const { isOpenMenu, elementPlusI18n, isDark } = storeToRefs(global)
-const { toggleOpenMenu, toggleThemeColor } = global;
+const global = useGlobalStore();
+const { isOpenMenu, elementPlusI18n } = storeToRefs(global)
+const { toggleOpenMenu } = global;
 
 const locale = computed(() => elementPlusI18n.value === 'zh-tw' ? zhTw : en)
 const route = useRoute();
@@ -50,7 +51,7 @@ const toggleLoading = () => {
         <Footer></Footer>
       </el-container>
       <el-container v-show="isOpenMenu" class="mask" @click="toggleOpenMenu">
-        <Aside v-show="isOpenMenu"></Aside>
+        <Aside v-show="isOpenMenu" @click.stop></Aside>
       </el-container>
     </el-container>
   </el-config-provider>

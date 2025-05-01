@@ -1,16 +1,15 @@
 <script setup>
 import { watch, ref, onBeforeUnmount } from 'vue'
 import IconBasic from '../icons/IconBasic.vue';
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { anchorLinks } from '@/config/links'
 import { storeToRefs } from 'pinia';
 import ToggleThemeColor from '@/components/global/layout/switch/ToggleThemeColor.vue';
 import LanguageDropDown from '@/components/global/layout/dropdown/LanguageDropDown.vue';
 import SoildButton from '@/components/global/buttons/BaseButtons/SoildButton.vue';
-const global = globalStore();
+const global = useGlobalStore();
 const { isPhoneWidth } = storeToRefs(global)
 const { toggleOpenMenu } = global;
-
 const signUp = ref(null);
 const signHeight = ref();
 const observer = ref();
@@ -34,7 +33,7 @@ onBeforeUnmount(() => {
 </script>
 <template>
   <el-aside width="256px">
-    <div class="scrollbar_container" :style="{ paddingBottom: `${signHeight + 32}px` }">
+    <div class="scrollbar_container" :style="{ paddingBottom: `${signHeight + 64}px` }">
       <div class="iconClose">
         <IconBasic @click.stop="toggleOpenMenu" name="IconClose" :color="'var(--text-color)'"></IconBasic>
       </div>
@@ -42,7 +41,8 @@ onBeforeUnmount(() => {
       <el-scrollbar>
         <div class="menuContent">
           <div class="menuContent_anchorLink">
-            <a v-for="link in anchorLinks" :href="link.href" @click="toggleOpenMenu">{{ $t(link.i18n) }}</a>
+            <RouterLink v-for="link in anchorLinks" :to="{ path: '/', hash: `${link.href}` }">{{ $t(link.i18n) }}
+            </RouterLink>
           </div>
           <div class="menuContent_function" v-show="isPhoneWidth">
             <LanguageDropDown />
@@ -50,18 +50,16 @@ onBeforeUnmount(() => {
               <span>{{ $t("header.themeColor.toggle") }}</span>
               <ToggleThemeColor @click="toggleOpenMenu" />
             </div>
-            <!-- 這邊要改成router -->
-            <a class="loginIn">{{ $t("header.loginIn.button") }}</a>
+            <RouterLink class="loginIn" to="/login">{{ $t("header.loginIn.button") }}</RouterLink>
           </div>
         </div>
       </el-scrollbar>
     </div>
 
     <div class="signUp" ref="signUp" v-show="isPhoneWidth">
-      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'"
-        :font-color="'var(--aside-signUpColor)'" @click="toggleOpenMenu">
+      <SoildButton :background-color="'var(--text-color)'" :border-color="'var(--text-color)'" @click="toggleOpenMenu">
         <template #default>
-          {{ $t("header.signUp.button") }}
+          <RouterLink class="signUp__link" to="/signup">{{ $t("header.signUp.button") }}</RouterLink>
         </template>
       </SoildButton>
     </div>
@@ -166,6 +164,11 @@ aside {
     @include body-1-b;
     flex: 1;
     padding: 6px 0;
+  }
+
+  &__link {
+    color: var(--aside-signUpColor);
+    text-decoration: none;
   }
 }
 </style>

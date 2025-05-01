@@ -1,17 +1,19 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch, nextTick } from 'vue'
 import Card from '@/components/home/components/card/HomeCard.vue';
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 import Splide from '@/components/home/Splide.vue';
-
+import { useRoute } from 'vue-router';
 import cardArticleI18n from '@/config/homeFunctionCard.js'
-import API from '@/api/index.js'
+import API from '@/services/api/index.js'
 import { useI18n } from 'vue-i18n'
+import { isDark } from '@/composables/useToggleTheme';
 const { locale } = useI18n({ useScope: 'global' })
-const global = globalStore();
-const { isPhoneWidth, isDark, elementPlusI18n } = storeToRefs(global);
+const global = useGlobalStore();
+const { isPhoneWidth, elementPlusI18n } = storeToRefs(global);
 const faqs = ref({})
+const route = useRoute();
 
 function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
@@ -70,18 +72,39 @@ async function faqsData(locale) {
       faqs.value.en = result.data
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 }
+
+const scrollToHash = () => {
+  nextTick(() => {
+    const hash = computed(() => route.hash);
+    if (hash.value) {
+      const element = document.querySelector(hash.value);
+      if (element) {
+        // 等待 DOM 更新後再滾動
+        setTimeout(() => {
+          element.scrollIntoView({ preventScroll: false });
+        }, 100);
+      }
+    }
+  });
+};
 
 watch(locale, async () => {
   if (locale.value === 'zh-TW' && !faqs.value.zhTw) await faqsData(locale.value);
   if (locale.value === 'en-US' && !faqs.value.en) await faqsData(locale.value);
 })
 
+watch(() => route.hash, () => {
+  scrollToHash();
+});
+
 
 onMounted(async () => {
+  scrollToHash();
   await faqsData(locale.value)
+  //hero文字切換
   window.setInterval(() => {
     //替換=>走一秒=>停一秒  
     switch (itemNumber.value) {

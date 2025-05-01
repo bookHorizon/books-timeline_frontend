@@ -1,10 +1,10 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n'
 const { locale } = useI18n({ useScope: 'global' })
-const global = globalStore();
+const global = useGlobalStore();
 const { languageLabelPhone, languageLabel, isPhoneWidth, elementPlusI18n } = storeToRefs(global)
 const { toggleOpenMenu } = global;
 const isOpenOption = ref(false)

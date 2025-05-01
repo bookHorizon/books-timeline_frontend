@@ -2,12 +2,7 @@
 import IconBasic from '@/components/global/icons/IconBasic.vue';
 import SVGIconSunny from '@/components/global/icons/SVGIconSunny.vue';
 import SVGIconNight from '@/components/global/icons/SVGIconNight.vue';
-// import { onBeforeMount } from 'vue';
-import { globalStore } from '@/stores/globalStore';
-import { storeToRefs } from 'pinia';
-const global = globalStore()
-const { isDark } = storeToRefs(global)
-const { toggleThemeColor } = global;
+import { isDark, toggleThemeColor } from '@/composables/useToggleTheme';
 </script>
 
 <template>

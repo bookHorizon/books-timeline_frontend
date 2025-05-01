@@ -1,10 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
-import { storeToRefs } from 'pinia';
-import { globalStore } from '@/stores/globalStore';
 import { useRouter } from 'vue-router';
-const global = globalStore();
-const { isDark } = storeToRefs(global);
+import { isDark } from '@/composables/useToggleTheme';
 const router = useRouter();
 const isLastDotVisible = ref('inline')
 
@@ -51,12 +48,18 @@ onBeforeUnmount(() => {
           :style="{ display: isLastDotVisible }">.</span></p>
     </div>
     <div>
-      <img :src="notFoundImg">
+      <img :src="notFoundImg" alt="Page not found">
     </div>
   </section>
 </template>
 <style lang="scss" scoped>
 .notFound {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   flex-direction: column;
