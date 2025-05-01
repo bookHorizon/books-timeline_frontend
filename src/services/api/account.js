@@ -143,18 +143,18 @@ export default {
   resetPassword(data) {
     return POST('/reset/password/', data);
   },
-  faqAnswerGET(qusetionIndex){
-    return GET(`/signup/${qusetionIndex}/`)
-  },
-  faqAnswerPOST(qusetionIndex,data){
-    return POST(`/signup/${qusetionIndex}/`,data)
-  },
-  faqAnswerPUT(qusetionIndex,data){
-    return PUT(`/signup/${qusetionIndex}/`,data)
-  },
-  faqAnswerDELETE(qusetionIndex){
-    return DELETE(`/signup/${qusetionIndex}/`)
-  },
+  // faqAnswerGET(qusetionIndex){
+  //   return GET(`/signup/${qusetionIndex}/`)
+  // },
+  // faqAnswerPOST(qusetionIndex,data){
+  //   return POST(`/signup/${qusetionIndex}/`,data)
+  // },
+  // faqAnswerPUT(qusetionIndex,data){
+  //   return PUT(`/signup/${qusetionIndex}/`,data)
+  // },
+  // faqAnswerDELETE(qusetionIndex){
+  //   return DELETE(`/signup/${qusetionIndex}/`)
+  // },
   checkToken(data){
     return checkTokenPOST(`/check/token/`,data)
   },
@@ -167,4 +167,7 @@ export default {
   userProfileGET(){
     return GET(`/profile/`)
   },
+  verifyEmail(data){
+    return POST('/verify/email/',data)
+  }
 }
