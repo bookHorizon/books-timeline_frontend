@@ -79,7 +79,6 @@ async function faqsData(locale) {
 const scrollToHash = () => {
   nextTick(() => {
     const hash = computed(() => route.hash);
-    console.log(route)
     if (hash.value) {
       const element = document.querySelector(hash.value);
       if (element) {
