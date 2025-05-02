@@ -8,6 +8,7 @@ import Dialog from '@/components/auth/register/Dialog.vue';
 import Captcha from '@/components/auth/login/Captcha.vue';
 import API from '@/services/api'
 import { initGoogleClient } from '@/services/googleAuth.js'
+import { getIpData } from '@/services/ipapiService.js';
 import toast from '@/components/global/toast'
 import Toast from '@/components/auth/login/Toast.vue'
 import { useRoute, useRouter } from 'vue-router';
@@ -90,13 +91,15 @@ const createAccount = async () => {
     return
   }
 
-  const data = JSON.stringify({
+  const ipResult = await getIpData();
+
+  const data = {
     email: loginForm.value.userAccount,
     password: loginForm.value.userPassword,
     remember_me: false,
-    ip: " ",
-    geo_location: " "
-  })
+    "ip": ipResult.ip,
+    "geo_location": ipResult.location
+  };
 
   //打API
   try {

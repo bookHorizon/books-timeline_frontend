@@ -6,8 +6,7 @@ import { userStore } from '@/store/user.js'
 const user = userStore();
 
 import { BASE_URL } from '@/api/config.js';
-// import { getIpData } from '@/thirdParty/ipapiService.js';
-import API from '@/api/index.js'
+import { getIpData } from '@/services/ipapiService.js';
 import router from '@/router/index.js';
 
 export function initGoogleClient(){
@@ -37,7 +36,7 @@ export function initGoogleClient(){
 
 export async function requestGoogle(googleResponse){
   //抓使用者ip跟地區，要修改
-  // const ipResult = await getIpData();
+  const ipResult = await getIpData();
 
   const config = {
     method: 'get',
