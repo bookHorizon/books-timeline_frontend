@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import * as useResizeObserver from '@/composables/useResizeObserver';
 import Button from '@/components/global/buttons/Button.vue';
+import { initGoogleClient } from '@/services/googleAuth.js'
 const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 import { isDark } from '@/composables/useToggleTheme';
 import { useScrollTopDetection } from '@/composables/useViewIsTop';
@@ -160,7 +161,7 @@ onMounted(() => {
 
             <div class="register__content--item">
               <Button class="register__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
-                :hasSocialIcon="!isPhoneWidth" :loading="isRegisterLoading">
+                :hasSocialIcon="!isPhoneWidth" :loading="isRegisterLoading" @click="initGoogleClient">
                 <div class="register__google--icon" v-if="!isRegisterLoading">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
@@ -172,7 +173,7 @@ onMounted(() => {
               <p class="register__agreement">
                 <span>
                   {{ $t('register.agreeSignup.text1') }}<RouterLink to="/"><strong>{{ $t('register.agreeSignup.text2')
-                  }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
+                      }}</strong></RouterLink>{{ $t('register.agreeSignup.text3') }}
                   <RouterLink to="/">
                     <strong>{{ $t('register.agreeSignup.text4') }}</strong>
                   </RouterLink>

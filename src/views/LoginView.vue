@@ -7,14 +7,16 @@ import { useScrollTopDetection } from '@/composables/useViewIsTop';
 import Dialog from '@/components/auth/register/Dialog.vue';
 import Captcha from '@/components/auth/login/Captcha.vue';
 import API from '@/services/api'
+import { initGoogleClient } from '@/services/googleAuth.js'
 import toast from '@/components/global/toast'
 import Toast from '@/components/auth/login/Toast.vue'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n'
 const { t } = useI18n({ useScope: 'global' })
 const { isPhoneWidth, isTabletWidth, isDesktopWidth } = useResizeObserver
 
 const route = useRoute();
+const router = useRouter();
 const loginFormRef = ref(null);
 const login = ref(null)
 const isLoginLoading = ref(false)
@@ -53,7 +55,7 @@ const loginFormRules = ref({
   ],
   verifyCode: [
     { required: true, message: computed(() => t('register.error.required')), trigger: 'blur' },
-    { min: 4, max: 4, pattern: /^[0-9]{4}$/, message: computed(() => t('register.error.passwordFormat')), trigger: 'blur' }
+    { min: 4, pattern: /^[0-9]{4}$/, message: computed(() => t('login.error.invalidVerificationCode"')), trigger: 'blur' }
   ]
 })
 
@@ -73,7 +75,7 @@ const error = ref({
 })
 
 const toggleSuccessDialog = ref(false);
-const isVerifyEmail = ref(true);
+const isVerifyEmail = ref(false);
 const getVerityCode = (code) => {
   currentVerifyCode.value = code.join('');
 }
@@ -91,18 +93,28 @@ const createAccount = async () => {
   const data = JSON.stringify({
     email: loginForm.value.userAccount,
     password: loginForm.value.userPassword,
+    remember_me: false,
+    ip: " ",
+    geo_location: " "
   })
 
   //打API
   try {
-    await API.signup(data);
+    const result = await API.login(data);
 
     //註冊成功，重置表單
+
+    //如果沒通過驗證
+    // if () {
+    //   isVerifyEmail.value = true;
+    // }
     loginFormRef.value.resetFields();
-    toggleSuccessDialog.value = true;
+    //跳轉頁面
+    router.push('/');
 
 
   } catch (error) {
+    console.log(error)
     const errorCode = error.response.data.code;
     error.value.errorStatus = "error";
 
@@ -122,9 +134,27 @@ const createAccount = async () => {
       default:
         error.value.userAccount.message = t('login.error.notExist');
         break;
-      // 密碼錯誤，請５分鐘後再嘗試(缺少確認)
     }
   }
+}
+
+const resendVerifyEmail = async () => {
+  isLoading.value = true
+
+  try {
+    await API.resendVerifyEmail();
+    // 
+    // E-mail 驗證信已發送至 test@gmail.com
+    // 請至信箱收信!!
+    // toast(t('register.toast.successTitle'), t('register.toast.successContent'))
+
+  } catch (error) {
+    // 驗證信寄出失敗
+    //請至個人專區重新發送驗證信
+    // toast(t('register.toast.errorTitle'), t('register.toast.errorContent'))
+  }
+
+  isLoading.value = false
 }
 
 
@@ -179,7 +209,7 @@ onMounted(async () => {
                       }}</RouterLink>
                     <el-input v-model="loginForm[item.key]" v-if="item.key !== 'verifyCode'"
                       :placeholder="item.placeholder" :aria-label="item.label" clearable
-                      :show-password="item.type === 'password'" :maxlength="item.key === 'userName' ? 10 : 524288"
+                      :show-password="item.key === 'userPassword'" :maxlength="item.key === 'userName' ? 10 : 524288"
                       :minlength="item.key === 'userPassword' ? 8 : 0">
                     </el-input>
                     <div class="verityCode" v-else>
@@ -191,7 +221,7 @@ onMounted(async () => {
                   </el-form-item>
                   <el-form-item>
                     <Button layout="solid" types="action" size="large" @click="createAccount" :loading="isLoginLoading">
-                      {{ $t('register.button.signUp') }}
+                      {{ $t('register.button.login') }}
                     </Button>
                   </el-form-item>
                 </el-form>
@@ -203,7 +233,7 @@ onMounted(async () => {
 
             <div class="login__content--item">
               <Button class="login__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
-                :hasSocialIcon="!isPhoneWidth" :loading="isLoginLoading">
+                :hasSocialIcon="!isPhoneWidth" :loading="isLoginLoading" @click="initGoogleClient">
                 <div class="login__google--icon" v-if="!isLoginLoading">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
@@ -231,7 +261,7 @@ onMounted(async () => {
           <Button layout="outline" types="primary" size="semiLarge">
             {{ $t('login.valicateDialog.button1') }}
           </Button>
-          <Button layout="solid" types="primary" size="semiLarge">
+          <Button layout="solid" types="primary" size="semiLarge" @click="resendVerifyEmail">
             {{ $t('login.valicateDialog.button2') }}
           </Button>
         </div>
