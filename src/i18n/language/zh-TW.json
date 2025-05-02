@@ -38,6 +38,7 @@
     "login.error.incorrectPasswordTimes1": "密碼有誤 (錯誤",
     "login.error.incorrectPasswordTimes2": "次，還有",
     "login.error.incorrectPasswordTimes3": "次)",
+    "login.error.invalidVerificationCode": "驗證碼有誤",
     "login.error.notExist": "此帳號錯誤或不存在",
     "login.form.forgetPassword": "忘記密碼",
     "login.form.haveAccountYet1": "還沒有帳號了嗎? 請點此",
@@ -78,6 +79,8 @@
     "register.placeholder.email": "請輸入email帳號",
     "register.placeholder.name": "請輸入名稱 (最多10字)",
     "register.placeholder.password": "請輸入至少8位數的密碼 (包含英文大小寫和數字)",
+    "register.toast.errorContent": "信箱驗證失敗，請至個人專區重新信箱驗證!",
+    "register.toast.errorTitle": "信箱驗證失敗",
     "register.toast.successContent": "信箱驗證成功，歡迎登入書海藍圖!",
     "register.toast.successTitle": "信箱驗證成功!!"
 }
