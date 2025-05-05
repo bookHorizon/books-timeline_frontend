@@ -117,7 +117,6 @@ const createAccount = async () => {
 
 
   } catch (error) {
-    console.log(error)
     const errorCode = error.response.data.code;
     error.value.errorStatus = "error";
 
@@ -160,7 +159,15 @@ const resendVerifyEmail = async () => {
   isLoading.value = false
 }
 
+const googleLogin = () => {
+  try {
+    initGoogleClient(error);
+  } catch (error) {
+    console.log('google error');
+  }
+}
 
+// 判斷畫面是否在最上方
 const { connect } = useScrollTopDetection();
 const isLoading = ref(false)
 onMounted(async () => {
@@ -236,7 +243,7 @@ onMounted(async () => {
 
             <div class="login__content--item">
               <Button class="login__google" layout="outline" types="primary" size="large" :isIconOnly="isPhoneWidth"
-                :hasSocialIcon="!isPhoneWidth" :loading="isLoginLoading" @click="initGoogleClient">
+                :hasSocialIcon="!isPhoneWidth" :loading="isLoginLoading" @click="googleLogin">
                 <div class="login__google--icon" v-if="!isLoginLoading">
                   <img src="@/assets/img/icons/GoogleIcon.svg" alt="google icon">
                 </div>
