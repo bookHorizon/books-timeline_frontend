@@ -62,12 +62,8 @@ async function loginPOST(url, data, config) {
     const result = await accountAPI.post(url, data, config);
     
     if (!result.data.remember_me){
-      token.setToken(result.data.access,result.data.refresh);
-     }
-    
-     if (result.data.remember_me){
-      token.setToken(result.data.access,result.data.refresh);
-      cookie.setCookies(JSON.parse(result.config.data).email,result.data.token);
+      sessionStorage.setItem('access',result.data.access);
+      sessionStorage.setItem('refresh',result.data.refresh);
      }
 
     return result;
@@ -169,5 +165,8 @@ export default {
   },
   verifyEmail(data){
     return POST('/verify/email/',data)
+  },
+  resendVerifyEmail(){
+    return POST('/resend/verify/email/')
   }
 }

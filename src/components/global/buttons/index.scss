@@ -26,6 +26,14 @@
   width: 100%;
 }
 
+.semiLarge{
+  @include typography-base(20px,150%,700);
+  padding: 13px 26px;
+  height: 62px;
+  max-width: 132px;
+  width: 100%;
+}
+
 .iconOnly{
   padding: 16px;
   width: 56px;
