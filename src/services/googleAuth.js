@@ -15,7 +15,7 @@ export async function initGoogleClient(accountError){
 
   const googleResponse = ref('');
   const client = google.accounts.oauth2.initCodeClient({
-    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    client_id: '177855802974-m29jn39l9jm0de924r4a029b5qoeuoq2.apps.googleusercontent.com',
     scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
     ux_mode: 'popup',
     state:createState.value,
