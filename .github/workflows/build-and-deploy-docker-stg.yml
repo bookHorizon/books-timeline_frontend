@@ -1,12 +1,12 @@
-name: Build Image & Deploy to Docker
+name: Build Image & Deploy to Docker STG
 
 on:
   push:
     branches:
-      - main
+      - ga4
 
 env:
-  IMAGE_TAG: "new-for-vultr-k8s-prd"
+  IMAGE_TAG: "new-for-vultr-k8s-stg"
   IMAGE_NAME: "pingshian0131/books-timeline-frontend_vue"
 
 jobs:
