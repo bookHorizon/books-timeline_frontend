@@ -3,7 +3,7 @@ name: Build Image & Deploy to Docker STG
 on:
   push:
     branches:
-      - ga4-dev
+      - ga4
 
 env:
   IMAGE_TAG: "new-for-vultr-k8s-stg"
