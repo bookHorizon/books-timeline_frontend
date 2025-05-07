@@ -49,12 +49,10 @@ jobs:
 
       - name: Deploy to environment
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem -tt ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} << EOF
+          ssh -o StrictHostKeyChecking=no -i key.pem -tt ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} '
             docker stop -t 0 ${{ env.CONTAINER }} &&
-            while docker container inspect ${{ env.CONTAINER }} >/dev/null 2>&1; do sleep 1; done &&
             docker rmi ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} &&
             docker run --rm -d --name ${{ env.CONTAINER }} \
             -p "3002:3002" \
             --network book-horizon \
-            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} &&
-            EOF
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}'
