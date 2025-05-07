@@ -15,6 +15,9 @@ RUN npm run build
 
 
 FROM nginx:alpine as production-build
+
+ARG PORT
+ENV PORT=${PORT}
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 ## Remove default nginx index page
