@@ -16,9 +16,11 @@ RUN npm run build
 
 FROM nginx:alpine as production-build
 
-ARG PORT
-ENV PORT=${PORT}
+ARG NGINX_PORT=3001
+ENV NGINX_PORT=${NGINX_PORT}
 COPY ./nginx.conf /etc/nginx/nginx.conf
+
+RUN sed -i "s/listen 80;/listen ${NGINX_PORT};/" /etc/nginx/nginx.conf
 
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
