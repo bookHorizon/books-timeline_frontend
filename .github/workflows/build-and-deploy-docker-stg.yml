@@ -56,4 +56,4 @@ jobs:
             docker run --rm -d --name ${{ env.CONTAINER }} \
             -p "3002:3002" \
             --network book-horizon \
-            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+            ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
