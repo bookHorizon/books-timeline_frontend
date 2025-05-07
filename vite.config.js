@@ -6,12 +6,12 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-
+import VueDevtools from 'vite-plugin-vue-devtools'
 import ElementPlus from 'unplugin-element-plus/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue(),VueDevtools(),
     ElementPlus({
       useSource: true,
     }),
@@ -32,8 +32,10 @@ export default defineConfig({
       scss:{
         api: 'modern-compiler',
         additionalData:`
-          @use "@/assets/style/breakpoint.scss" as *;
-          @use "@/assets/style/color.scss" as *;
+          @use "@/style/_breakpoint.scss" as *;
+          @use "@/style/_color.scss" as *;
+          @use "@/style/_font.scss" as *;
+
         `,
       }
     }

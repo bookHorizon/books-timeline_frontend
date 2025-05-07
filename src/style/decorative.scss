@@ -1,0 +1,6 @@
+@use 'color'; 
+
+@mixin itemDivider($padding:16px,$color:black){
+  padding-bottom: $padding;
+  border-bottom:2px solid $color;
+}

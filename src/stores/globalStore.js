@@ -1,10 +1,9 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-
-export const globalStore = defineStore('global',()=>{
+export const useGlobalStore = defineStore('global',()=>{
   const isOpenMenu = ref(false);
-  const isDark = ref(true);
+  //這邊有分手機版跟平板以上的label名稱切換
   const languageLabelPhone = ref('中文');
   const languageLabel = ref('中文');
   const elementPlusI18n = ref('zh-tw');
@@ -24,7 +23,7 @@ export const globalStore = defineStore('global',()=>{
   const isTabletWidth = computed(()=>widthView.value>=767&&1440>widthView.value)
   const isDesktopWidth = computed(()=>1440<=widthView.value)
 
-  const isViewTop = computed(()=>scrollTop.value===0)
+  const isViewTop = computed(()=>!scrollTop.value)
 
   function toggleOpenMenu(){
     isOpenMenu.value = !isOpenMenu.value
@@ -34,16 +33,5 @@ export const globalStore = defineStore('global',()=>{
       document.querySelector('body').classList.remove('noscroll');
     }
   }
-
-  function toggleThemeColor(){  
-    if(isDark.value){
-      localStorage.setItem('themeMode','dark')
-      document.querySelector('html').classList.add('dark')
-    } else {
-      localStorage.setItem('themeMode','light')
-      document.querySelector('html').classList.remove('dark')
-    }
-  }
-  
-  return {isOpenMenu,isDark,languageLabelPhone,languageLabel,widthView,isPhoneWidth,isTabletWidth,isDesktopWidth,isViewTop,toggleOpenMenu,toggleThemeColor,elementPlusI18n}
+  return {isOpenMenu,languageLabelPhone,languageLabel,widthView,isPhoneWidth,isTabletWidth,isDesktopWidth,isViewTop,toggleOpenMenu,elementPlusI18n}
 })

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -9,31 +9,39 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta:{
-        isDefaultLayout:true,
-      }
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
-      meta:{
-        isDefaultLayout:true,
-      }
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: () => import('../views/RegisterView.vue'),
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/LoginView.vue'),
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/404.vue'),
-      meta:{
-        isDefaultLayout:false,
-      }
     },
   ]
 })
 
-router.beforeEach((to,from)=>{
-  const global = globalStore()
+router.beforeEach((to,from,next)=>{
+  if(to.path==='/verify'&&Object.keys(to.query).length){
+      next({
+        path:'/login',
+        query:to.query
+      })
+  }
+  
+  const global = useGlobalStore()
   function webTitle(item){
     return item==='中文'?'書海藍圖':'Book Horizon'
   }
@@ -43,6 +51,8 @@ router.beforeEach((to,from)=>{
   global.$subscribe((mutation,state)=>{      
     document.title = webTitle(state.languageLabel)
   })
+
+  next();
 })
 
 // router.beforeEach((to,from)=>{

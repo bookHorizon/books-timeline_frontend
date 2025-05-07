@@ -1,28 +1,31 @@
 <script setup>
-import Header from './components/layout/Header.vue';
-import Main from './components/layout/Main.vue';
-import Footer from './components/layout/Footer.vue';
-import Aside from './components/layout/Aside.vue';
+import Header from '@/components/global/layout/Header.vue';
+import Main from '@/components/global/layout/Main.vue';
+import Footer from '@/components/global/layout/Footer.vue';
+import Aside from '@/components/global/layout/Aside.vue';
+
+import { ref } from 'vue';
 
 import zhTw from 'element-plus/dist/locale/zh-tw.mjs'
 import en from 'element-plus/dist/locale/en.mjs'
 
-import { globalStore } from '@/stores/globalStore';
+import { useGlobalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-import { computed,onBeforeMount } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 
 import { RouterView, useRoute } from 'vue-router';
+import { isDark, toggleThemeColor } from '@/composables/useToggleTheme';
 
-const global = globalStore();
-const { isOpenMenu,elementPlusI18n,isDark } = storeToRefs(global)
-const { toggleOpenMenu,toggleThemeColor } = global;
+const global = useGlobalStore();
+const { isOpenMenu, elementPlusI18n } = storeToRefs(global)
+const { toggleOpenMenu } = global;
 
-const locale = computed(()=>elementPlusI18n.value === 'zh-tw' ? zhTw:en)
+const locale = computed(() => elementPlusI18n.value === 'zh-tw' ? zhTw : en)
 const route = useRoute();
 
-onBeforeMount(()=>{
+onBeforeMount(() => {
   const themeMode = localStorage.getItem('themeMode')
-  if(themeMode==='dark') {
+  if (themeMode === 'dark') {
     isDark.value = true;
   } else {
     isDark.value = false;
@@ -30,32 +33,38 @@ onBeforeMount(()=>{
 
   toggleThemeColor();
 })
+
+const isLoading = ref(true);
+const toggleLoading = () => {
+  isLoading.value = !isLoading.value;
+}
 </script>
 
 <template>
-  <el-config-provider :locale="locale" v-if="route.meta.isDefaultLayout">
-    <el-container class="container">
+  <el-config-provider :locale="locale">
+    <el-container class="container" :v-loading="isLoading" @load="toggleLoading" element-loading-text="Loading..."
+      element-loading-spinner="svg" element-loading-svg-view-box="-10, -10, 50, 50"
+      element-loading-background="rgba(122, 122, 122, 0.8)" style="width: 100%">
       <el-container class="mainContent" direction="vertical">
         <Header></Header>
         <Main></Main>
         <Footer></Footer>
       </el-container>
       <el-container v-show="isOpenMenu" class="mask" @click="toggleOpenMenu">
-        <Aside v-show="isOpenMenu"></Aside>
+        <Aside v-show="isOpenMenu" @click.stop></Aside>
       </el-container>
     </el-container>
   </el-config-provider>
-  <RouterView v-else/>
 </template>
 
 <style scoped>
-.mask{
+.mask {
   height: 100vh;
   position: fixed;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   background-color: var(--menu-mask-backgroundColor);
 }

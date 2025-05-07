@@ -1,24 +1,18 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
-import Card from '@/components/HomeCard.vue';
-import { globalStore } from '@/stores/globalStore';
+import { computed, onMounted, ref, watch, nextTick } from 'vue'
+import Card from '@/components/home/components/card/HomeCard.vue';
+import { useGlobalStore } from '@/stores/globalStore';
 import { storeToRefs } from 'pinia';
-import Splide from '@/components/splide/Splide.vue';
-
+import Splide from '@/components/home/Splide.vue';
+import { useRoute } from 'vue-router';
 import cardArticleI18n from '@/config/homeFunctionCard.js'
-import API from '@/api/index.js'
+import API from '@/services/api/index.js'
 import { useI18n } from 'vue-i18n'
-
-import { event } from 'vue-gtag';
-event('get-home-data', {
-  'name': 'get-home-data',
-  'value': 3549,
-})
-
-const { locale } = useI18n({ useScope: 'global' })
+const { locale }  = useI18n({ useScope: 'global' })
 const global = globalStore();
-const { isPhoneWidth, isDark, elementPlusI18n } = storeToRefs(global);
+const { isPhoneWidth,isDark,elementPlusI18n } = storeToRefs(global);
 const faqs = ref({})
+const route = useRoute();
 
 function getThemeImage(darkPath, lightPath) {
   return computed(() => isDark.value ? darkPath : lightPath)
@@ -67,64 +61,42 @@ const aboutUsDecorative = getThemeImage(
 const itemNumber = ref(1)
 const subTitleItemContent = computed(() => `home.hero.subTitleItem${itemNumber.value}`)
 
-// async function faqsData(locale){
-//   try{
-//     if (locale==='zh-TW'){
-//       const result = await API.faqsGET("zh-hant")
-//       faqs.value.zhTw = result.data
-//     } else {
-//       const result  = await API.faqsGET("en")
-//       faqs.value.en = result.data
-//     }    
-//   } catch (error){
-//     console.log(error);  
-//   }
-// }
-
-// watch(locale,async()=>{  
-//   if(locale.value==='zh-TW'&&!faqs.value.zhTw) await faqsData(locale.value);
-//   if(locale.value==='en-US'&&!faqs.value.en) await faqsData(locale.value);
-// })
-
-
-// onMounted(async()=>{
-//   await faqsData(locale.value)
-//   window.setInterval(()=>{  
-//   //替換=>走一秒=>停一秒  
-//     switch (itemNumber.value){
-//       case 1:
-//         itemNumber.value = 2;
-//         break;
-//       case 2:
-//         itemNumber.value = 3;
-//         break;
-//       case 3:
-//         itemNumber.value = 1;
-//         break;
-//     }
-//   },2000)
-// })
-
-const seaAnimation = ref(null);
-const hero = ref(null);
-const functionSection = ref(null);
-const aboutUs = ref(null);
-const faq = ref(null);
-const intersectionObserver = () => {
-
-  const callback = (entries, observer) => {
-    entries.forEach((entry) => {
-      console.log(entry.target);
-    });
-  };
-
-  const observer = new IntersectionObserver(callback);
-
-  [seaAnimation.value, hero.value, functionSection.value, aboutUs.value, faq.value].forEach((section) => observer.observe(section));
+async function faqsData(locale){
+  try{
+    if (locale==='zh-TW'){
+      const result = await API.faqsGET("zh-hant")
+      faqs.value.zhTw = result.data
+    } else {
+      const result  = await API.faqsGET("en")
+      faqs.value.en = result.data
+    }    
+  } catch (error){
+    console.log(error);  
+  }
 }
 
-onMounted(() => {
-  intersectionObserver();
+watch(locale,async()=>{  
+  if(locale.value==='zh-TW'&&!faqs.value.zhTw) await faqsData(locale.value);
+  if(locale.value==='en-US'&&!faqs.value.en) await faqsData(locale.value);
+})
+
+
+onMounted(async()=>{
+  await faqsData(locale.value)
+  window.setInterval(()=>{  
+  //替換=>走一秒=>停一秒  
+    switch (itemNumber.value){
+      case 1:
+        itemNumber.value = 2;
+        break;
+      case 2:
+        itemNumber.value = 3;
+        break;
+      case 3:
+        itemNumber.value = 1;
+        break;
+    }
+  },2000)
 })
 
 </script>
@@ -142,13 +114,14 @@ onMounted(() => {
         $t("home.hero.subTitleEnd") }}</span>
     </h3>
     <p>{{ $t("home.hero.content") }}</p>
-    <el-button class="start_button">
+    <el-button>
       {{ $t("home.hero.button") }}
     </el-button>
     <div class="heroSection_towerImg">
       <img v-show="isDark" :src="darkTower" loading="lazy" />
     </div>
   </section>
+
   <div class="seaAnimation_waveSailboat">
     <img loading="lazy" :src="waveSailboat">
   </div>
@@ -205,9 +178,9 @@ onMounted(() => {
   </section>
   <section id="faq" class="faq">
     <div class="faq_container">
-      <h3 class="faq_title">{{ $t('home.faq.categoryTitle') }}</h3>
+      <h3 class="faq_title">{{$t('home.faq.categoryTitle')}}</h3>
       <el-collapse @change="handleChange" class="faq_collapse">
-        <el-collapse-item v-for="q in locale === 'zh-TW' ? faqs.zhTw : faqs.en" :key="q.id" :title="`Q：${q.question}`">
+        <el-collapse-item v-for="q in locale==='zh-TW'?faqs.zhTw:faqs.en" :key="q.id" :title="`Q：${q.question}`">
           <div class="el-collapse-item__text">
             <span>A：</span>
             <p>
@@ -225,7 +198,7 @@ onMounted(() => {
 @use '@/assets/style/font.scss' as *;
 @use '@/assets/style/breakpoint.scss' as *;
 
-.heroSection {
+.heroSection{
   position: relative;
 
   display: flex;
@@ -299,7 +272,7 @@ onMounted(() => {
     @include body-1-b;
     padding: 16px 40px;
     height: initial;
-    background-color: var(--home-startCTA-backgroundColor);
+    background-color: var(--button-action-hover-backgroundColor);
     border-radius: 8px;
     border: 0;
     color: $primary-20;
