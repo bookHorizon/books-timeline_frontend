@@ -3,12 +3,13 @@ name: Build Image & Deploy to Docker STG
 on:
   push:
     branches:
-      - ga4-dev
+      - ga4
 
 env:
   CONTAINER: "book-horizon-frontend-stg"
   IMAGE_TAG: "new-for-vultr-k8s-stg"
   IMAGE_NAME: "pingshian0131/books-timeline-frontend_vue"
+  PORT: "3002"
 
 jobs:
   build-image:
@@ -53,6 +54,6 @@ jobs:
             docker stop -t 0 ${{ env.CONTAINER }} &&
             docker rmi ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} &&
             docker run --rm -d --name ${{ env.CONTAINER }} \
-            -p "3002:3002" \
+            -p "${{ env.PORT }}:${{ env.PORT }}" \
             --network book-horizon \
             ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}'
