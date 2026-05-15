@@ -14,10 +14,8 @@ COPY . .
 RUN npm run build
 
 
-FROM nginx:alpine as production-build
+FROM nginx:1.31.1-alpine as production-build
 
-ARG NGINX_PORT=3001
-ENV NGINX_PORT=${NGINX_PORT}
 COPY ./nginx.conf /etc/nginx/nginx.conf
 
 RUN sed -i "s/listen 80;/listen ${NGINX_PORT};/" /etc/nginx/nginx.conf
