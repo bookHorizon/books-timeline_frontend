@@ -79,8 +79,6 @@
     "register.placeholder.email": "Please enter your email address",
     "register.placeholder.name": "Please enter your name (maximum 10 characters)",
     "register.placeholder.password": "Please enter a password of at least 8 characters (including uppercase and lowercase letters and numbers)",
-    "register.toast.errorContent": "Email verification failed, please go to your personal dashboard to re-verify your email!",
-    "register.toast.errorTitle": "Email Verification Failed!!",
     "register.toast.successContent": "Email verification successful, welcome to Book Horizon!",
     "register.toast.successTitle": "Email verification successful!!"
 }
